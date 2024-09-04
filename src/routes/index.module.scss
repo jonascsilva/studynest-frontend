@@ -1,0 +1,78 @@
+@use '$/styles/colors' as *;
+
+.navbar {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 0 2rem;
+  height: 7.5rem;
+  border-bottom: 0.2rem solid $grey-900;
+  box-sizing: border-box;
+
+  > .leftContainer {
+    display: flex;
+    align-items: center;
+    width: 320px;
+  }
+
+  > .rightContainer {
+    justify-content: flex-end;
+    align-items: center;
+    display: flex;
+    gap: 2rem;
+  }
+
+  .button {
+    border-radius: 0.5rem;
+    border: none;
+    background-color: $blue-700;
+    padding: 0 1rem;
+    font-size: 1.5rem;
+    height: 3rem;
+    cursor: pointer;
+  }
+}
+
+.heading {
+  margin: 0;
+  font-size: 3rem;
+
+  span {
+    color: $blue-700;
+  }
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+  padding-top: 2rem;
+
+  h2 {
+    font-size: 3rem;
+  }
+
+  h3 {
+    font-size: 2rem;
+    font-weight: 400;
+  }
+}
+
+.section {
+  height: 32rem;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  place-items: center;
+}
+
+.imageContainer {
+  background-color: $purple-A100;
+  height: 28rem;
+  width: 28rem;
+  display: flex;
+  place-items: center;
+  font-size: 3rem;
+  padding: 2rem;
+  box-sizing: border-box;
+}

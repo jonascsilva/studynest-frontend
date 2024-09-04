@@ -1,0 +1,9 @@
+@use '$/styles/colors' as *;
+
+.heading {
+  margin: 0;
+
+  span {
+    color: $blue-700;
+  }
+}
