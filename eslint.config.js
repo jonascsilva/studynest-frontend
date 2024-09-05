@@ -19,18 +19,7 @@ export default tseslint.config(
     },
     rules: {
       ...reactHooks.configs.recommended.rules,
-      'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
-      'import/order': [
-        'error',
-        {
-          'newlines-between': 'always',
-          alphabetize: {
-            order: 'asc',
-            caseInsensitive: true
-          },
-          groups: ['builtin', 'external', 'internal', 'sibling']
-        }
-      ]
+      'react-refresh/only-export-components': ['warn', { allowConstantExport: true }]
     }
   }
 )
