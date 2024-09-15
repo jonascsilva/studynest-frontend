@@ -2,7 +2,7 @@ import { createLazyFileRoute } from '@tanstack/react-router'
 
 import classes from './index.module.scss'
 
-export const Route = createLazyFileRoute('/_dashboard/dashboard/')({
+export const Route = createLazyFileRoute('/(dashboard)/_dashboard/dashboard/')({
   component: Index
 })
 

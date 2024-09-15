@@ -2,7 +2,7 @@ import { createLazyFileRoute } from '@tanstack/react-router'
 import { useQuery } from '@tanstack/react-query'
 import { Table, TableContainer, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react'
 
-export const Route = createLazyFileRoute('/_dashboard/notes/')({
+export const Route = createLazyFileRoute('/(dashboard)/_dashboard/notes/')({
   component: Index
 })
 
