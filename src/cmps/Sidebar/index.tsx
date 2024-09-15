@@ -11,6 +11,9 @@ const Sidebar = () => {
           Study<span>Nest</span>
         </Heading>
       </Link>
+      <Link to='/dashboard' className={classes.link}>
+        <Button width='100%'>Dashboard</Button>
+      </Link>
       <Link to='/notes' className={classes.link}>
         <Button width='100%'>Anotações</Button>
       </Link>

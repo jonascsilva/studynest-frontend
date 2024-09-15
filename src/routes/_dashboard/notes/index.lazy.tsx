@@ -1,15 +1,12 @@
 import { createLazyFileRoute } from '@tanstack/react-router'
 import { useQuery } from '@tanstack/react-query'
+import { Table, TableContainer, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react'
 
 export const Route = createLazyFileRoute('/_dashboard/notes/')({
   component: Index
 })
 
-type Props = {
-  rowsData: any
-}
-
-function Index({ rowsData }: Props) {
+function Index() {
   const {
     isPending,
     error,
@@ -19,13 +16,32 @@ function Index({ rowsData }: Props) {
     queryFn: () => fetch('http://localhost:3000/notes').then(res => res.json())
   })
 
+  console.log(notes)
+
   if (isPending) return <div>Loading...</div>
 
   return (
     <>
-      {notes.map(note => (
-        <span>{note.title}</span>
-      ))}
+      <TableContainer>
+        <Table variant='simple'>
+          <Thead>
+            <Tr>
+              <Th>Título</Th>
+              <Th>Assunto</Th>
+              <Th>Última modificação</Th>
+            </Tr>
+          </Thead>
+          <Tbody>
+            {notes.map(note => (
+              <Tr>
+                <Td>{note.title}</Td>
+                <Td>{note.subject}</Td>
+                <Td>{note.updatedAt}</Td>
+              </Tr>
+            ))}
+          </Tbody>
+        </Table>
+      </TableContainer>
     </>
   )
 }

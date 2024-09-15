@@ -19,36 +19,29 @@ import { Route as DashboardImport } from './routes/_dashboard'
 
 const IndexLazyImport = createFileRoute('/')()
 const DashboardNotesIndexLazyImport = createFileRoute('/_dashboard/notes/')()
-const DashboardDashboardIndexLazyImport = createFileRoute(
-  '/_dashboard/dashboard/',
-)()
+const DashboardDashboardIndexLazyImport = createFileRoute('/_dashboard/dashboard/')()
 
 // Create/Update Routes
 
 const DashboardRoute = DashboardImport.update({
   id: '/_dashboard',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRoute
 } as any)
 
 const IndexLazyRoute = IndexLazyImport.update({
   path: '/',
-  getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
+  getParentRoute: () => rootRoute
+} as any).lazy(() => import('./routes/index.lazy').then(d => d.Route))
 
 const DashboardNotesIndexLazyRoute = DashboardNotesIndexLazyImport.update({
   path: '/notes/',
-  getParentRoute: () => DashboardRoute,
-} as any).lazy(() =>
-  import('./routes/_dashboard/notes/index.lazy').then((d) => d.Route),
-)
+  getParentRoute: () => DashboardRoute
+} as any).lazy(() => import('./routes/_dashboard/notes/index.lazy').then(d => d.Route))
 
-const DashboardDashboardIndexLazyRoute =
-  DashboardDashboardIndexLazyImport.update({
-    path: '/dashboard/',
-    getParentRoute: () => DashboardRoute,
-  } as any).lazy(() =>
-    import('./routes/_dashboard/dashboard/index.lazy').then((d) => d.Route),
-  )
+const DashboardDashboardIndexLazyRoute = DashboardDashboardIndexLazyImport.update({
+  path: '/dashboard/',
+  getParentRoute: () => DashboardRoute
+} as any).lazy(() => import('./routes/_dashboard/dashboard/index.lazy').then(d => d.Route))
 
 // Populate the FileRoutesByPath interface
 
@@ -91,8 +84,8 @@ export const routeTree = rootRoute.addChildren({
   IndexLazyRoute,
   DashboardRoute: DashboardRoute.addChildren({
     DashboardDashboardIndexLazyRoute,
-    DashboardNotesIndexLazyRoute,
-  }),
+    DashboardNotesIndexLazyRoute
+  })
 })
 
 /* prettier-ignore-end */

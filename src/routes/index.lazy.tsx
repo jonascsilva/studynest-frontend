@@ -28,7 +28,7 @@ function Index() {
         <section className={classes.section}>
           <div className={classes.imageContainer}>Flashcards images placeholder</div>
           <div>
-            <h2>Estude Menos, Aprenda Mais!</h2>
+            <h2>Aprenda hoje, lembre para sempre</h2>
             <h3>Sua ferramenta completa para um aprendizado eficiente.</h3>
           </div>
         </section>
