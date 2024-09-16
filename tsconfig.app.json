@@ -21,9 +21,10 @@
     "noFallthroughCasesInSwitch": true,
 
     /* Custom */
+    "types": ["@testing-library/jest-dom"],
     "paths": {
       "$/*": ["./src/*"]
     }
   },
-  "include": ["src"]
+  "include": ["src", "vitest.setup.ts"]
 }

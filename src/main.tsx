@@ -38,3 +38,5 @@ if (!rootElement.innerHTML) {
     </StrictMode>
   )
 }
+
+export { router }
