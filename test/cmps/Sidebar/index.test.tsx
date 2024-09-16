@@ -1,5 +1,6 @@
-import { expect, test } from 'vitest'
 import { screen } from '@testing-library/react'
+import { expect, test } from 'vitest'
+
 import { Sidebar } from '$/cmps/Sidebar'
 import { renderWithContext } from '../../customRender'
 

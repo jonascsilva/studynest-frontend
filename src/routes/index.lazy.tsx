@@ -1,5 +1,5 @@
-import { createLazyFileRoute, Link } from '@tanstack/react-router'
 import { Button, Heading } from '@chakra-ui/react'
+import { createLazyFileRoute, Link } from '@tanstack/react-router'
 
 import classes from './index.module.scss'
 

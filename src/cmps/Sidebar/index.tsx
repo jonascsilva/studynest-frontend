@@ -1,6 +1,6 @@
+import { Button , Heading } from '@chakra-ui/react'
 import { Link } from '@tanstack/react-router'
-import { Button } from '@chakra-ui/react'
-import { Heading } from '@chakra-ui/react'
+
 import classes from './index.module.scss'
 
 const Sidebar = () => {
