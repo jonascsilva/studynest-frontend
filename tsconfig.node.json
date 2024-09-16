@@ -16,13 +16,7 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
-
-    /* Custom */
-    "types": ["@testing-library/jest-dom"],
-    "paths": {
-      "$/*": ["./src/*"]
-    }
+    "noFallthroughCasesInSwitch": true
   },
-  "include": ["vite.config.ts", "vitest.setup.ts"]
+  "include": ["vite.config.ts"]
 }

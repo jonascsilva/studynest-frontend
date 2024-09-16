@@ -1,14 +1,14 @@
-import React from 'react'
 import {
+  Outlet,
+  RouterProvider,
+  createMemoryHistory,
   createRootRoute,
   createRoute,
-  createRouter,
-  Outlet,
-  RouterProvider
+  createRouter
 } from '@tanstack/react-router'
 import { render } from '@testing-library/react'
 
-function customRender(component: () => React.JSX.Element) {
+const createTestRouter = (component: () => JSX.Element) => {
   const rootRoute = createRootRoute({
     component: Outlet
   })
@@ -21,9 +21,19 @@ function customRender(component: () => React.JSX.Element) {
 
   const routeTree = rootRoute.addChildren([indexRoute])
 
-  const router = createRouter({ routeTree })
+  const router = createRouter({
+    routeTree,
+    history: createMemoryHistory()
+  })
 
-  render(<RouterProvider router={router} />)
+  return router
 }
 
-export { customRender }
+const renderWithContext = (component: () => JSX.Element) => {
+  const router = createTestRouter(component)
+
+  // eslint-disable-next-line
+  return render(<RouterProvider router={router as any} />)
+}
+
+export { renderWithContext }

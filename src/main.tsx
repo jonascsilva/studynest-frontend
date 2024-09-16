@@ -7,8 +7,8 @@ import { ChakraBaseProvider } from '@chakra-ui/react'
 import { routeTree } from './routeTree.gen'
 
 import { queryClient } from './lib/query'
-import './main.scss'
 import { theme } from './lib/theme'
+import './main.scss'
 
 const router = createRouter({
   routeTree,
