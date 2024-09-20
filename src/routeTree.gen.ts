@@ -22,6 +22,9 @@ const IndexLazyImport = createFileRoute('/')()
 const dashboardDashboardNotesIndexLazyImport = createFileRoute(
   '/(dashboard)/_dashboard/notes/',
 )()
+const dashboardDashboardDecksIndexLazyImport = createFileRoute(
+  '/(dashboard)/_dashboard/decks/',
+)()
 const dashboardDashboardDashboardIndexLazyImport = createFileRoute(
   '/(dashboard)/_dashboard/dashboard/',
 )()
@@ -51,6 +54,18 @@ const dashboardDashboardNotesIndexLazyRoute =
     } as any)
     .lazy(() =>
       import('./routes/(dashboard)/_dashboard/notes/index.lazy').then(
+        (d) => d.Route,
+      ),
+    )
+
+const dashboardDashboardDecksIndexLazyRoute =
+  dashboardDashboardDecksIndexLazyImport
+    .update({
+      path: '/decks/',
+      getParentRoute: () => dashboardDashboardRoute,
+    } as any)
+    .lazy(() =>
+      import('./routes/(dashboard)/_dashboard/decks/index.lazy').then(
         (d) => d.Route,
       ),
     )
@@ -99,6 +114,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof dashboardDashboardDashboardIndexLazyImport
       parentRoute: typeof dashboardDashboardImport
     }
+    '/(dashboard)/_dashboard/decks/': {
+      id: '/_dashboard/decks/'
+      path: '/decks'
+      fullPath: '/decks'
+      preLoaderRoute: typeof dashboardDashboardDecksIndexLazyImport
+      parentRoute: typeof dashboardDashboardImport
+    }
     '/(dashboard)/_dashboard/notes/': {
       id: '/_dashboard/notes/'
       path: '/notes'
@@ -116,6 +138,7 @@ export const routeTree = rootRoute.addChildren({
   dashboardRoute: dashboardRoute.addChildren({
     dashboardDashboardRoute: dashboardDashboardRoute.addChildren({
       dashboardDashboardDashboardIndexLazyRoute,
+      dashboardDashboardDecksIndexLazyRoute,
       dashboardDashboardNotesIndexLazyRoute,
     }),
   }),
@@ -144,11 +167,16 @@ export const routeTree = rootRoute.addChildren({
       "parent": "/",
       "children": [
         "/_dashboard/dashboard/",
+        "/_dashboard/decks/",
         "/_dashboard/notes/"
       ]
     },
     "/_dashboard/dashboard/": {
       "filePath": "(dashboard)/_dashboard/dashboard/index.lazy.tsx",
+      "parent": "/_dashboard"
+    },
+    "/_dashboard/decks/": {
+      "filePath": "(dashboard)/_dashboard/decks/index.lazy.tsx",
       "parent": "/_dashboard"
     },
     "/_dashboard/notes/": {

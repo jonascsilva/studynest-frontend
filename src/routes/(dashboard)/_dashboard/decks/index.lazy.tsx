@@ -13,9 +13,9 @@ import {
   Thead,
   Tr
 } from '@chakra-ui/react'
-import { Note } from '$/types'
+import { Deck } from '$/types'
 
-export const Route = createLazyFileRoute('/(dashboard)/_dashboard/notes/')({
+export const Route = createLazyFileRoute('/(dashboard)/_dashboard/decks/')({
   component: Index
 })
 
@@ -23,10 +23,10 @@ function Index() {
   const {
     isPending,
     error,
-    data: notes
-  } = useQuery<Note[]>({
-    queryKey: ['notes'],
-    queryFn: () => fetch('http://localhost:3000/notes').then(res => res.json())
+    data: decks
+  } = useQuery<Deck[]>({
+    queryKey: ['decks'],
+    queryFn: () => fetch('http://localhost:3000/decks').then(res => res.json())
   })
 
   if (isPending) {
@@ -37,7 +37,7 @@ function Index() {
     )
   }
 
-  if (error || !Array.isArray(notes)) {
+  if (error || !Array.isArray(decks)) {
     return (
       <Alert status='error'>
         <AlertIcon />
@@ -58,11 +58,11 @@ function Index() {
             </Tr>
           </Thead>
           <Tbody>
-            {notes.map(note => (
-              <Tr key={note.id}>
-                <Td>{note.title}</Td>
-                <Td>{note.subject}</Td>
-                <Td>{note.updatedAt}</Td>
+            {decks.map(deck => (
+              <Tr>
+                <Td>{deck.title}</Td>
+                <Td>{deck.subject}</Td>
+                <Td>{deck.updatedAt}</Td>
               </Tr>
             ))}
           </Tbody>

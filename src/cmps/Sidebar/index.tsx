@@ -17,6 +17,9 @@ const Sidebar = () => {
       <Link to='/notes' className={classes.link}>
         <Button width='100%'>Anotações</Button>
       </Link>
+      <Link to='/decks' className={classes.link}>
+        <Button width='100%'>Baralhos</Button>
+      </Link>
       <Link to='/' className={classes.link}>
         <Button width='100%'>Sair</Button>
       </Link>
