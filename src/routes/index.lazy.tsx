@@ -1,5 +1,5 @@
 import { createLazyFileRoute, Link } from '@tanstack/react-router'
-import { Button, Heading } from '@chakra-ui/react'
+import { Button, Heading, Text } from '@chakra-ui/react'
 
 import classes from './index.module.scss'
 
@@ -12,7 +12,7 @@ function Index() {
     <div>
       <nav className={classes.navbar}>
         <div className={classes.leftContainer}>
-          <Heading className={classes.heading}>
+          <Heading size='2xl' className={classes.heading}>
             Study<span>Nest</span>
           </Heading>
         </div>
@@ -27,9 +27,11 @@ function Index() {
       <main className={classes.main}>
         <section className={classes.section}>
           <div className={classes.imageContainer}>Flashcards images placeholder</div>
-          <div>
-            <h2>Aprenda hoje, lembre para sempre</h2>
-            <h3>Sua ferramenta completa para um aprendizado eficiente.</h3>
+          <div className={classes.textContainer}>
+            <Heading as='h2' size='2xl'>Aprenda hoje, lembre para sempre!</Heading>
+            <Text fontSize='2xl'>
+              Sua ferramenta completa para um aprendizado eficiente.
+            </Text>
           </div>
         </section>
       </main>

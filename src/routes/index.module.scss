@@ -5,7 +5,6 @@
   grid-template-columns: 1fr 1fr;
   padding: 0 2rem;
   height: 7.5rem;
-  border-bottom: 0.2rem solid $grey-900;
   box-sizing: border-box;
 
   > .leftContainer {
@@ -23,9 +22,6 @@
 }
 
 .heading {
-  margin: 0;
-  font-size: 3rem;
-
   span {
     color: $blue-700;
   }
@@ -37,15 +33,6 @@
   align-items: center;
   box-sizing: border-box;
   padding-top: 2rem;
-
-  h2 {
-    font-size: 3rem;
-  }
-
-  h3 {
-    font-size: 2rem;
-    font-weight: 400;
-  }
 }
 
 .section {
@@ -54,6 +41,7 @@
   display: grid;
   grid-template-columns: 1fr 1.2fr;
   place-items: center;
+  padding: 0 16rem 0 8rem;
 }
 
 .imageContainer {
@@ -65,4 +53,10 @@
   font-size: 3rem;
   padding: 2rem;
   box-sizing: border-box;
+}
+
+.textContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }

@@ -1,9 +1,22 @@
 @use '$/styles/colors' as *;
 
-.heading {
-  margin: 0;
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
 
+.section {
+  gap: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.heading {
   span {
     color: $blue-700;
   }
+}
+
+.subHeading {
 }

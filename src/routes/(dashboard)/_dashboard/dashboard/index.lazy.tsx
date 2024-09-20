@@ -1,4 +1,5 @@
 import { createLazyFileRoute } from '@tanstack/react-router'
+import { Alert, AlertIcon, Heading } from '@chakra-ui/react'
 
 import classes from './index.module.scss'
 
@@ -7,19 +8,33 @@ export const Route = createLazyFileRoute('/(dashboard)/_dashboard/dashboard/')({
 })
 
 function Index() {
-  // const notes = await prisma.note.findMany()
-
   return (
-    <>
-      <h2 className={classes.heading}>
+    <div className={classes.container}>
+      <Heading className={classes.heading}>
         Bem vindo <span>USER</span>!
-      </h2>
-      <h3>Recentes</h3>
-      <div>
-        {/* notes.map(note => (
-          <div key={note.id}>{note.title}</div>
-        )) */}
-      </div>
-    </>
+      </Heading>
+      <section className={classes.section}>
+        <Heading size='md' className={classes.subHeading}>
+          Revisar
+        </Heading>
+        <div>
+          <Alert status='success'>
+            <AlertIcon />
+            Nada para revisar no momento. Continue assim!
+          </Alert>
+        </div>
+      </section>
+      <section className={classes.section}>
+        <Heading size='md' className={classes.subHeading}>
+          Recentes
+        </Heading>
+        <div>
+          <Alert status='info'>
+            <AlertIcon />
+            Nada para foi aberto recentemente.
+          </Alert>
+        </div>
+      </section>
+    </div>
   )
 }
