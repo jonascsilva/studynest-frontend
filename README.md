@@ -6,29 +6,29 @@
 
 ---
 
-## Project setup
+## Setup do projeto
 
 ```bash
 npm install
 ```
 
-## Compile and run the project
+## Rodar o projeto
 
-Development
+### Modo desenvolvimento
 
 ```bash
 npm run dev
 ```
 
-Production
+### Modo produção
 
 ```bash
 npm run preview
 ```
 
-## Run tests
+## Rodar os testes
 
-Unit tests
+### Unitários
 
 ```bash
 npm run test
