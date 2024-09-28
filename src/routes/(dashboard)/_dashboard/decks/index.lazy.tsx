@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query'
 import {
   Alert,
   AlertIcon,
+  Button,
   Center,
   Heading,
   Spinner,
@@ -17,6 +18,7 @@ import {
 import { Deck } from '$/types'
 
 import classes from './index.module.scss'
+import { AddIcon } from '@chakra-ui/icons'
 
 export const Route = createLazyFileRoute('/(dashboard)/_dashboard/decks/')({
   component: Index
@@ -51,7 +53,12 @@ function Index() {
 
   return (
     <div className={classes.container}>
-      <Heading size='2xl'>Baralhos</Heading>
+      <header className={classes.header}>
+        <Heading size='2xl'>Baralhos</Heading>
+        <Button colorScheme='blue' size='lg' leftIcon={<AddIcon />}>
+          Criar
+        </Button>
+      </header>
       <TableContainer>
         <Table variant='simple'>
           <Thead>
