@@ -1,14 +1,9 @@
-import { Link, createLazyFileRoute } from '@tanstack/react-router'
-import { useQuery } from '@tanstack/react-query'
+import { Link, createFileRoute } from '@tanstack/react-router'
 import {
-  Alert,
-  AlertIcon,
   Button,
-  Center,
   Flex,
   Heading,
   IconButton,
-  Spinner,
   Table,
   TableContainer,
   Tbody,
@@ -17,41 +12,19 @@ import {
   Thead,
   Tr
 } from '@chakra-ui/react'
-import { Note } from '$/types'
 import { AddIcon, DeleteIcon, EditIcon, ExternalLinkIcon } from '@chakra-ui/icons'
 
 import classes from './index.module.scss'
+import { notesQueryOptions } from '$/query/notesOptions'
+import { useSuspenseQuery } from '@tanstack/react-query'
 
-export const Route = createLazyFileRoute('/(dashboard)/_dashboard/notes/')({
+export const Route = createFileRoute('/(dashboard)/_dashboard/notes/')({
+  loader: ({ context: { queryClient } }) => queryClient.ensureQueryData(notesQueryOptions),
   component: Index
 })
 
 function Index() {
-  const {
-    isPending,
-    error,
-    data: notes
-  } = useQuery<Note[]>({
-    queryKey: ['notes'],
-    queryFn: () => fetch('http://localhost:3000/notes').then(res => res.json())
-  })
-
-  if (isPending) {
-    return (
-      <Center h='100%'>
-        <Spinner size='xl' />
-      </Center>
-    )
-  }
-
-  if (error || !Array.isArray(notes)) {
-    return (
-      <Alert status='error'>
-        <AlertIcon />
-        Houve um erro na requesição
-      </Alert>
-    )
-  }
+  const { data: notes } = useSuspenseQuery(notesQueryOptions)
 
   return (
     <div className={classes.container}>

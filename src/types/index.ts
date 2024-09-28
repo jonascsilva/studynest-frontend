@@ -1,10 +1,3 @@
-type Note = {
-  id: string
-  title: string
-  subject: string
-  updatedAt: string
-}
-
 type Deck = {
   id: string
   title: string
@@ -12,4 +5,4 @@ type Deck = {
   updatedAt: string
 }
 
-export type { Note, Deck }
+export type { Deck }

@@ -3,26 +3,26 @@ $black: #000000;
 $white: #ffffff;
 
 // Alphas
-$blackAlpha-50: rgba(0, 0, 0, 0.04);
-$blackAlpha-100: rgba(0, 0, 0, 0.06);
-$blackAlpha-200: rgba(0, 0, 0, 0.08);
-$blackAlpha-300: rgba(0, 0, 0, 0.16);
-$blackAlpha-400: rgba(0, 0, 0, 0.24);
-$blackAlpha-500: rgba(0, 0, 0, 0.36);
-$blackAlpha-600: rgba(0, 0, 0, 0.48);
-$blackAlpha-700: rgba(0, 0, 0, 0.64);
-$blackAlpha-800: rgba(0, 0, 0, 0.8);
-$blackAlpha-900: rgba(0, 0, 0, 0.92);
-$whiteAlpha-50: rgba(255, 255, 255, 0.04);
-$whiteAlpha-100: rgba(255, 255, 255, 0.06);
-$whiteAlpha-200: rgba(255, 255, 255, 0.08);
-$whiteAlpha-300: rgba(255, 255, 255, 0.16);
-$whiteAlpha-400: rgba(255, 255, 255, 0.24);
-$whiteAlpha-500: rgba(255, 255, 255, 0.36);
-$whiteAlpha-600: rgba(255, 255, 255, 0.48);
-$whiteAlpha-700: rgba(255, 255, 255, 0.64);
-$whiteAlpha-800: rgba(255, 255, 255, 0.8);
-$whiteAlpha-900: rgba(255, 255, 255, 0.92);
+$blackAlpha-50: rgb(0 0 0 / 4%);
+$blackAlpha-100: rgb(0 0 0 / 6%);
+$blackAlpha-200: rgb(0 0 0 / 8%);
+$blackAlpha-300: rgb(0 0 0 / 16%);
+$blackAlpha-400: rgb(0 0 0 / 24%);
+$blackAlpha-500: rgb(0 0 0 / 36%);
+$blackAlpha-600: rgb(0 0 0 / 48%);
+$blackAlpha-700: rgb(0 0 0 / 64%);
+$blackAlpha-800: rgb(0 0 0 / 80%);
+$blackAlpha-900: rgb(0 0 0 / 92%);
+$whiteAlpha-50: rgb(255 255 255 / 4%);
+$whiteAlpha-100: rgb(255 255 255 / 6%);
+$whiteAlpha-200: rgb(255 255 255 / 8%);
+$whiteAlpha-300: rgb(255 255 255 / 16%);
+$whiteAlpha-400: rgb(255 255 255 / 24%);
+$whiteAlpha-500: rgb(255 255 255 / 36%);
+$whiteAlpha-600: rgb(255 255 255 / 48%);
+$whiteAlpha-700: rgb(255 255 255 / 64%);
+$whiteAlpha-800: rgb(255 255 255 / 80%);
+$whiteAlpha-900: rgb(255 255 255 / 92%);
 
 // Gray
 $gray-50: #f7fafc;
