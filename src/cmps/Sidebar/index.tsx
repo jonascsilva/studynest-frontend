@@ -20,6 +20,9 @@ const Sidebar = () => {
       <Link to='/decks' className={classes.link}>
         <Button width='100%'>Baralhos</Button>
       </Link>
+      <Link to='/settings' className={classes.link}>
+        <Button width='100%'>Configurações</Button>
+      </Link>
       <Link to='/' className={classes.link}>
         <Button width='100%'>Sair</Button>
       </Link>

@@ -4,6 +4,7 @@ import {
   Alert,
   AlertIcon,
   Center,
+  Heading,
   Spinner,
   Table,
   TableContainer,
@@ -14,6 +15,8 @@ import {
   Tr
 } from '@chakra-ui/react'
 import { Deck } from '$/types'
+
+import classes from './index.module.scss'
 
 export const Route = createLazyFileRoute('/(dashboard)/_dashboard/decks/')({
   component: Index
@@ -47,7 +50,8 @@ function Index() {
   }
 
   return (
-    <>
+    <div className={classes.container}>
+      <Heading size='2xl'>Baralhos</Heading>
       <TableContainer>
         <Table variant='simple'>
           <Thead>
@@ -68,6 +72,6 @@ function Index() {
           </Tbody>
         </Table>
       </TableContainer>
-    </>
+    </div>
   )
 }
