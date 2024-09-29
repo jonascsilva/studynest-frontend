@@ -30,9 +30,11 @@ function Index() {
     <div className={classes.container}>
       <header className={classes.header}>
         <Heading size='2xl'>Anotações</Heading>
-        <Button colorScheme='blue' size='lg' leftIcon={<AddIcon />}>
-          Criar
-        </Button>
+        <Link to='/notes/new'>
+          <Button colorScheme='blue' size='lg' leftIcon={<AddIcon />}>
+            Criar
+          </Button>
+        </Link>
       </header>
       <TableContainer>
         <Table variant='simple'>

@@ -1,4 +1,4 @@
-export type NoteType = {
+type NoteType = {
   id: string
   title: string
   subject: string
@@ -8,18 +8,58 @@ export type NoteType = {
   updatedAt: string
 }
 
-export const fetchNote = async (noteId: string): Promise<NoteType> => {
-  console.info(`Fetching note with id ${noteId}...`)
+const baseUrl = 'http://localhost:3000'
 
-  const note = fetch(`http://localhost:3000/notes/${noteId}`).then(res => res.json())
+const fetchNote = async (noteId: string): Promise<NoteType> => {
+  const note = fetch(`${baseUrl}/notes/${noteId}`).then(res => res.json())
 
   return note
 }
 
-export const fetchNotes = async (): Promise<NoteType[]> => {
-  console.info('Fetching notes...')
-
-  const notes = fetch(`http://localhost:3000/notes`).then(res => res.json())
+const fetchNotes = async (): Promise<NoteType[]> => {
+  const notes = fetch(`${baseUrl}/notes`).then(res => res.json())
 
   return notes
 }
+
+const updateNote =
+  (noteId: string) =>
+  async (data: Partial<NoteType>): Promise<NoteType> => {
+    const body = JSON.stringify(data)
+
+    const response = await fetch(`${baseUrl}/notes/${noteId}`, {
+      method: 'PATCH',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body
+    })
+
+    const result = await response.json()
+
+    return result
+  }
+
+const createNote = async (data: Partial<NoteType>): Promise<NoteType> => {
+  data.userId = '0191f730-7a29-7669-a126-b6a008ceaabd'
+
+  const body = JSON.stringify(data)
+
+  const response = await fetch(`${baseUrl}/notes`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body
+  })
+
+  const result = await response.json()
+
+  return result
+}
+
+export type { NoteType }
+
+export { fetchNotes, fetchNote, updateNote, createNote }

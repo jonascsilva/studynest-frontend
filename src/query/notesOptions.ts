@@ -1,10 +1,10 @@
 import { queryOptions } from '@tanstack/react-query'
 import { fetchNote, fetchNotes } from './notes'
 
-const noteQueryOptions = (postId: string) =>
+const noteQueryOptions = (noteId: string) =>
   queryOptions({
-    queryKey: ['notes', { postId }],
-    queryFn: () => fetchNote(postId)
+    queryKey: ['notes', { noteId }],
+    queryFn: () => fetchNote(noteId)
   })
 
 const notesQueryOptions = queryOptions({
