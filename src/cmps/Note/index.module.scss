@@ -1,0 +1,27 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 2rem 4rem 4rem 4rem;
+  height: 100vh;
+}
+
+.header {
+  display: grid;
+  justify-content: space-between;
+  grid-template-columns: 40rem auto;
+}
+
+.leftContent {
+  display: flex;
+  gap: 2rem;
+}
+
+.rightContent {
+  display: flex;
+  gap: 2rem;
+}
+
+.contentContainer {
+  height: 100%;
+}

@@ -24,17 +24,6 @@ function Index() {
           </Alert>
         </div>
       </section>
-      <section className={classes.section}>
-        <Heading size='md' className={classes.subHeading}>
-          Recentes
-        </Heading>
-        <div>
-          <Alert status='info'>
-            <AlertIcon />
-            Nada para foi aberto recentemente.
-          </Alert>
-        </div>
-      </section>
     </div>
   )
 }

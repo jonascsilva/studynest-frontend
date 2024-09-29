@@ -60,6 +60,16 @@ const createNote = async (data: Partial<NoteType>): Promise<NoteType> => {
   return result
 }
 
+const deleteNote = async (noteId: string): Promise<NoteType> => {
+  const response = await fetch(`${baseUrl}/notes/${noteId}`, {
+    method: 'DELETE'
+  })
+
+  const result = response.json()
+
+  return result
+}
+
 export type { NoteType }
 
-export { fetchNotes, fetchNote, updateNote, createNote }
+export { fetchNotes, fetchNote, updateNote, createNote, deleteNote }

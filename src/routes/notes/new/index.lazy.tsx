@@ -12,6 +12,7 @@ function Index() {
   const navigate = Route.useNavigate()
 
   const mutation = useMutation({
+    mutationKey: ['notes'],
     mutationFn: createNote,
     onSuccess: data => {
       queryClient.setQueryData(['notes', { noteId: data.id }], data)
