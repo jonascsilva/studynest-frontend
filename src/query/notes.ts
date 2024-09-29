@@ -1,12 +1,4 @@
-type NoteType = {
-  id: string
-  title: string
-  subject: string
-  content: string
-  userId: string
-  createdAt: string
-  updatedAt: string
-}
+import { NoteType } from '$/types'
 
 const baseUrl = 'http://localhost:3000'
 

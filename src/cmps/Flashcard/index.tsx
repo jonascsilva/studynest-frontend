@@ -1,22 +1,22 @@
 import { UseMutationResult } from '@tanstack/react-query'
 import { Button, Textarea, Input } from '@chakra-ui/react'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { NoteType } from '$/types'
 import { Link } from '@tanstack/react-router'
 import classes from './index.module.scss'
+import { FlashcardType } from '$/types'
 
 type Inputs = {
-  title: string
+  question: string
   subject: string
-  content: string
+  answer: string
 }
 
 type Props = {
-  mutation: UseMutationResult<NoteType, Error, Partial<NoteType>, unknown>
-  note?: NoteType
+  mutation: UseMutationResult<FlashcardType, Error, Partial<FlashcardType>, unknown>
+  flashcard?: FlashcardType
 }
 
-const Note = ({ mutation, note }: Props) => {
+const Flashcard = ({ mutation, flashcard }: Props) => {
   const { register, handleSubmit } = useForm<Inputs>()
 
   const onSubmit: SubmitHandler<Inputs> = data => {
@@ -27,8 +27,8 @@ const Note = ({ mutation, note }: Props) => {
     <form onSubmit={handleSubmit(onSubmit)} className={classes.form}>
       <header className={classes.header}>
         <div className={classes.leftContent}>
-          <Input defaultValue={note?.title} {...register('title')} />
-          <Input defaultValue={note?.subject} {...register('subject')} />
+          <Input defaultValue={flashcard?.question} {...register('question')} />
+          <Input defaultValue={flashcard?.subject} {...register('subject')} />
         </div>
         <div className={classes.rightContent}>
           <Button isLoading={mutation.isPending} colorScheme='blue' type='submit'>
@@ -40,10 +40,10 @@ const Note = ({ mutation, note }: Props) => {
         </div>
       </header>
       <div className={classes.contentContainer}>
-        <Textarea defaultValue={note?.content} {...register('content')} h='100%' />
+        <Textarea defaultValue={flashcard?.answer} {...register('answer')} h='100%' />
       </div>
     </form>
   )
 }
 
-export { Note }
+export { Flashcard }

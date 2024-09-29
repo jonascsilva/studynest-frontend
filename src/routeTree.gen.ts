@@ -15,18 +15,18 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Route as rootRoute } from './routes/__root'
 import { Route as dashboardDashboardImport } from './routes/(dashboard)/_dashboard'
 import { Route as NotesNoteIdIndexImport } from './routes/notes/$noteId/index'
+import { Route as FlashcardsFlashcardIdIndexImport } from './routes/flashcards/$flashcardId/index'
 import { Route as dashboardDashboardNotesIndexImport } from './routes/(dashboard)/_dashboard/notes/index'
+import { Route as dashboardDashboardFlashcardsIndexImport } from './routes/(dashboard)/_dashboard/flashcards/index'
 
 // Create Virtual Routes
 
 const dashboardImport = createFileRoute('/(dashboard)')()
 const IndexLazyImport = createFileRoute('/')()
 const NotesNewIndexLazyImport = createFileRoute('/notes/new/')()
+const FlashcardsNewIndexLazyImport = createFileRoute('/flashcards/new/')()
 const dashboardDashboardSettingsIndexLazyImport = createFileRoute(
   '/(dashboard)/_dashboard/settings/',
-)()
-const dashboardDashboardDecksIndexLazyImport = createFileRoute(
-  '/(dashboard)/_dashboard/decks/',
 )()
 const dashboardDashboardDashboardIndexLazyImport = createFileRoute(
   '/(dashboard)/_dashboard/dashboard/',
@@ -56,10 +56,24 @@ const NotesNewIndexLazyRoute = NotesNewIndexLazyImport.update({
   import('./routes/notes/new/index.lazy').then((d) => d.Route),
 )
 
+const FlashcardsNewIndexLazyRoute = FlashcardsNewIndexLazyImport.update({
+  path: '/flashcards/new/',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() =>
+  import('./routes/flashcards/new/index.lazy').then((d) => d.Route),
+)
+
 const NotesNoteIdIndexRoute = NotesNoteIdIndexImport.update({
   path: '/notes/$noteId/',
   getParentRoute: () => rootRoute,
 } as any)
+
+const FlashcardsFlashcardIdIndexRoute = FlashcardsFlashcardIdIndexImport.update(
+  {
+    path: '/flashcards/$flashcardId/',
+    getParentRoute: () => rootRoute,
+  } as any,
+)
 
 const dashboardDashboardSettingsIndexLazyRoute =
   dashboardDashboardSettingsIndexLazyImport
@@ -69,18 +83,6 @@ const dashboardDashboardSettingsIndexLazyRoute =
     } as any)
     .lazy(() =>
       import('./routes/(dashboard)/_dashboard/settings/index.lazy').then(
-        (d) => d.Route,
-      ),
-    )
-
-const dashboardDashboardDecksIndexLazyRoute =
-  dashboardDashboardDecksIndexLazyImport
-    .update({
-      path: '/decks/',
-      getParentRoute: () => dashboardDashboardRoute,
-    } as any)
-    .lazy(() =>
-      import('./routes/(dashboard)/_dashboard/decks/index.lazy').then(
         (d) => d.Route,
       ),
     )
@@ -100,6 +102,12 @@ const dashboardDashboardDashboardIndexLazyRoute =
 const dashboardDashboardNotesIndexRoute =
   dashboardDashboardNotesIndexImport.update({
     path: '/notes/',
+    getParentRoute: () => dashboardDashboardRoute,
+  } as any)
+
+const dashboardDashboardFlashcardsIndexRoute =
+  dashboardDashboardFlashcardsIndexImport.update({
+    path: '/flashcards/',
     getParentRoute: () => dashboardDashboardRoute,
   } as any)
 
@@ -128,11 +136,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof dashboardDashboardImport
       parentRoute: typeof dashboardRoute
     }
+    '/flashcards/$flashcardId/': {
+      id: '/flashcards/$flashcardId/'
+      path: '/flashcards/$flashcardId'
+      fullPath: '/flashcards/$flashcardId'
+      preLoaderRoute: typeof FlashcardsFlashcardIdIndexImport
+      parentRoute: typeof rootRoute
+    }
     '/notes/$noteId/': {
       id: '/notes/$noteId/'
       path: '/notes/$noteId'
       fullPath: '/notes/$noteId'
       preLoaderRoute: typeof NotesNoteIdIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/flashcards/new/': {
+      id: '/flashcards/new/'
+      path: '/flashcards/new'
+      fullPath: '/flashcards/new'
+      preLoaderRoute: typeof FlashcardsNewIndexLazyImport
       parentRoute: typeof rootRoute
     }
     '/notes/new/': {
@@ -141,6 +163,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/notes/new'
       preLoaderRoute: typeof NotesNewIndexLazyImport
       parentRoute: typeof rootRoute
+    }
+    '/(dashboard)/_dashboard/flashcards/': {
+      id: '/_dashboard/flashcards/'
+      path: '/flashcards'
+      fullPath: '/flashcards'
+      preLoaderRoute: typeof dashboardDashboardFlashcardsIndexImport
+      parentRoute: typeof dashboardDashboardImport
     }
     '/(dashboard)/_dashboard/notes/': {
       id: '/_dashboard/notes/'
@@ -154,13 +183,6 @@ declare module '@tanstack/react-router' {
       path: '/dashboard'
       fullPath: '/dashboard'
       preLoaderRoute: typeof dashboardDashboardDashboardIndexLazyImport
-      parentRoute: typeof dashboardDashboardImport
-    }
-    '/(dashboard)/_dashboard/decks/': {
-      id: '/_dashboard/decks/'
-      path: '/decks'
-      fullPath: '/decks'
-      preLoaderRoute: typeof dashboardDashboardDecksIndexLazyImport
       parentRoute: typeof dashboardDashboardImport
     }
     '/(dashboard)/_dashboard/settings/': {
@@ -179,13 +201,15 @@ export const routeTree = rootRoute.addChildren({
   IndexLazyRoute,
   dashboardRoute: dashboardRoute.addChildren({
     dashboardDashboardRoute: dashboardDashboardRoute.addChildren({
+      dashboardDashboardFlashcardsIndexRoute,
       dashboardDashboardNotesIndexRoute,
       dashboardDashboardDashboardIndexLazyRoute,
-      dashboardDashboardDecksIndexLazyRoute,
       dashboardDashboardSettingsIndexLazyRoute,
     }),
   }),
+  FlashcardsFlashcardIdIndexRoute,
   NotesNoteIdIndexRoute,
+  FlashcardsNewIndexLazyRoute,
   NotesNewIndexLazyRoute,
 })
 
@@ -199,7 +223,9 @@ export const routeTree = rootRoute.addChildren({
       "children": [
         "/",
         "/",
+        "/flashcards/$flashcardId/",
         "/notes/$noteId/",
+        "/flashcards/new/",
         "/notes/new/"
       ]
     },
@@ -213,17 +239,27 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "(dashboard)/_dashboard.tsx",
       "parent": "/",
       "children": [
+        "/_dashboard/flashcards/",
         "/_dashboard/notes/",
         "/_dashboard/dashboard/",
-        "/_dashboard/decks/",
         "/_dashboard/settings/"
       ]
+    },
+    "/flashcards/$flashcardId/": {
+      "filePath": "flashcards/$flashcardId/index.tsx"
     },
     "/notes/$noteId/": {
       "filePath": "notes/$noteId/index.tsx"
     },
+    "/flashcards/new/": {
+      "filePath": "flashcards/new/index.lazy.tsx"
+    },
     "/notes/new/": {
       "filePath": "notes/new/index.lazy.tsx"
+    },
+    "/_dashboard/flashcards/": {
+      "filePath": "(dashboard)/_dashboard/flashcards/index.tsx",
+      "parent": "/_dashboard"
     },
     "/_dashboard/notes/": {
       "filePath": "(dashboard)/_dashboard/notes/index.tsx",
@@ -231,10 +267,6 @@ export const routeTree = rootRoute.addChildren({
     },
     "/_dashboard/dashboard/": {
       "filePath": "(dashboard)/_dashboard/dashboard/index.lazy.tsx",
-      "parent": "/_dashboard"
-    },
-    "/_dashboard/decks/": {
-      "filePath": "(dashboard)/_dashboard/decks/index.lazy.tsx",
       "parent": "/_dashboard"
     },
     "/_dashboard/settings/": {

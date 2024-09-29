@@ -1,8 +1,21 @@
-type Deck = {
+type FlashcardType = {
   id: string
-  title: string
+  question: string
   subject: string
+  answer: string
+  userId: string
+  createdAt: string
   updatedAt: string
 }
 
-export type { Deck }
+type NoteType = {
+  id: string
+  title: string
+  subject: string
+  content: string
+  userId: string
+  createdAt: string
+  updatedAt: string
+}
+
+export type { FlashcardType, NoteType }

@@ -29,7 +29,7 @@ function Index() {
           <div className={classes.imageContainer}>Flashcards images placeholder</div>
           <div className={classes.textContainer}>
             <Heading as='h2' size='2xl'>
-              Aprenda hoje, lembre para sempre!
+              Aprenda hoje, lembre-se para sempre!
             </Heading>
             <Text fontSize='2xl'>Sua ferramenta completa para um aprendizado eficiente.</Text>
           </div>

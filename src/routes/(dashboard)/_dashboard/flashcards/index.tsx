@@ -1,4 +1,5 @@
-import { Link, createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, Link } from '@tanstack/react-router'
+import { useMutation, useSuspenseQuery } from '@tanstack/react-query'
 import {
   Button,
   Flex,
@@ -12,33 +13,32 @@ import {
   Thead,
   Tr
 } from '@chakra-ui/react'
-import { AddIcon, DeleteIcon, EditIcon, ExternalLinkIcon } from '@chakra-ui/icons'
 
 import classes from './index.module.scss'
-import { notesQueryOptions } from '$/query/notesOptions'
-import { useMutation, useSuspenseQuery } from '@tanstack/react-query'
-import { deleteNote } from '$/query/notes'
+import { AddIcon, DeleteIcon, EditIcon, ExternalLinkIcon } from '@chakra-ui/icons'
+import { flashcardsQueryOptions } from '$/query/flashcardsOptions'
+import { deleteflashcard } from '$/query/flashcards'
 import { queryClient } from '$/lib/query'
 
-export const Route = createFileRoute('/(dashboard)/_dashboard/notes/')({
-  loader: ({ context: { queryClient } }) => queryClient.ensureQueryData(notesQueryOptions),
+export const Route = createFileRoute('/(dashboard)/_dashboard/flashcards/')({
+  loader: ({ context: { queryClient } }) => queryClient.ensureQueryData(flashcardsQueryOptions),
   component: Index
 })
 
 function Index() {
-  const { data: notes } = useSuspenseQuery(notesQueryOptions)
+  const { data: flashcards } = useSuspenseQuery(flashcardsQueryOptions)
   const mutation = useMutation({
-    mutationFn: deleteNote,
+    mutationFn: deleteflashcard,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['notes'] })
+      queryClient.invalidateQueries({ queryKey: ['flashcards'] })
     }
   })
 
   return (
     <div className={classes.container}>
       <header className={classes.header}>
-        <Heading size='2xl'>Anotações</Heading>
-        <Link to='/notes/new'>
+        <Heading size='2xl'>Flashcards</Heading>
+        <Link to='/flashcards/new'>
           <Button colorScheme='blue' size='lg' leftIcon={<AddIcon />}>
             Criar
           </Button>
@@ -48,24 +48,24 @@ function Index() {
         <Table variant='simple'>
           <Thead>
             <Tr>
-              <Th>Título</Th>
+              <Th>Pergunta</Th>
               <Th>Assunto</Th>
               <Th>Última modificação</Th>
               <Th></Th>
             </Tr>
           </Thead>
           <Tbody>
-            {notes.map(note => (
-              <Tr key={note.id}>
-                <Td>{note.title}</Td>
-                <Td>{note.subject}</Td>
-                <Td>{note.updatedAt}</Td>
+            {flashcards.map(flashcard => (
+              <Tr key={flashcard.id}>
+                <Td>{flashcard.question}</Td>
+                <Td>{flashcard.subject}</Td>
+                <Td>{flashcard.updatedAt}</Td>
                 <Td>
                   <Flex gap={10}>
                     <Link
-                      to='/notes/$noteId'
+                      to='/flashcards/$flashcardId'
                       params={{
-                        noteId: note.id
+                        flashcardId: flashcard.id
                       }}
                     >
                       <IconButton aria-label='Editar' icon={<EditIcon />} />
@@ -74,7 +74,7 @@ function Index() {
                     <IconButton
                       aria-label='Excluir'
                       icon={<DeleteIcon />}
-                      onClick={() => mutation.mutate(note.id)}
+                      onClick={() => mutation.mutate(flashcard.id)}
                     />
                   </Flex>
                 </Td>
