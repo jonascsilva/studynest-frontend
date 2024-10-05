@@ -26,7 +26,7 @@ function Index() {
       </nav>
       <main className={classes.main}>
         <section className={classes.section}>
-          <div className={classes.imageContainer}>Flashcards images placeholder</div>
+          <div className={classes.imageContainer}>PLACEHOLDER</div>
           <div className={classes.textContainer}>
             <Heading as='h2' size='2xl'>
               Aprenda hoje, lembre-se para sempre!

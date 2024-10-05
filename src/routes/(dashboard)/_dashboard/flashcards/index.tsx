@@ -51,6 +51,7 @@ function Index() {
               <Th>Pergunta</Th>
               <Th>Assunto</Th>
               <Th>Última modificação</Th>
+              {/* <Th>Próxima revisão</Th> */}
               <Th></Th>
             </Tr>
           </Thead>
