@@ -197,21 +197,135 @@ declare module '@tanstack/react-router' {
 
 // Create and export the route tree
 
-export const routeTree = rootRoute.addChildren({
-  IndexLazyRoute,
-  dashboardRoute: dashboardRoute.addChildren({
-    dashboardDashboardRoute: dashboardDashboardRoute.addChildren({
-      dashboardDashboardFlashcardsIndexRoute,
-      dashboardDashboardNotesIndexRoute,
-      dashboardDashboardDashboardIndexLazyRoute,
-      dashboardDashboardSettingsIndexLazyRoute,
-    }),
-  }),
-  FlashcardsFlashcardIdIndexRoute,
-  NotesNoteIdIndexRoute,
-  FlashcardsNewIndexLazyRoute,
-  NotesNewIndexLazyRoute,
-})
+interface dashboardDashboardRouteChildren {
+  dashboardDashboardFlashcardsIndexRoute: typeof dashboardDashboardFlashcardsIndexRoute
+  dashboardDashboardNotesIndexRoute: typeof dashboardDashboardNotesIndexRoute
+  dashboardDashboardDashboardIndexLazyRoute: typeof dashboardDashboardDashboardIndexLazyRoute
+  dashboardDashboardSettingsIndexLazyRoute: typeof dashboardDashboardSettingsIndexLazyRoute
+}
+
+const dashboardDashboardRouteChildren: dashboardDashboardRouteChildren = {
+  dashboardDashboardFlashcardsIndexRoute:
+    dashboardDashboardFlashcardsIndexRoute,
+  dashboardDashboardNotesIndexRoute: dashboardDashboardNotesIndexRoute,
+  dashboardDashboardDashboardIndexLazyRoute:
+    dashboardDashboardDashboardIndexLazyRoute,
+  dashboardDashboardSettingsIndexLazyRoute:
+    dashboardDashboardSettingsIndexLazyRoute,
+}
+
+const dashboardDashboardRouteWithChildren =
+  dashboardDashboardRoute._addFileChildren(dashboardDashboardRouteChildren)
+
+interface dashboardRouteChildren {
+  dashboardDashboardRoute: typeof dashboardDashboardRouteWithChildren
+}
+
+const dashboardRouteChildren: dashboardRouteChildren = {
+  dashboardDashboardRoute: dashboardDashboardRouteWithChildren,
+}
+
+const dashboardRouteWithChildren = dashboardRoute._addFileChildren(
+  dashboardRouteChildren,
+)
+
+export interface FileRoutesByFullPath {
+  '/': typeof dashboardDashboardRouteWithChildren
+  '/flashcards/$flashcardId': typeof FlashcardsFlashcardIdIndexRoute
+  '/notes/$noteId': typeof NotesNoteIdIndexRoute
+  '/flashcards/new': typeof FlashcardsNewIndexLazyRoute
+  '/notes/new': typeof NotesNewIndexLazyRoute
+  '/flashcards': typeof dashboardDashboardFlashcardsIndexRoute
+  '/notes': typeof dashboardDashboardNotesIndexRoute
+  '/dashboard': typeof dashboardDashboardDashboardIndexLazyRoute
+  '/settings': typeof dashboardDashboardSettingsIndexLazyRoute
+}
+
+export interface FileRoutesByTo {
+  '/': typeof dashboardDashboardRouteWithChildren
+  '/flashcards/$flashcardId': typeof FlashcardsFlashcardIdIndexRoute
+  '/notes/$noteId': typeof NotesNoteIdIndexRoute
+  '/flashcards/new': typeof FlashcardsNewIndexLazyRoute
+  '/notes/new': typeof NotesNewIndexLazyRoute
+  '/flashcards': typeof dashboardDashboardFlashcardsIndexRoute
+  '/notes': typeof dashboardDashboardNotesIndexRoute
+  '/dashboard': typeof dashboardDashboardDashboardIndexLazyRoute
+  '/settings': typeof dashboardDashboardSettingsIndexLazyRoute
+}
+
+export interface FileRoutesById {
+  __root__: typeof rootRoute
+  '/': typeof dashboardRouteWithChildren
+  '/_dashboard': typeof dashboardDashboardRouteWithChildren
+  '/flashcards/$flashcardId/': typeof FlashcardsFlashcardIdIndexRoute
+  '/notes/$noteId/': typeof NotesNoteIdIndexRoute
+  '/flashcards/new/': typeof FlashcardsNewIndexLazyRoute
+  '/notes/new/': typeof NotesNewIndexLazyRoute
+  '/_dashboard/flashcards/': typeof dashboardDashboardFlashcardsIndexRoute
+  '/_dashboard/notes/': typeof dashboardDashboardNotesIndexRoute
+  '/_dashboard/dashboard/': typeof dashboardDashboardDashboardIndexLazyRoute
+  '/_dashboard/settings/': typeof dashboardDashboardSettingsIndexLazyRoute
+}
+
+export interface FileRouteTypes {
+  fileRoutesByFullPath: FileRoutesByFullPath
+  fullPaths:
+    | '/'
+    | '/flashcards/$flashcardId'
+    | '/notes/$noteId'
+    | '/flashcards/new'
+    | '/notes/new'
+    | '/flashcards'
+    | '/notes'
+    | '/dashboard'
+    | '/settings'
+  fileRoutesByTo: FileRoutesByTo
+  to:
+    | '/'
+    | '/flashcards/$flashcardId'
+    | '/notes/$noteId'
+    | '/flashcards/new'
+    | '/notes/new'
+    | '/flashcards'
+    | '/notes'
+    | '/dashboard'
+    | '/settings'
+  id:
+    | '__root__'
+    | '/'
+    | '/_dashboard'
+    | '/flashcards/$flashcardId/'
+    | '/notes/$noteId/'
+    | '/flashcards/new/'
+    | '/notes/new/'
+    | '/_dashboard/flashcards/'
+    | '/_dashboard/notes/'
+    | '/_dashboard/dashboard/'
+    | '/_dashboard/settings/'
+  fileRoutesById: FileRoutesById
+}
+
+export interface RootRouteChildren {
+  IndexLazyRoute: typeof IndexLazyRoute
+  dashboardRoute: typeof dashboardRouteWithChildren
+  FlashcardsFlashcardIdIndexRoute: typeof FlashcardsFlashcardIdIndexRoute
+  NotesNoteIdIndexRoute: typeof NotesNoteIdIndexRoute
+  FlashcardsNewIndexLazyRoute: typeof FlashcardsNewIndexLazyRoute
+  NotesNewIndexLazyRoute: typeof NotesNewIndexLazyRoute
+}
+
+const rootRouteChildren: RootRouteChildren = {
+  IndexLazyRoute: IndexLazyRoute,
+  dashboardRoute: dashboardRouteWithChildren,
+  FlashcardsFlashcardIdIndexRoute: FlashcardsFlashcardIdIndexRoute,
+  NotesNoteIdIndexRoute: NotesNoteIdIndexRoute,
+  FlashcardsNewIndexLazyRoute: FlashcardsNewIndexLazyRoute,
+  NotesNewIndexLazyRoute: NotesNewIndexLazyRoute,
+}
+
+export const routeTree = rootRoute
+  ._addFileChildren(rootRouteChildren)
+  ._addFileTypes<FileRouteTypes>()
 
 /* prettier-ignore-end */
 
