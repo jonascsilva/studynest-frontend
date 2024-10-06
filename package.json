@@ -9,7 +9,7 @@
     "lint": "eslint . && stylelint src/**/*.*css && prettier -c .",
     "lint-fix": "eslint . --fix && stylelint src/**/*.*css --fix",
     "fmt": "prettier --write .",
-    "preview": "vite preview",
+    "preview": "vite preview --host",
     "test": "vitest",
     "coverage": "vitest run --coverage",
     "test:ui": "vitest --ui"
