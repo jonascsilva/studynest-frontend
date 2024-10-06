@@ -4,12 +4,12 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --host",
+    "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint . && stylelint src/**/*.*css && prettier -c .",
     "lint-fix": "eslint . --fix && stylelint src/**/*.*css --fix",
     "fmt": "prettier --write .",
-    "preview": "vite preview --host",
+    "preview": "vite preview",
     "test": "vitest",
     "coverage": "vitest run --coverage",
     "test:ui": "vitest --ui"
