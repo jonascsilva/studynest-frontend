@@ -6,8 +6,8 @@ import { ChakraBaseProvider } from '@chakra-ui/react'
 
 import { routeTree } from './routeTree.gen'
 
-import { queryClient } from './lib/query'
-import { theme } from './lib/theme'
+import { queryClient } from '$/lib/query'
+import { theme } from '$/lib/theme'
 import './main.scss'
 
 const router = createRouter({
@@ -19,9 +19,11 @@ const router = createRouter({
   }
 })
 
+type MyRouter = typeof router
+
 declare module '@tanstack/react-router' {
   interface Register {
-    router: typeof router
+    router: MyRouter
   }
 }
 
@@ -42,3 +44,4 @@ if (!rootElement.innerHTML) {
 }
 
 export { router }
+export type { MyRouter }

@@ -4,14 +4,14 @@ import { Sidebar } from '$/cmps/Sidebar'
 import { renderWithContext } from '../../customRender'
 
 test('Sidebar renders correctly', () => {
-  renderWithContext(() => <Sidebar />)
+  renderWithContext(Sidebar)
 
   expect(screen.getByText('Study')).toBeInTheDocument()
   expect(screen.getByText('Nest')).toBeInTheDocument()
 })
 
 test('Sidebar has four links', () => {
-  const { getAllByRole } = renderWithContext(() => <Sidebar />)
+  const { getAllByRole } = renderWithContext(Sidebar)
 
   const links = getAllByRole('link')
 
