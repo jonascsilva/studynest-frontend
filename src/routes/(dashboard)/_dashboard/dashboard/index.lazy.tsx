@@ -14,9 +14,7 @@ function Index() {
         Bem vindo <span>USER</span>!
       </Heading>
       <section className={classes.section}>
-        <Heading size='md' className={classes.subHeading}>
-          Revisar
-        </Heading>
+        <Heading size='md'>Revisar</Heading>
         <div>
           <Alert status='success'>
             <AlertIcon />

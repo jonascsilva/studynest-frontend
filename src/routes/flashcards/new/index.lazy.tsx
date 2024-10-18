@@ -1,19 +1,18 @@
 import { Flashcard } from '$/cmps/Flashcard'
-import { queryClient } from '$/lib/query'
-import { createflashcard } from '$/query/flashcards'
-import { useMutation } from '@tanstack/react-query'
-import { createLazyFileRoute } from '@tanstack/react-router'
+import { createFlashcard } from '$/query/flashcards'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { createLazyFileRoute, useNavigate } from '@tanstack/react-router'
 
-export const Route = createLazyFileRoute('/flashcards/new/')({
+const Route = createLazyFileRoute('/flashcards/new/')({
   component: Index
 })
 
 function Index() {
-  const navigate = Route.useNavigate()
-
+  const navigate = useNavigate()
+  const queryClient = useQueryClient()
   const mutation = useMutation({
     mutationKey: ['flashcards'],
-    mutationFn: createflashcard,
+    mutationFn: createFlashcard,
     onSuccess: data => {
       queryClient.setQueryData(['flashcards', { flashcardId: data.id }], data)
 
@@ -23,3 +22,5 @@ function Index() {
 
   return <Flashcard mutation={mutation} />
 }
+
+export { Route, Index }

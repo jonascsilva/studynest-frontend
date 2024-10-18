@@ -1,11 +1,10 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, useParams } from '@tanstack/react-router'
 import { flashcardQueryOptions } from '$/query/flashcardsOptions'
-import { useMutation, useSuspenseQuery } from '@tanstack/react-query'
+import { useMutation, useQueryClient, useSuspenseQuery } from '@tanstack/react-query'
 import { updateFlashcard } from '$/query/flashcards'
 import { Flashcard } from '$/cmps/Flashcard'
-import { queryClient } from '$/lib/query'
 
-export const Route = createFileRoute('/flashcards/$flashcardId/')({
+const Route = createFileRoute('/flashcards/$flashcardId/')({
   loader: ({ context: { queryClient }, params: { flashcardId } }) => {
     return queryClient.ensureQueryData(flashcardQueryOptions(flashcardId))
   },
@@ -13,7 +12,8 @@ export const Route = createFileRoute('/flashcards/$flashcardId/')({
 })
 
 function Index() {
-  const { flashcardId } = Route.useParams()
+  const { flashcardId } = useParams({ from: '/flashcards/$flashcardId/' })
+  const queryClient = useQueryClient()
   const { data: flashcard } = useSuspenseQuery(flashcardQueryOptions(flashcardId))
 
   const mutation = useMutation({
@@ -26,3 +26,5 @@ function Index() {
 
   return <Flashcard mutation={mutation} flashcard={flashcard} />
 }
+
+export { Route, Index }

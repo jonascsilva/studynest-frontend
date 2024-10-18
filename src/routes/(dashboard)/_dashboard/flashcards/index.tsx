@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { useMutation, useSuspenseQuery } from '@tanstack/react-query'
+import { useMutation, useQueryClient, useSuspenseQuery } from '@tanstack/react-query'
 import {
   Button,
   Flex,
@@ -17,8 +17,7 @@ import {
 import classes from './index.module.scss'
 import { AddIcon, DeleteIcon, EditIcon, ExternalLinkIcon } from '@chakra-ui/icons'
 import { flashcardsQueryOptions } from '$/query/flashcardsOptions'
-import { deleteflashcard } from '$/query/flashcards'
-import { queryClient } from '$/lib/query'
+import { deleteFlashcard } from '$/query/flashcards'
 
 export const Route = createFileRoute('/(dashboard)/_dashboard/flashcards/')({
   loader: ({ context: { queryClient } }) => queryClient.ensureQueryData(flashcardsQueryOptions),
@@ -27,8 +26,9 @@ export const Route = createFileRoute('/(dashboard)/_dashboard/flashcards/')({
 
 function Index() {
   const { data: flashcards } = useSuspenseQuery(flashcardsQueryOptions)
+  const queryClient = useQueryClient()
   const mutation = useMutation({
-    mutationFn: deleteflashcard,
+    mutationFn: deleteFlashcard,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['flashcards'] })
     }

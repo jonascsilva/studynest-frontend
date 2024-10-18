@@ -16,9 +16,8 @@ import { AddIcon, DeleteIcon, EditIcon, ExternalLinkIcon } from '@chakra-ui/icon
 
 import classes from './index.module.scss'
 import { notesQueryOptions } from '$/query/notesOptions'
-import { useMutation, useSuspenseQuery } from '@tanstack/react-query'
+import { useMutation, useQueryClient, useSuspenseQuery } from '@tanstack/react-query'
 import { deleteNote } from '$/query/notes'
-import { queryClient } from '$/lib/query'
 
 export const Route = createFileRoute('/(dashboard)/_dashboard/notes/')({
   loader: ({ context: { queryClient } }) => queryClient.ensureQueryData(notesQueryOptions),
@@ -27,6 +26,7 @@ export const Route = createFileRoute('/(dashboard)/_dashboard/notes/')({
 
 function Index() {
   const { data: notes } = useSuspenseQuery(notesQueryOptions)
+  const queryClient = useQueryClient()
   const mutation = useMutation({
     mutationFn: deleteNote,
     onSuccess: () => {

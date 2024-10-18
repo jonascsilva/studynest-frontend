@@ -3,7 +3,7 @@
   "[javascript][typescript][typescriptreact]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "[dockerfile]": {
-    "editor.defaultFormatter": "ms-azuretools.vscode-docker"
+  "[scss]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   }
 }

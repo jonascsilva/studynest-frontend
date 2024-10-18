@@ -31,6 +31,9 @@ const dashboardDashboardSettingsIndexLazyImport = createFileRoute(
 const dashboardDashboardDashboardIndexLazyImport = createFileRoute(
   '/(dashboard)/_dashboard/dashboard/',
 )()
+const dashboardDashboardAiIndexLazyImport = createFileRoute(
+  '/(dashboard)/_dashboard/ai/',
+)()
 
 // Create/Update Routes
 
@@ -98,6 +101,17 @@ const dashboardDashboardDashboardIndexLazyRoute =
         (d) => d.Route,
       ),
     )
+
+const dashboardDashboardAiIndexLazyRoute = dashboardDashboardAiIndexLazyImport
+  .update({
+    path: '/ai/',
+    getParentRoute: () => dashboardDashboardRoute,
+  } as any)
+  .lazy(() =>
+    import('./routes/(dashboard)/_dashboard/ai/index.lazy').then(
+      (d) => d.Route,
+    ),
+  )
 
 const dashboardDashboardNotesIndexRoute =
   dashboardDashboardNotesIndexImport.update({
@@ -178,6 +192,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof dashboardDashboardNotesIndexImport
       parentRoute: typeof dashboardDashboardImport
     }
+    '/(dashboard)/_dashboard/ai/': {
+      id: '/_dashboard/ai/'
+      path: '/ai'
+      fullPath: '/ai'
+      preLoaderRoute: typeof dashboardDashboardAiIndexLazyImport
+      parentRoute: typeof dashboardDashboardImport
+    }
     '/(dashboard)/_dashboard/dashboard/': {
       id: '/_dashboard/dashboard/'
       path: '/dashboard'
@@ -200,6 +221,7 @@ declare module '@tanstack/react-router' {
 interface dashboardDashboardRouteChildren {
   dashboardDashboardFlashcardsIndexRoute: typeof dashboardDashboardFlashcardsIndexRoute
   dashboardDashboardNotesIndexRoute: typeof dashboardDashboardNotesIndexRoute
+  dashboardDashboardAiIndexLazyRoute: typeof dashboardDashboardAiIndexLazyRoute
   dashboardDashboardDashboardIndexLazyRoute: typeof dashboardDashboardDashboardIndexLazyRoute
   dashboardDashboardSettingsIndexLazyRoute: typeof dashboardDashboardSettingsIndexLazyRoute
 }
@@ -208,6 +230,7 @@ const dashboardDashboardRouteChildren: dashboardDashboardRouteChildren = {
   dashboardDashboardFlashcardsIndexRoute:
     dashboardDashboardFlashcardsIndexRoute,
   dashboardDashboardNotesIndexRoute: dashboardDashboardNotesIndexRoute,
+  dashboardDashboardAiIndexLazyRoute: dashboardDashboardAiIndexLazyRoute,
   dashboardDashboardDashboardIndexLazyRoute:
     dashboardDashboardDashboardIndexLazyRoute,
   dashboardDashboardSettingsIndexLazyRoute:
@@ -237,6 +260,7 @@ export interface FileRoutesByFullPath {
   '/notes/new': typeof NotesNewIndexLazyRoute
   '/flashcards': typeof dashboardDashboardFlashcardsIndexRoute
   '/notes': typeof dashboardDashboardNotesIndexRoute
+  '/ai': typeof dashboardDashboardAiIndexLazyRoute
   '/dashboard': typeof dashboardDashboardDashboardIndexLazyRoute
   '/settings': typeof dashboardDashboardSettingsIndexLazyRoute
 }
@@ -249,6 +273,7 @@ export interface FileRoutesByTo {
   '/notes/new': typeof NotesNewIndexLazyRoute
   '/flashcards': typeof dashboardDashboardFlashcardsIndexRoute
   '/notes': typeof dashboardDashboardNotesIndexRoute
+  '/ai': typeof dashboardDashboardAiIndexLazyRoute
   '/dashboard': typeof dashboardDashboardDashboardIndexLazyRoute
   '/settings': typeof dashboardDashboardSettingsIndexLazyRoute
 }
@@ -263,6 +288,7 @@ export interface FileRoutesById {
   '/notes/new/': typeof NotesNewIndexLazyRoute
   '/_dashboard/flashcards/': typeof dashboardDashboardFlashcardsIndexRoute
   '/_dashboard/notes/': typeof dashboardDashboardNotesIndexRoute
+  '/_dashboard/ai/': typeof dashboardDashboardAiIndexLazyRoute
   '/_dashboard/dashboard/': typeof dashboardDashboardDashboardIndexLazyRoute
   '/_dashboard/settings/': typeof dashboardDashboardSettingsIndexLazyRoute
 }
@@ -277,6 +303,7 @@ export interface FileRouteTypes {
     | '/notes/new'
     | '/flashcards'
     | '/notes'
+    | '/ai'
     | '/dashboard'
     | '/settings'
   fileRoutesByTo: FileRoutesByTo
@@ -288,6 +315,7 @@ export interface FileRouteTypes {
     | '/notes/new'
     | '/flashcards'
     | '/notes'
+    | '/ai'
     | '/dashboard'
     | '/settings'
   id:
@@ -300,6 +328,7 @@ export interface FileRouteTypes {
     | '/notes/new/'
     | '/_dashboard/flashcards/'
     | '/_dashboard/notes/'
+    | '/_dashboard/ai/'
     | '/_dashboard/dashboard/'
     | '/_dashboard/settings/'
   fileRoutesById: FileRoutesById
@@ -355,6 +384,7 @@ export const routeTree = rootRoute
       "children": [
         "/_dashboard/flashcards/",
         "/_dashboard/notes/",
+        "/_dashboard/ai/",
         "/_dashboard/dashboard/",
         "/_dashboard/settings/"
       ]
@@ -377,6 +407,10 @@ export const routeTree = rootRoute
     },
     "/_dashboard/notes/": {
       "filePath": "(dashboard)/_dashboard/notes/index.tsx",
+      "parent": "/_dashboard"
+    },
+    "/_dashboard/ai/": {
+      "filePath": "(dashboard)/_dashboard/ai/index.lazy.tsx",
       "parent": "/_dashboard"
     },
     "/_dashboard/dashboard/": {

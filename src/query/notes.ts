@@ -34,7 +34,7 @@ const updateNote =
   }
 
 const createNote = async (data: Partial<NoteType>): Promise<NoteType> => {
-  data.userId = '0191f730-7a29-7669-a126-b6a008ceaabd'
+  data.userId = '33b2c1a4-98d8-439b-a032-7b4388f7ab94'
 
   const body = JSON.stringify(data)
 

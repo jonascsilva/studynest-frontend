@@ -1,9 +1,8 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, useParams } from '@tanstack/react-router'
 import { noteQueryOptions } from '$/query/notesOptions'
-import { useMutation, useSuspenseQuery } from '@tanstack/react-query'
+import { useMutation, useSuspenseQuery, useQueryClient } from '@tanstack/react-query'
 import { updateNote } from '$/query/notes'
 import { Note } from '$/cmps/Note'
-import { queryClient } from '$/lib/query'
 
 export const Route = createFileRoute('/notes/$noteId/')({
   loader: ({ context: { queryClient }, params: { noteId } }) => {
@@ -13,8 +12,9 @@ export const Route = createFileRoute('/notes/$noteId/')({
 })
 
 function Index() {
-  const { noteId } = Route.useParams()
+  const { noteId } = useParams({ from: '/notes/$noteId/' })
   const { data: note } = useSuspenseQuery(noteQueryOptions(noteId))
+  const queryClient = useQueryClient()
 
   const mutation = useMutation({
     mutationKey: ['notes'],
@@ -26,3 +26,5 @@ function Index() {
 
   return <Note mutation={mutation} note={note} />
 }
+
+export { Index }

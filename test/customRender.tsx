@@ -11,9 +11,15 @@ import { theme } from '$/lib/theme'
 import { queryClient } from '$/lib/query'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { ChakraProvider } from '@chakra-ui/react'
-import { render } from '@testing-library/react'
+import { render, RenderResult } from '@testing-library/react'
 
-const createTestRouter = (component: () => JSX.Element) => {
+type AddRoutesCallback = (parentRoute: any) => void
+
+const renderWithContext = (
+  component: () => JSX.Element,
+  addRoutes?: AddRoutesCallback,
+  initialEntries: string[] = ['/']
+): RenderResult => {
   const rootRoute = createRootRouteWithContext<MyRouterContext>()({
     component: Outlet
   })
@@ -24,6 +30,10 @@ const createTestRouter = (component: () => JSX.Element) => {
     component
   })
 
+  if (addRoutes) {
+    addRoutes(indexRoute)
+  }
+
   const routeTree = rootRoute.addChildren([indexRoute])
 
   const router = createRouter({
@@ -31,14 +41,10 @@ const createTestRouter = (component: () => JSX.Element) => {
     context: {
       queryClient
     },
-    history: createMemoryHistory()
+    history: createMemoryHistory({
+      initialEntries
+    })
   })
-
-  return router
-}
-
-const renderWithContext = (component: () => JSX.Element) => {
-  const router = createTestRouter(component)
 
   return render(
     <ChakraProvider theme={theme}>
