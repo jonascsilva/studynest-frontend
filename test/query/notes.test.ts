@@ -2,8 +2,6 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { fetchNote, fetchNotes, updateNote, createNote, deleteNote } from '$/query/notes.ts'
 import { NoteType } from '$/types'
 
-const baseUrl = 'http://localhost:3000'
-
 beforeEach(() => {
   vi.restoreAllMocks()
 })
@@ -23,7 +21,7 @@ describe('fetchNote', () => {
 
     const result = await fetchNote(noteId)
 
-    expect(fetch).toHaveBeenCalledWith(`${baseUrl}/notes/123`)
+    expect(fetch).toHaveBeenCalledWith('https://fakeurl.com/notes/123')
     expect(result).toEqual(mockNote)
   })
 
@@ -34,7 +32,7 @@ describe('fetchNote', () => {
 
     await expect(fetchNote(noteId)).rejects.toThrow('Network Error')
 
-    expect(fetch).toHaveBeenCalledWith(`${baseUrl}/notes/123`)
+    expect(fetch).toHaveBeenCalledWith('https://fakeurl.com/notes/123')
   })
 })
 
@@ -51,7 +49,7 @@ describe('fetchNotes', () => {
 
     const result = await fetchNotes()
 
-    expect(fetch).toHaveBeenCalledWith(`${baseUrl}/notes`)
+    expect(fetch).toHaveBeenCalledWith('https://fakeurl.com/notes')
     expect(result).toEqual(mockNotes)
   })
 })
@@ -73,7 +71,7 @@ describe('updateNote', () => {
     const updateNoteFn = updateNote(noteId)
     const result = await updateNoteFn(updateData)
 
-    expect(fetch).toHaveBeenCalledWith(`${baseUrl}/notes/${noteId}`, {
+    expect(fetch).toHaveBeenCalledWith(`https://fakeurl.com/notes/${noteId}`, {
       method: 'PATCH',
       headers: {
         Accept: 'application/json',
@@ -100,7 +98,7 @@ describe('createNote', () => {
 
     const result = await createNote(noteData)
 
-    expect(fetch).toHaveBeenCalledWith(`${baseUrl}/notes`, {
+    expect(fetch).toHaveBeenCalledWith('https://fakeurl.com/notes', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -123,7 +121,7 @@ describe('deleteNote', () => {
 
     const result = await deleteNote(noteId)
 
-    expect(fetch).toHaveBeenCalledWith(`${baseUrl}/notes/${noteId}`, {
+    expect(fetch).toHaveBeenCalledWith(`https://fakeurl.com/notes/${noteId}`, {
       method: 'DELETE'
     })
     expect(result).toEqual(deletedNote)

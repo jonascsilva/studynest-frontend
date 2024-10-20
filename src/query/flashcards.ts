@@ -1,21 +1,19 @@
 import { FlashcardType } from '$/types'
 
-const baseUrl = 'http://localhost:3000'
-
-const generateFlashcard = async (): Promise<FlashcardType> => {
-  const flashcard = fetch(`${baseUrl}/flashcards/ai`).then(res => res.json())
+const generateFlashcard = async (): Promise<FlashcardType> => {  
+  const flashcard = fetch(`${import.meta.env.VITE_BACKEND_URL}/flashcards/ai`).then(res => res.json())
 
   return flashcard
 }
 
 const fetchFlashcard = async (flashcardId: string): Promise<FlashcardType> => {
-  const flashcard = fetch(`${baseUrl}/flashcards/${flashcardId}`).then(res => res.json())
+  const flashcard = fetch(`${import.meta.env.VITE_BACKEND_URL}/flashcards/${flashcardId}`).then(res => res.json())
 
   return flashcard
 }
 
 const fetchFlashcards = async (): Promise<FlashcardType[]> => {
-  const flashcards = fetch(`${baseUrl}/flashcards`).then(res => res.json())
+  const flashcards = fetch(`${import.meta.env.VITE_BACKEND_URL}/flashcards`).then(res => res.json())
 
   return flashcards
 }
@@ -25,7 +23,7 @@ const updateFlashcard =
   async (data: Partial<FlashcardType>): Promise<FlashcardType> => {
     const body = JSON.stringify(data)
 
-    const response = await fetch(`${baseUrl}/flashcards/${flashcardId}`, {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/flashcards/${flashcardId}`, {
       method: 'PATCH',
       headers: {
         Accept: 'application/json',
@@ -44,7 +42,7 @@ const createFlashcard = async (data: Partial<FlashcardType>): Promise<FlashcardT
 
   const body = JSON.stringify(data)
 
-  const response = await fetch(`${baseUrl}/flashcards`, {
+  const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/flashcards`, {
     method: 'POST',
     headers: {
       Accept: 'application/json',
@@ -59,7 +57,7 @@ const createFlashcard = async (data: Partial<FlashcardType>): Promise<FlashcardT
 }
 
 const deleteFlashcard = async (flashcardId: string): Promise<FlashcardType> => {
-  const response = await fetch(`${baseUrl}/flashcards/${flashcardId}`, {
+  const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/flashcards/${flashcardId}`, {
     method: 'DELETE'
   })
 
