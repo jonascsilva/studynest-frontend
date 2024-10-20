@@ -19,12 +19,12 @@ import { AddIcon, DeleteIcon, EditIcon, ExternalLinkIcon } from '@chakra-ui/icon
 import { flashcardsQueryOptions } from '$/query/flashcardsOptions'
 import { deleteFlashcard } from '$/query/flashcards'
 
-export const Route = createFileRoute('/(dashboard)/_dashboard/flashcards/')({
+const Route = createFileRoute('/(dashboard)/_dashboard/flashcards/')({
   loader: ({ context: { queryClient } }) => queryClient.ensureQueryData(flashcardsQueryOptions),
-  component: Index
+  component: Component
 })
 
-function Index() {
+function Component() {
   const { data: flashcards } = useSuspenseQuery(flashcardsQueryOptions)
   const queryClient = useQueryClient()
   const mutation = useMutation({
@@ -87,3 +87,5 @@ function Index() {
     </div>
   )
 }
+
+export { Route, Component }

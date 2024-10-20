@@ -10,11 +10,11 @@ import { createLazyFileRoute } from '@tanstack/react-router'
 
 import classes from './index.module.scss'
 
-export const Route = createLazyFileRoute('/(dashboard)/_dashboard/settings/')({
-  component: Index
+const Route = createLazyFileRoute('/(dashboard)/_dashboard/settings/')({
+  component: Component
 })
 
-function Index() {
+function Component() {
   return (
     <div className={classes.container}>
       <Heading size='2xl'>Configurações</Heading>
@@ -50,3 +50,5 @@ function Index() {
     </div>
   )
 }
+
+export { Route, Component }

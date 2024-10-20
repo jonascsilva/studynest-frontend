@@ -6,11 +6,11 @@ import { useState } from 'react'
 
 import classes from './index.module.scss'
 
-export const Route = createLazyFileRoute('/(dashboard)/_dashboard/ai/')({
-  component: Index
+const Route = createLazyFileRoute('/(dashboard)/_dashboard/ai/')({
+  component: Component
 })
 
-function Index() {
+function Component() {
   const [answer, setAnswer] = useState('')
   const [question, setQuestion] = useState('')
   const [subject, setSubject] = useState('')
@@ -48,3 +48,5 @@ function Index() {
     </div>
   )
 }
+
+export { Route, Component }

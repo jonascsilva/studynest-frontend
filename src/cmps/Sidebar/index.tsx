@@ -2,7 +2,7 @@ import { Link } from '@tanstack/react-router'
 import { Button, Heading } from '@chakra-ui/react'
 import classes from './index.module.scss'
 
-const Sidebar = () => {
+function Sidebar() {
   return (
     <aside className={classes.sidebar}>
       <Link to='/dashboard' className={classes.link}>

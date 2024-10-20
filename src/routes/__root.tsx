@@ -8,14 +8,18 @@ type MyRouterContext = {
 }
 
 const Route = createRootRouteWithContext<MyRouterContext>()({
-  component: () => (
+  component: Component
+})
+
+function Component() {
+  return (
     <>
       <Outlet />
       <TanStackRouterDevtools />
       <ReactQueryDevtools />
     </>
   )
-})
+}
 
 export { Route }
 

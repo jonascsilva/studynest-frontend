@@ -25,6 +25,8 @@ const dashboardImport = createFileRoute('/(dashboard)')()
 const IndexLazyImport = createFileRoute('/')()
 const NotesNewIndexLazyImport = createFileRoute('/notes/new/')()
 const FlashcardsNewIndexLazyImport = createFileRoute('/flashcards/new/')()
+const authSignupIndexLazyImport = createFileRoute('/(auth)/signup/')()
+const authSigninIndexLazyImport = createFileRoute('/(auth)/signin/')()
 const dashboardDashboardSettingsIndexLazyImport = createFileRoute(
   '/(dashboard)/_dashboard/settings/',
 )()
@@ -65,6 +67,20 @@ const FlashcardsNewIndexLazyRoute = FlashcardsNewIndexLazyImport.update({
 } as any).lazy(() =>
   import('./routes/flashcards/new/index.lazy').then((d) => d.Route),
 )
+
+const authSignupIndexLazyRoute = authSignupIndexLazyImport
+  .update({
+    path: '/signup/',
+    getParentRoute: () => rootRoute,
+  } as any)
+  .lazy(() => import('./routes/(auth)/signup/index.lazy').then((d) => d.Route))
+
+const authSigninIndexLazyRoute = authSigninIndexLazyImport
+  .update({
+    path: '/signin/',
+    getParentRoute: () => rootRoute,
+  } as any)
+  .lazy(() => import('./routes/(auth)/signin/index.lazy').then((d) => d.Route))
 
 const NotesNoteIdIndexRoute = NotesNoteIdIndexImport.update({
   path: '/notes/$noteId/',
@@ -164,6 +180,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof NotesNoteIdIndexImport
       parentRoute: typeof rootRoute
     }
+    '/(auth)/signin/': {
+      id: '/signin/'
+      path: '/signin'
+      fullPath: '/signin'
+      preLoaderRoute: typeof authSigninIndexLazyImport
+      parentRoute: typeof rootRoute
+    }
+    '/(auth)/signup/': {
+      id: '/signup/'
+      path: '/signup'
+      fullPath: '/signup'
+      preLoaderRoute: typeof authSignupIndexLazyImport
+      parentRoute: typeof rootRoute
+    }
     '/flashcards/new/': {
       id: '/flashcards/new/'
       path: '/flashcards/new'
@@ -256,6 +286,8 @@ export interface FileRoutesByFullPath {
   '/': typeof dashboardDashboardRouteWithChildren
   '/flashcards/$flashcardId': typeof FlashcardsFlashcardIdIndexRoute
   '/notes/$noteId': typeof NotesNoteIdIndexRoute
+  '/signin': typeof authSigninIndexLazyRoute
+  '/signup': typeof authSignupIndexLazyRoute
   '/flashcards/new': typeof FlashcardsNewIndexLazyRoute
   '/notes/new': typeof NotesNewIndexLazyRoute
   '/flashcards': typeof dashboardDashboardFlashcardsIndexRoute
@@ -269,6 +301,8 @@ export interface FileRoutesByTo {
   '/': typeof dashboardDashboardRouteWithChildren
   '/flashcards/$flashcardId': typeof FlashcardsFlashcardIdIndexRoute
   '/notes/$noteId': typeof NotesNoteIdIndexRoute
+  '/signin': typeof authSigninIndexLazyRoute
+  '/signup': typeof authSignupIndexLazyRoute
   '/flashcards/new': typeof FlashcardsNewIndexLazyRoute
   '/notes/new': typeof NotesNewIndexLazyRoute
   '/flashcards': typeof dashboardDashboardFlashcardsIndexRoute
@@ -284,6 +318,8 @@ export interface FileRoutesById {
   '/_dashboard': typeof dashboardDashboardRouteWithChildren
   '/flashcards/$flashcardId/': typeof FlashcardsFlashcardIdIndexRoute
   '/notes/$noteId/': typeof NotesNoteIdIndexRoute
+  '/signin/': typeof authSigninIndexLazyRoute
+  '/signup/': typeof authSignupIndexLazyRoute
   '/flashcards/new/': typeof FlashcardsNewIndexLazyRoute
   '/notes/new/': typeof NotesNewIndexLazyRoute
   '/_dashboard/flashcards/': typeof dashboardDashboardFlashcardsIndexRoute
@@ -299,6 +335,8 @@ export interface FileRouteTypes {
     | '/'
     | '/flashcards/$flashcardId'
     | '/notes/$noteId'
+    | '/signin'
+    | '/signup'
     | '/flashcards/new'
     | '/notes/new'
     | '/flashcards'
@@ -311,6 +349,8 @@ export interface FileRouteTypes {
     | '/'
     | '/flashcards/$flashcardId'
     | '/notes/$noteId'
+    | '/signin'
+    | '/signup'
     | '/flashcards/new'
     | '/notes/new'
     | '/flashcards'
@@ -324,6 +364,8 @@ export interface FileRouteTypes {
     | '/_dashboard'
     | '/flashcards/$flashcardId/'
     | '/notes/$noteId/'
+    | '/signin/'
+    | '/signup/'
     | '/flashcards/new/'
     | '/notes/new/'
     | '/_dashboard/flashcards/'
@@ -339,6 +381,8 @@ export interface RootRouteChildren {
   dashboardRoute: typeof dashboardRouteWithChildren
   FlashcardsFlashcardIdIndexRoute: typeof FlashcardsFlashcardIdIndexRoute
   NotesNoteIdIndexRoute: typeof NotesNoteIdIndexRoute
+  authSigninIndexLazyRoute: typeof authSigninIndexLazyRoute
+  authSignupIndexLazyRoute: typeof authSignupIndexLazyRoute
   FlashcardsNewIndexLazyRoute: typeof FlashcardsNewIndexLazyRoute
   NotesNewIndexLazyRoute: typeof NotesNewIndexLazyRoute
 }
@@ -348,6 +392,8 @@ const rootRouteChildren: RootRouteChildren = {
   dashboardRoute: dashboardRouteWithChildren,
   FlashcardsFlashcardIdIndexRoute: FlashcardsFlashcardIdIndexRoute,
   NotesNoteIdIndexRoute: NotesNoteIdIndexRoute,
+  authSigninIndexLazyRoute: authSigninIndexLazyRoute,
+  authSignupIndexLazyRoute: authSignupIndexLazyRoute,
   FlashcardsNewIndexLazyRoute: FlashcardsNewIndexLazyRoute,
   NotesNewIndexLazyRoute: NotesNewIndexLazyRoute,
 }
@@ -368,6 +414,8 @@ export const routeTree = rootRoute
         "/",
         "/flashcards/$flashcardId/",
         "/notes/$noteId/",
+        "/signin/",
+        "/signup/",
         "/flashcards/new/",
         "/notes/new/"
       ]
@@ -394,6 +442,12 @@ export const routeTree = rootRoute
     },
     "/notes/$noteId/": {
       "filePath": "notes/$noteId/index.tsx"
+    },
+    "/signin/": {
+      "filePath": "(auth)/signin/index.lazy.tsx"
+    },
+    "/signup/": {
+      "filePath": "(auth)/signup/index.lazy.tsx"
     },
     "/flashcards/new/": {
       "filePath": "flashcards/new/index.lazy.tsx"

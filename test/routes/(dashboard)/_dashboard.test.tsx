@@ -3,16 +3,16 @@ import { screen } from '@testing-library/react'
 import { createRoute } from '@tanstack/react-router'
 import { renderWithContext } from '../../customRender.tsx'
 
-import { LayoutComponent } from '$/routes/(dashboard)/_dashboard.tsx'
+import { Component } from '$/routes/(dashboard)/_dashboard.tsx'
 
 vi.mock('$/cmps/Sidebar', () => ({
   Sidebar: () => <div data-testid='sidebar'>Sidebar</div>
 }))
 
-describe('LayoutComponent', () => {
+describe('Component', () => {
   it('renders the Sidebar and Outlet correctly', () => {
     renderWithContext(
-      LayoutComponent,
+      Component,
       indexRoute => {
         const ChildRoute = createRoute({
           getParentRoute: () => indexRoute,

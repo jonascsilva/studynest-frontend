@@ -4,10 +4,10 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { createLazyFileRoute, useNavigate } from '@tanstack/react-router'
 
 const Route = createLazyFileRoute('/notes/new/')({
-  component: Index
+  component: Component
 })
 
-function Index() {
+function Component() {
   const navigate = useNavigate()
   const queryClient = useQueryClient()
 
@@ -24,4 +24,4 @@ function Index() {
   return <Note mutation={mutation} />
 }
 
-export { Route, Index }
+export { Route, Component }

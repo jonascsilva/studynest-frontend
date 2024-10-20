@@ -3,11 +3,11 @@ import { Alert, AlertIcon, Heading } from '@chakra-ui/react'
 
 import classes from './index.module.scss'
 
-export const Route = createLazyFileRoute('/(dashboard)/_dashboard/dashboard/')({
-  component: Index
+const Route = createLazyFileRoute('/(dashboard)/_dashboard/dashboard/')({
+  component: Component
 })
 
-function Index() {
+function Component() {
   return (
     <div className={classes.container}>
       <Heading className={classes.heading}>
@@ -25,3 +25,5 @@ function Index() {
     </div>
   )
 }
+
+export { Route, Component }

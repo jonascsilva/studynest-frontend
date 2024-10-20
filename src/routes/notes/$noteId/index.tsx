@@ -4,14 +4,14 @@ import { useMutation, useSuspenseQuery, useQueryClient } from '@tanstack/react-q
 import { updateNote } from '$/query/notes'
 import { Note } from '$/cmps/Note'
 
-export const Route = createFileRoute('/notes/$noteId/')({
+const Route = createFileRoute('/notes/$noteId/')({
   loader: ({ context: { queryClient }, params: { noteId } }) => {
     return queryClient.ensureQueryData(noteQueryOptions(noteId))
   },
-  component: Index
+  component: Component
 })
 
-function Index() {
+function Component() {
   const { noteId } = useParams({ from: '/notes/$noteId/' })
   const { data: note } = useSuspenseQuery(noteQueryOptions(noteId))
   const queryClient = useQueryClient()
@@ -27,4 +27,4 @@ function Index() {
   return <Note mutation={mutation} note={note} />
 }
 
-export { Index }
+export { Route, Component }

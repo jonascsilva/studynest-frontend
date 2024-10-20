@@ -4,10 +4,10 @@ import classes from './_dashboard.module.scss'
 import { Sidebar } from '$/cmps/Sidebar'
 
 const Route = createFileRoute('/(dashboard)/_dashboard')({
-  component: LayoutComponent
+  component: Component
 })
 
-function LayoutComponent() {
+function Component() {
   return (
     <div className={classes.container}>
       <Sidebar />
@@ -18,4 +18,4 @@ function LayoutComponent() {
   )
 }
 
-export { Route, LayoutComponent }
+export { Route, Component }

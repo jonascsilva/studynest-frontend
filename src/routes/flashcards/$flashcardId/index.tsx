@@ -8,10 +8,10 @@ const Route = createFileRoute('/flashcards/$flashcardId/')({
   loader: ({ context: { queryClient }, params: { flashcardId } }) => {
     return queryClient.ensureQueryData(flashcardQueryOptions(flashcardId))
   },
-  component: Index
+  component: Component
 })
 
-function Index() {
+function Component() {
   const { flashcardId } = useParams({ from: '/flashcards/$flashcardId/' })
   const queryClient = useQueryClient()
   const { data: flashcard } = useSuspenseQuery(flashcardQueryOptions(flashcardId))
@@ -27,4 +27,4 @@ function Index() {
   return <Flashcard mutation={mutation} flashcard={flashcard} />
 }
 
-export { Route, Index }
+export { Route, Component }

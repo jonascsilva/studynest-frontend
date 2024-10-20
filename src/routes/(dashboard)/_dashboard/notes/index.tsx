@@ -19,12 +19,12 @@ import { notesQueryOptions } from '$/query/notesOptions'
 import { useMutation, useQueryClient, useSuspenseQuery } from '@tanstack/react-query'
 import { deleteNote } from '$/query/notes'
 
-export const Route = createFileRoute('/(dashboard)/_dashboard/notes/')({
+const Route = createFileRoute('/(dashboard)/_dashboard/notes/')({
   loader: ({ context: { queryClient } }) => queryClient.ensureQueryData(notesQueryOptions),
-  component: Index
+  component: Component
 })
 
-function Index() {
+function Component() {
   const { data: notes } = useSuspenseQuery(notesQueryOptions)
   const queryClient = useQueryClient()
   const mutation = useMutation({
@@ -86,3 +86,5 @@ function Index() {
     </div>
   )
 }
+
+export { Route, Component }

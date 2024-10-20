@@ -64,4 +64,4 @@ const deleteNote = async (noteId: string): Promise<NoteType> => {
 
 export type { NoteType }
 
-export { fetchNotes, fetchNote, updateNote, createNote, deleteNote }
+export { fetchNote, fetchNotes, updateNote, createNote, deleteNote }

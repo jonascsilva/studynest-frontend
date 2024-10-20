@@ -4,10 +4,10 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { createLazyFileRoute, useNavigate } from '@tanstack/react-router'
 
 const Route = createLazyFileRoute('/flashcards/new/')({
-  component: Index
+  component: Component
 })
 
-function Index() {
+function Component() {
   const navigate = useNavigate()
   const queryClient = useQueryClient()
   const mutation = useMutation({
@@ -23,4 +23,4 @@ function Index() {
   return <Flashcard mutation={mutation} />
 }
 
-export { Route, Index }
+export { Route, Component }
