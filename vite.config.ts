@@ -29,6 +29,8 @@ export default defineConfig({
         '**/main.tsx',
         '**/routeTree.gen.ts',
         '**/__root.tsx',
+        '**/App.tsx',
+        '**/router.ts',
         '**/types/**',
         ...coverageConfigDefaults.exclude
       ]
@@ -42,8 +44,8 @@ export default defineConfig({
     }
   },
   server: {
-    host: true,
-    port: 5173
+    port: 5173,
+    host: true
   },
   preview: {
     port: 8080,

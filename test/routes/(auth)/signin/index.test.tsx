@@ -1,14 +1,31 @@
 import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { describe, it, expect, vi, beforeEach, afterEach, MockInstance } from 'vitest'
-import { Component } from '$/routes/(auth)/signin/index.lazy'
+import { describe, it, expect, vi, beforeEach, Mock, afterEach } from 'vitest'
 import { renderWithContext } from '../../../customRender'
+import { Component } from '$/routes/(auth)/signin/index.tsx'
+import { useAuth } from '$/hooks/useAuth'
+
+vi.mock('$/hooks/useAuth', () => ({
+  useAuth: vi.fn()
+}))
+
+vi.mock(import('@tanstack/react-router'), async importOriginal => {
+  const actual = await importOriginal()
+
+  return {
+    ...actual,
+    redirect: vi.fn()
+  }
+})
 
 describe('SignIn Component', () => {
-  let consoleLogSpy: MockInstance
+  const loginMock = vi.fn()
 
   beforeEach(() => {
-    consoleLogSpy = vi.spyOn(console, 'log').mockImplementation(() => {})
+    ;(useAuth as Mock).mockReturnValue({
+      login: loginMock,
+      isAuthenticated: false
+    })
   })
 
   afterEach(() => {
@@ -57,11 +74,9 @@ describe('SignIn Component', () => {
 
     await user.click(screen.getByRole('button', { name: /entrar/i }))
 
-    expect(consoleLogSpy).toHaveBeenCalledWith({
+    expect(loginMock).toHaveBeenCalledWith({
       email: 'test@example.com',
       password: '123456'
     })
-
-    consoleLogSpy.mockRestore()
   })
 })

@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import {
+  generateFlashcard,
   fetchFlashcard,
   fetchFlashcards,
   updateFlashcard,
@@ -15,6 +16,25 @@ beforeEach(() => {
 const mockFetch = vi.fn()
 
 vi.stubGlobal('fetch', mockFetch)
+
+describe('generateFlashcard', () => {
+  it('should generate a flashcard', async () => {
+    const mockFlashcard: Partial<FlashcardType> = {
+      id: '123',
+      answer: 'Test Flashcard',
+      userId: 'user1'
+    }
+
+    mockFetch.mockResolvedValueOnce({
+      json: async () => mockFlashcard
+    })
+
+    const result = await generateFlashcard()
+
+    expect(fetch).toHaveBeenCalledWith('https://fakeurl.com/flashcards/ai')
+    expect(result).toEqual(mockFlashcard)
+  })
+})
 
 describe('fetchFlashcard', () => {
   it('should fetch a flashcard by ID', async () => {

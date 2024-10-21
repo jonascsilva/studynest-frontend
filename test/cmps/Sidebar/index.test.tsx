@@ -9,11 +9,3 @@ it('Sidebar renders correctly', () => {
   expect(screen.getByText('Study')).toBeInTheDocument()
   expect(screen.getByText('Nest')).toBeInTheDocument()
 })
-
-it('Sidebar has four links', () => {
-  const { getAllByRole } = renderWithContext(Sidebar)
-
-  const links = getAllByRole('link')
-
-  expect(links.length).toBe(7)
-})

@@ -1,16 +1,19 @@
 import { Link } from '@tanstack/react-router'
 import { Button, Heading } from '@chakra-ui/react'
 import classes from './index.module.scss'
+import { useAuth } from '$/hooks/useAuth'
 
 function Sidebar() {
+  const { logout } = useAuth()
+
   return (
     <aside className={classes.sidebar}>
-      <Link to='/dashboard' className={classes.link}>
+      <Link to='/home' className={classes.link}>
         <Heading className={classes.heading} size='2xl'>
           Study<span>Nest</span>
         </Heading>
       </Link>
-      <Link to='/dashboard' className={classes.link}>
+      <Link to='/home' className={classes.link}>
         <Button width='100%'>Dashboard</Button>
       </Link>
       <Link to='/notes' className={classes.link}>
@@ -25,9 +28,9 @@ function Sidebar() {
       <Link to='/settings' className={classes.link}>
         <Button width='100%'>Configurações</Button>
       </Link>
-      <Link to='/' className={classes.link}>
-        <Button width='100%'>Sair</Button>
-      </Link>
+      <Button width='100%' onClick={logout}>
+        Sair
+      </Button>
     </aside>
   )
 }

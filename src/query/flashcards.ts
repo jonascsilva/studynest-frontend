@@ -1,13 +1,17 @@
 import { FlashcardType } from '$/types'
 
-const generateFlashcard = async (): Promise<FlashcardType> => {  
-  const flashcard = fetch(`${import.meta.env.VITE_BACKEND_URL}/flashcards/ai`).then(res => res.json())
+const generateFlashcard = async (): Promise<Partial<FlashcardType>> => {
+  const flashcard = fetch(`${import.meta.env.VITE_BACKEND_URL}/flashcards/ai`).then(res =>
+    res.json()
+  )
 
   return flashcard
 }
 
 const fetchFlashcard = async (flashcardId: string): Promise<FlashcardType> => {
-  const flashcard = fetch(`${import.meta.env.VITE_BACKEND_URL}/flashcards/${flashcardId}`).then(res => res.json())
+  const flashcard = fetch(`${import.meta.env.VITE_BACKEND_URL}/flashcards/${flashcardId}`).then(
+    res => res.json()
+  )
 
   return flashcard
 }
