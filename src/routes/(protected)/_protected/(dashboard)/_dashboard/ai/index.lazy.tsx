@@ -23,9 +23,9 @@ function Component() {
 
       const { answer, question, subject } = data
 
-      setAnswer(answer!)
-      setQuestion(question!)
-      setSubject(subject!)
+      setAnswer(answer)
+      setQuestion(question)
+      setSubject(subject)
     }
   })
 

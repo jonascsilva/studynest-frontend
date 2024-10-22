@@ -68,7 +68,7 @@ function Component() {
                   }
                 })}
               />
-              <FormErrorMessage>{errors.email && errors.email.message}</FormErrorMessage>
+              <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
             </FormControl>
 
             <FormControl id='password' isInvalid={!!errors.password}>
@@ -81,7 +81,7 @@ function Component() {
                   minLength: { value: 6, message: 'O comprimento mínimo é 6' }
                 })}
               />
-              <FormErrorMessage>{errors.password && errors.password.message}</FormErrorMessage>
+              <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
             </FormControl>
 
             <Button mt={4} colorScheme='blue' isLoading={isSubmitting} type='submit' width='100%'>

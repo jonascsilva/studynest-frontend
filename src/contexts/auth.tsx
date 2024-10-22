@@ -1,6 +1,6 @@
 import { signin } from '$/query/auth'
 import { userCredentials } from '$/types'
-import { useCallback, createContext, useState, useEffect } from 'react'
+import { useCallback, createContext, useState, useEffect, PropsWithChildren } from 'react'
 import { jwtDecode } from 'jwt-decode'
 
 type DecodedToken = {
@@ -61,7 +61,7 @@ function getUserFromToken(newToken: string) {
   return user
 }
 
-function AuthProvider({ children }: { children: React.ReactNode }) {
+function AuthProvider({ children }: PropsWithChildren) {
   const [token, setToken] = useState<string | null>(getStoredToken())
   const [user, setUser] = useState<User | null>(getStoredUser())
   const isAuthenticated = !!token

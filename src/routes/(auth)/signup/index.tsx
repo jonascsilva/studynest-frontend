@@ -55,7 +55,7 @@ function Component() {
                   required: 'Nome é obrigatório'
                 })}
               />
-              <FormErrorMessage>{errors.name && errors.name.message}</FormErrorMessage>
+              <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
             </FormControl>
 
             <FormControl id='email' isInvalid={!!errors.email}>
@@ -71,7 +71,7 @@ function Component() {
                   }
                 })}
               />
-              <FormErrorMessage>{errors.email && errors.email.message}</FormErrorMessage>
+              <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
             </FormControl>
 
             <FormControl id='password' isInvalid={!!errors.password}>
@@ -84,7 +84,7 @@ function Component() {
                   minLength: { value: 6, message: 'O comprimento mínimo é 6' }
                 })}
               />
-              <FormErrorMessage>{errors.password && errors.password.message}</FormErrorMessage>
+              <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
             </FormControl>
 
             <FormControl id='confirmPassword' isInvalid={!!errors.confirmPassword}>
@@ -97,9 +97,7 @@ function Component() {
                   validate: value => value === watch('password') || 'As senhas não correspondem'
                 })}
               />
-              <FormErrorMessage>
-                {errors.confirmPassword && errors.confirmPassword.message}
-              </FormErrorMessage>
+              <FormErrorMessage>{errors.confirmPassword?.message}</FormErrorMessage>
             </FormControl>
 
             <Button mt={4} colorScheme='blue' isLoading={isSubmitting} type='submit' width='100%'>
