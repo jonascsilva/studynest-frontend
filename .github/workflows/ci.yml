@@ -2,7 +2,7 @@ name: Main pipeline
 
 on:
   pull_request:
-    branches: [$default-branch]
+    types: [opened, synchronize, reopened]
 
 jobs:
   test:
