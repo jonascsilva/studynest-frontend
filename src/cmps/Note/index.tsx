@@ -16,7 +16,7 @@ type Props = {
   note?: NoteType
 }
 
-const Note = ({ mutation, note }: Props) => {
+function Note({ mutation, note }: Readonly<Props>) {
   const { register, handleSubmit } = useForm<Inputs>()
 
   const onSubmit: SubmitHandler<Inputs> = data => {

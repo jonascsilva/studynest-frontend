@@ -1,29 +1,13 @@
 import { StrictMode } from 'react'
 import ReactDOM from 'react-dom/client'
-import { RouterProvider, createRouter } from '@tanstack/react-router'
+
 import { QueryClientProvider } from '@tanstack/react-query'
 import { ChakraBaseProvider } from '@chakra-ui/react'
 
-import { routeTree } from './routeTree.gen'
-
-import { queryClient } from './lib/query'
-import { theme } from './lib/theme'
-import './main.scss'
-
-const router = createRouter({
-  routeTree,
-  defaultPreload: 'intent',
-  defaultPreloadStaleTime: 0,
-  context: {
-    queryClient
-  }
-})
-
-declare module '@tanstack/react-router' {
-  interface Register {
-    router: typeof router
-  }
-}
+import { queryClient } from '$/lib/query'
+import { theme } from '$/lib/theme'
+import { AuthProvider } from '$/contexts/auth'
+import { App } from '$/App'
 
 const rootElement = document.getElementById('root')!
 
@@ -34,11 +18,11 @@ if (!rootElement.innerHTML) {
     <StrictMode>
       <ChakraBaseProvider theme={theme}>
         <QueryClientProvider client={queryClient}>
-          <RouterProvider router={router} />
+          <AuthProvider>
+            <App />
+          </AuthProvider>
         </QueryClientProvider>
       </ChakraBaseProvider>
     </StrictMode>
   )
 }
-
-export { router }

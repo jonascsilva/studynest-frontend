@@ -18,4 +18,9 @@ type NoteType = {
   updatedAt: string
 }
 
-export type { FlashcardType, NoteType }
+type userCredentials = {
+  email: string
+  password: string
+}
+
+export type { FlashcardType, NoteType, userCredentials }

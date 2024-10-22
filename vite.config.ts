@@ -1,6 +1,6 @@
 /// <reference types="vitest" />
 
-import { defineConfig } from 'vite'
+import { coverageConfigDefaults, defineConfig } from 'vitest/config'
 import react from '@vitejs/plugin-react-swc'
 import { TanStackRouterVite } from '@tanstack/router-plugin/vite'
 import path from 'path'
@@ -15,7 +15,26 @@ export default defineConfig({
   plugins: [TanStackRouterVite(), react()],
   test: {
     environment: 'jsdom',
-    setupFiles: ['./vitest.setup.ts']
+    setupFiles: ['./vitest.setup.ts'],
+    browser: {
+      name: 'firefox',
+      headless: false,
+      viewport: {
+        height: 1080,
+        width: 1920
+      }
+    },
+    coverage: {
+      exclude: [
+        '**/main.tsx',
+        '**/routeTree.gen.ts',
+        '**/__root.tsx',
+        '**/App.tsx',
+        '**/router.ts',
+        '**/types/**',
+        ...coverageConfigDefaults.exclude
+      ]
+    }
   },
   css: {
     preprocessorOptions: {
@@ -25,8 +44,8 @@ export default defineConfig({
     }
   },
   server: {
-    host: true,
-    port: 5173
+    port: 5173,
+    host: true
   },
   preview: {
     port: 8080,

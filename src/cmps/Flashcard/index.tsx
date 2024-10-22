@@ -16,7 +16,7 @@ type Props = {
   flashcard?: FlashcardType
 }
 
-const Flashcard = ({ mutation, flashcard }: Props) => {
+function Flashcard({ mutation, flashcard }: Readonly<Props>) {
   const { register, handleSubmit } = useForm<Inputs>()
 
   const onSubmit: SubmitHandler<Inputs> = data => {

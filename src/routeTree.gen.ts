@@ -13,29 +13,41 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as dashboardDashboardImport } from './routes/(dashboard)/_dashboard'
-import { Route as NotesNoteIdIndexImport } from './routes/notes/$noteId/index'
-import { Route as FlashcardsFlashcardIdIndexImport } from './routes/flashcards/$flashcardId/index'
-import { Route as dashboardDashboardNotesIndexImport } from './routes/(dashboard)/_dashboard/notes/index'
-import { Route as dashboardDashboardFlashcardsIndexImport } from './routes/(dashboard)/_dashboard/flashcards/index'
+import { Route as protectedProtectedImport } from './routes/(protected)/_protected'
+import { Route as authSignupIndexImport } from './routes/(auth)/signup/index'
+import { Route as authSigninIndexImport } from './routes/(auth)/signin/index'
+import { Route as protectedProtecteddashboardDashboardImport } from './routes/(protected)/_protected/(dashboard)/_dashboard'
+import { Route as protectedProtectedNotesNoteIdIndexImport } from './routes/(protected)/_protected/notes/$noteId/index'
+import { Route as protectedProtectedFlashcardsFlashcardIdIndexImport } from './routes/(protected)/_protected/flashcards/$flashcardId/index'
+import { Route as protectedProtecteddashboardDashboardNotesIndexImport } from './routes/(protected)/_protected/(dashboard)/_dashboard/notes/index'
+import { Route as protectedProtecteddashboardDashboardFlashcardsIndexImport } from './routes/(protected)/_protected/(dashboard)/_dashboard/flashcards/index'
 
 // Create Virtual Routes
 
-const dashboardImport = createFileRoute('/(dashboard)')()
+const protectedImport = createFileRoute('/(protected)')()
 const IndexLazyImport = createFileRoute('/')()
-const NotesNewIndexLazyImport = createFileRoute('/notes/new/')()
-const FlashcardsNewIndexLazyImport = createFileRoute('/flashcards/new/')()
-const dashboardDashboardSettingsIndexLazyImport = createFileRoute(
-  '/(dashboard)/_dashboard/settings/',
+const protectedProtecteddashboardImport = createFileRoute(
+  '/(protected)/_protected/(dashboard)',
 )()
-const dashboardDashboardDashboardIndexLazyImport = createFileRoute(
-  '/(dashboard)/_dashboard/dashboard/',
+const protectedProtectedNotesNewIndexLazyImport = createFileRoute(
+  '/(protected)/_protected/notes/new/',
+)()
+const protectedProtectedFlashcardsNewIndexLazyImport = createFileRoute(
+  '/(protected)/_protected/flashcards/new/',
+)()
+const protectedProtecteddashboardDashboardSettingsIndexLazyImport =
+  createFileRoute('/(protected)/_protected/(dashboard)/_dashboard/settings/')()
+const protectedProtecteddashboardDashboardHomeIndexLazyImport = createFileRoute(
+  '/(protected)/_protected/(dashboard)/_dashboard/home/',
+)()
+const protectedProtecteddashboardDashboardAiIndexLazyImport = createFileRoute(
+  '/(protected)/_protected/(dashboard)/_dashboard/ai/',
 )()
 
 // Create/Update Routes
 
-const dashboardRoute = dashboardImport.update({
-  id: '/(dashboard)',
+const protectedRoute = protectedImport.update({
+  id: '/(protected)',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -44,71 +56,115 @@ const IndexLazyRoute = IndexLazyImport.update({
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
 
-const dashboardDashboardRoute = dashboardDashboardImport.update({
-  id: '/_dashboard',
-  getParentRoute: () => dashboardRoute,
+const protectedProtectedRoute = protectedProtectedImport.update({
+  id: '/_protected',
+  getParentRoute: () => protectedRoute,
 } as any)
 
-const NotesNewIndexLazyRoute = NotesNewIndexLazyImport.update({
-  path: '/notes/new/',
-  getParentRoute: () => rootRoute,
-} as any).lazy(() =>
-  import('./routes/notes/new/index.lazy').then((d) => d.Route),
-)
-
-const FlashcardsNewIndexLazyRoute = FlashcardsNewIndexLazyImport.update({
-  path: '/flashcards/new/',
-  getParentRoute: () => rootRoute,
-} as any).lazy(() =>
-  import('./routes/flashcards/new/index.lazy').then((d) => d.Route),
-)
-
-const NotesNoteIdIndexRoute = NotesNoteIdIndexImport.update({
-  path: '/notes/$noteId/',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const FlashcardsFlashcardIdIndexRoute = FlashcardsFlashcardIdIndexImport.update(
-  {
-    path: '/flashcards/$flashcardId/',
-    getParentRoute: () => rootRoute,
-  } as any,
-)
-
-const dashboardDashboardSettingsIndexLazyRoute =
-  dashboardDashboardSettingsIndexLazyImport
-    .update({
-      path: '/settings/',
-      getParentRoute: () => dashboardDashboardRoute,
-    } as any)
-    .lazy(() =>
-      import('./routes/(dashboard)/_dashboard/settings/index.lazy').then(
-        (d) => d.Route,
-      ),
-    )
-
-const dashboardDashboardDashboardIndexLazyRoute =
-  dashboardDashboardDashboardIndexLazyImport
-    .update({
-      path: '/dashboard/',
-      getParentRoute: () => dashboardDashboardRoute,
-    } as any)
-    .lazy(() =>
-      import('./routes/(dashboard)/_dashboard/dashboard/index.lazy').then(
-        (d) => d.Route,
-      ),
-    )
-
-const dashboardDashboardNotesIndexRoute =
-  dashboardDashboardNotesIndexImport.update({
-    path: '/notes/',
-    getParentRoute: () => dashboardDashboardRoute,
+const protectedProtecteddashboardRoute =
+  protectedProtecteddashboardImport.update({
+    id: '/(dashboard)',
+    getParentRoute: () => protectedProtectedRoute,
   } as any)
 
-const dashboardDashboardFlashcardsIndexRoute =
-  dashboardDashboardFlashcardsIndexImport.update({
+const authSignupIndexRoute = authSignupIndexImport.update({
+  path: '/signup/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const authSigninIndexRoute = authSigninIndexImport.update({
+  path: '/signin/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const protectedProtecteddashboardDashboardRoute =
+  protectedProtecteddashboardDashboardImport.update({
+    id: '/_dashboard',
+    getParentRoute: () => protectedProtecteddashboardRoute,
+  } as any)
+
+const protectedProtectedNotesNewIndexLazyRoute =
+  protectedProtectedNotesNewIndexLazyImport
+    .update({
+      path: '/notes/new/',
+      getParentRoute: () => protectedProtectedRoute,
+    } as any)
+    .lazy(() =>
+      import('./routes/(protected)/_protected/notes/new/index.lazy').then(
+        (d) => d.Route,
+      ),
+    )
+
+const protectedProtectedFlashcardsNewIndexLazyRoute =
+  protectedProtectedFlashcardsNewIndexLazyImport
+    .update({
+      path: '/flashcards/new/',
+      getParentRoute: () => protectedProtectedRoute,
+    } as any)
+    .lazy(() =>
+      import('./routes/(protected)/_protected/flashcards/new/index.lazy').then(
+        (d) => d.Route,
+      ),
+    )
+
+const protectedProtectedNotesNoteIdIndexRoute =
+  protectedProtectedNotesNoteIdIndexImport.update({
+    path: '/notes/$noteId/',
+    getParentRoute: () => protectedProtectedRoute,
+  } as any)
+
+const protectedProtectedFlashcardsFlashcardIdIndexRoute =
+  protectedProtectedFlashcardsFlashcardIdIndexImport.update({
+    path: '/flashcards/$flashcardId/',
+    getParentRoute: () => protectedProtectedRoute,
+  } as any)
+
+const protectedProtecteddashboardDashboardSettingsIndexLazyRoute =
+  protectedProtecteddashboardDashboardSettingsIndexLazyImport
+    .update({
+      path: '/settings/',
+      getParentRoute: () => protectedProtecteddashboardDashboardRoute,
+    } as any)
+    .lazy(() =>
+      import(
+        './routes/(protected)/_protected/(dashboard)/_dashboard/settings/index.lazy'
+      ).then((d) => d.Route),
+    )
+
+const protectedProtecteddashboardDashboardHomeIndexLazyRoute =
+  protectedProtecteddashboardDashboardHomeIndexLazyImport
+    .update({
+      path: '/home/',
+      getParentRoute: () => protectedProtecteddashboardDashboardRoute,
+    } as any)
+    .lazy(() =>
+      import(
+        './routes/(protected)/_protected/(dashboard)/_dashboard/home/index.lazy'
+      ).then((d) => d.Route),
+    )
+
+const protectedProtecteddashboardDashboardAiIndexLazyRoute =
+  protectedProtecteddashboardDashboardAiIndexLazyImport
+    .update({
+      path: '/ai/',
+      getParentRoute: () => protectedProtecteddashboardDashboardRoute,
+    } as any)
+    .lazy(() =>
+      import(
+        './routes/(protected)/_protected/(dashboard)/_dashboard/ai/index.lazy'
+      ).then((d) => d.Route),
+    )
+
+const protectedProtecteddashboardDashboardNotesIndexRoute =
+  protectedProtecteddashboardDashboardNotesIndexImport.update({
+    path: '/notes/',
+    getParentRoute: () => protectedProtecteddashboardDashboardRoute,
+  } as any)
+
+const protectedProtecteddashboardDashboardFlashcardsIndexRoute =
+  protectedProtecteddashboardDashboardFlashcardsIndexImport.update({
     path: '/flashcards/',
-    getParentRoute: () => dashboardDashboardRoute,
+    getParentRoute: () => protectedProtecteddashboardDashboardRoute,
   } as any)
 
 // Populate the FileRoutesByPath interface
@@ -122,205 +178,304 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexLazyImport
       parentRoute: typeof rootRoute
     }
-    '/(dashboard)': {
+    '/(protected)': {
       id: '/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof dashboardImport
+      preLoaderRoute: typeof protectedImport
       parentRoute: typeof rootRoute
     }
-    '/(dashboard)/_dashboard': {
-      id: '/_dashboard'
+    '/(protected)/_protected': {
+      id: '/_protected'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof dashboardDashboardImport
-      parentRoute: typeof dashboardRoute
+      preLoaderRoute: typeof protectedProtectedImport
+      parentRoute: typeof protectedRoute
     }
-    '/flashcards/$flashcardId/': {
-      id: '/flashcards/$flashcardId/'
+    '/(auth)/signin/': {
+      id: '/signin/'
+      path: '/signin'
+      fullPath: '/signin'
+      preLoaderRoute: typeof authSigninIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/(auth)/signup/': {
+      id: '/signup/'
+      path: '/signup'
+      fullPath: '/signup'
+      preLoaderRoute: typeof authSignupIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/(protected)/_protected/(dashboard)': {
+      id: '/_protected/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof protectedProtecteddashboardImport
+      parentRoute: typeof protectedProtectedImport
+    }
+    '/(protected)/_protected/(dashboard)/_dashboard': {
+      id: '/_protected/_dashboard'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof protectedProtecteddashboardDashboardImport
+      parentRoute: typeof protectedProtecteddashboardRoute
+    }
+    '/(protected)/_protected/flashcards/$flashcardId/': {
+      id: '/_protected/flashcards/$flashcardId/'
       path: '/flashcards/$flashcardId'
       fullPath: '/flashcards/$flashcardId'
-      preLoaderRoute: typeof FlashcardsFlashcardIdIndexImport
-      parentRoute: typeof rootRoute
+      preLoaderRoute: typeof protectedProtectedFlashcardsFlashcardIdIndexImport
+      parentRoute: typeof protectedProtectedImport
     }
-    '/notes/$noteId/': {
-      id: '/notes/$noteId/'
+    '/(protected)/_protected/notes/$noteId/': {
+      id: '/_protected/notes/$noteId/'
       path: '/notes/$noteId'
       fullPath: '/notes/$noteId'
-      preLoaderRoute: typeof NotesNoteIdIndexImport
-      parentRoute: typeof rootRoute
+      preLoaderRoute: typeof protectedProtectedNotesNoteIdIndexImport
+      parentRoute: typeof protectedProtectedImport
     }
-    '/flashcards/new/': {
-      id: '/flashcards/new/'
+    '/(protected)/_protected/flashcards/new/': {
+      id: '/_protected/flashcards/new/'
       path: '/flashcards/new'
       fullPath: '/flashcards/new'
-      preLoaderRoute: typeof FlashcardsNewIndexLazyImport
-      parentRoute: typeof rootRoute
+      preLoaderRoute: typeof protectedProtectedFlashcardsNewIndexLazyImport
+      parentRoute: typeof protectedProtectedImport
     }
-    '/notes/new/': {
-      id: '/notes/new/'
+    '/(protected)/_protected/notes/new/': {
+      id: '/_protected/notes/new/'
       path: '/notes/new'
       fullPath: '/notes/new'
-      preLoaderRoute: typeof NotesNewIndexLazyImport
-      parentRoute: typeof rootRoute
+      preLoaderRoute: typeof protectedProtectedNotesNewIndexLazyImport
+      parentRoute: typeof protectedProtectedImport
     }
-    '/(dashboard)/_dashboard/flashcards/': {
-      id: '/_dashboard/flashcards/'
+    '/(protected)/_protected/(dashboard)/_dashboard/flashcards/': {
+      id: '/_protected/_dashboard/flashcards/'
       path: '/flashcards'
       fullPath: '/flashcards'
-      preLoaderRoute: typeof dashboardDashboardFlashcardsIndexImport
-      parentRoute: typeof dashboardDashboardImport
+      preLoaderRoute: typeof protectedProtecteddashboardDashboardFlashcardsIndexImport
+      parentRoute: typeof protectedProtecteddashboardDashboardImport
     }
-    '/(dashboard)/_dashboard/notes/': {
-      id: '/_dashboard/notes/'
+    '/(protected)/_protected/(dashboard)/_dashboard/notes/': {
+      id: '/_protected/_dashboard/notes/'
       path: '/notes'
       fullPath: '/notes'
-      preLoaderRoute: typeof dashboardDashboardNotesIndexImport
-      parentRoute: typeof dashboardDashboardImport
+      preLoaderRoute: typeof protectedProtecteddashboardDashboardNotesIndexImport
+      parentRoute: typeof protectedProtecteddashboardDashboardImport
     }
-    '/(dashboard)/_dashboard/dashboard/': {
-      id: '/_dashboard/dashboard/'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof dashboardDashboardDashboardIndexLazyImport
-      parentRoute: typeof dashboardDashboardImport
+    '/(protected)/_protected/(dashboard)/_dashboard/ai/': {
+      id: '/_protected/_dashboard/ai/'
+      path: '/ai'
+      fullPath: '/ai'
+      preLoaderRoute: typeof protectedProtecteddashboardDashboardAiIndexLazyImport
+      parentRoute: typeof protectedProtecteddashboardDashboardImport
     }
-    '/(dashboard)/_dashboard/settings/': {
-      id: '/_dashboard/settings/'
+    '/(protected)/_protected/(dashboard)/_dashboard/home/': {
+      id: '/_protected/_dashboard/home/'
+      path: '/home'
+      fullPath: '/home'
+      preLoaderRoute: typeof protectedProtecteddashboardDashboardHomeIndexLazyImport
+      parentRoute: typeof protectedProtecteddashboardDashboardImport
+    }
+    '/(protected)/_protected/(dashboard)/_dashboard/settings/': {
+      id: '/_protected/_dashboard/settings/'
       path: '/settings'
       fullPath: '/settings'
-      preLoaderRoute: typeof dashboardDashboardSettingsIndexLazyImport
-      parentRoute: typeof dashboardDashboardImport
+      preLoaderRoute: typeof protectedProtecteddashboardDashboardSettingsIndexLazyImport
+      parentRoute: typeof protectedProtecteddashboardDashboardImport
     }
   }
 }
 
 // Create and export the route tree
 
-interface dashboardDashboardRouteChildren {
-  dashboardDashboardFlashcardsIndexRoute: typeof dashboardDashboardFlashcardsIndexRoute
-  dashboardDashboardNotesIndexRoute: typeof dashboardDashboardNotesIndexRoute
-  dashboardDashboardDashboardIndexLazyRoute: typeof dashboardDashboardDashboardIndexLazyRoute
-  dashboardDashboardSettingsIndexLazyRoute: typeof dashboardDashboardSettingsIndexLazyRoute
+interface protectedProtecteddashboardDashboardRouteChildren {
+  protectedProtecteddashboardDashboardFlashcardsIndexRoute: typeof protectedProtecteddashboardDashboardFlashcardsIndexRoute
+  protectedProtecteddashboardDashboardNotesIndexRoute: typeof protectedProtecteddashboardDashboardNotesIndexRoute
+  protectedProtecteddashboardDashboardAiIndexLazyRoute: typeof protectedProtecteddashboardDashboardAiIndexLazyRoute
+  protectedProtecteddashboardDashboardHomeIndexLazyRoute: typeof protectedProtecteddashboardDashboardHomeIndexLazyRoute
+  protectedProtecteddashboardDashboardSettingsIndexLazyRoute: typeof protectedProtecteddashboardDashboardSettingsIndexLazyRoute
 }
 
-const dashboardDashboardRouteChildren: dashboardDashboardRouteChildren = {
-  dashboardDashboardFlashcardsIndexRoute:
-    dashboardDashboardFlashcardsIndexRoute,
-  dashboardDashboardNotesIndexRoute: dashboardDashboardNotesIndexRoute,
-  dashboardDashboardDashboardIndexLazyRoute:
-    dashboardDashboardDashboardIndexLazyRoute,
-  dashboardDashboardSettingsIndexLazyRoute:
-    dashboardDashboardSettingsIndexLazyRoute,
+const protectedProtecteddashboardDashboardRouteChildren: protectedProtecteddashboardDashboardRouteChildren =
+  {
+    protectedProtecteddashboardDashboardFlashcardsIndexRoute:
+      protectedProtecteddashboardDashboardFlashcardsIndexRoute,
+    protectedProtecteddashboardDashboardNotesIndexRoute:
+      protectedProtecteddashboardDashboardNotesIndexRoute,
+    protectedProtecteddashboardDashboardAiIndexLazyRoute:
+      protectedProtecteddashboardDashboardAiIndexLazyRoute,
+    protectedProtecteddashboardDashboardHomeIndexLazyRoute:
+      protectedProtecteddashboardDashboardHomeIndexLazyRoute,
+    protectedProtecteddashboardDashboardSettingsIndexLazyRoute:
+      protectedProtecteddashboardDashboardSettingsIndexLazyRoute,
+  }
+
+const protectedProtecteddashboardDashboardRouteWithChildren =
+  protectedProtecteddashboardDashboardRoute._addFileChildren(
+    protectedProtecteddashboardDashboardRouteChildren,
+  )
+
+interface protectedProtecteddashboardRouteChildren {
+  protectedProtecteddashboardDashboardRoute: typeof protectedProtecteddashboardDashboardRouteWithChildren
 }
 
-const dashboardDashboardRouteWithChildren =
-  dashboardDashboardRoute._addFileChildren(dashboardDashboardRouteChildren)
+const protectedProtecteddashboardRouteChildren: protectedProtecteddashboardRouteChildren =
+  {
+    protectedProtecteddashboardDashboardRoute:
+      protectedProtecteddashboardDashboardRouteWithChildren,
+  }
 
-interface dashboardRouteChildren {
-  dashboardDashboardRoute: typeof dashboardDashboardRouteWithChildren
+const protectedProtecteddashboardRouteWithChildren =
+  protectedProtecteddashboardRoute._addFileChildren(
+    protectedProtecteddashboardRouteChildren,
+  )
+
+interface protectedProtectedRouteChildren {
+  protectedProtecteddashboardRoute: typeof protectedProtecteddashboardRouteWithChildren
+  protectedProtectedFlashcardsFlashcardIdIndexRoute: typeof protectedProtectedFlashcardsFlashcardIdIndexRoute
+  protectedProtectedNotesNoteIdIndexRoute: typeof protectedProtectedNotesNoteIdIndexRoute
+  protectedProtectedFlashcardsNewIndexLazyRoute: typeof protectedProtectedFlashcardsNewIndexLazyRoute
+  protectedProtectedNotesNewIndexLazyRoute: typeof protectedProtectedNotesNewIndexLazyRoute
 }
 
-const dashboardRouteChildren: dashboardRouteChildren = {
-  dashboardDashboardRoute: dashboardDashboardRouteWithChildren,
+const protectedProtectedRouteChildren: protectedProtectedRouteChildren = {
+  protectedProtecteddashboardRoute:
+    protectedProtecteddashboardRouteWithChildren,
+  protectedProtectedFlashcardsFlashcardIdIndexRoute:
+    protectedProtectedFlashcardsFlashcardIdIndexRoute,
+  protectedProtectedNotesNoteIdIndexRoute:
+    protectedProtectedNotesNoteIdIndexRoute,
+  protectedProtectedFlashcardsNewIndexLazyRoute:
+    protectedProtectedFlashcardsNewIndexLazyRoute,
+  protectedProtectedNotesNewIndexLazyRoute:
+    protectedProtectedNotesNewIndexLazyRoute,
 }
 
-const dashboardRouteWithChildren = dashboardRoute._addFileChildren(
-  dashboardRouteChildren,
+const protectedProtectedRouteWithChildren =
+  protectedProtectedRoute._addFileChildren(protectedProtectedRouteChildren)
+
+interface protectedRouteChildren {
+  protectedProtectedRoute: typeof protectedProtectedRouteWithChildren
+}
+
+const protectedRouteChildren: protectedRouteChildren = {
+  protectedProtectedRoute: protectedProtectedRouteWithChildren,
+}
+
+const protectedRouteWithChildren = protectedRoute._addFileChildren(
+  protectedRouteChildren,
 )
 
 export interface FileRoutesByFullPath {
-  '/': typeof dashboardDashboardRouteWithChildren
-  '/flashcards/$flashcardId': typeof FlashcardsFlashcardIdIndexRoute
-  '/notes/$noteId': typeof NotesNoteIdIndexRoute
-  '/flashcards/new': typeof FlashcardsNewIndexLazyRoute
-  '/notes/new': typeof NotesNewIndexLazyRoute
-  '/flashcards': typeof dashboardDashboardFlashcardsIndexRoute
-  '/notes': typeof dashboardDashboardNotesIndexRoute
-  '/dashboard': typeof dashboardDashboardDashboardIndexLazyRoute
-  '/settings': typeof dashboardDashboardSettingsIndexLazyRoute
+  '/': typeof protectedProtecteddashboardDashboardRouteWithChildren
+  '/signin': typeof authSigninIndexRoute
+  '/signup': typeof authSignupIndexRoute
+  '/flashcards/$flashcardId': typeof protectedProtectedFlashcardsFlashcardIdIndexRoute
+  '/notes/$noteId': typeof protectedProtectedNotesNoteIdIndexRoute
+  '/flashcards/new': typeof protectedProtectedFlashcardsNewIndexLazyRoute
+  '/notes/new': typeof protectedProtectedNotesNewIndexLazyRoute
+  '/flashcards': typeof protectedProtecteddashboardDashboardFlashcardsIndexRoute
+  '/notes': typeof protectedProtecteddashboardDashboardNotesIndexRoute
+  '/ai': typeof protectedProtecteddashboardDashboardAiIndexLazyRoute
+  '/home': typeof protectedProtecteddashboardDashboardHomeIndexLazyRoute
+  '/settings': typeof protectedProtecteddashboardDashboardSettingsIndexLazyRoute
 }
 
 export interface FileRoutesByTo {
-  '/': typeof dashboardDashboardRouteWithChildren
-  '/flashcards/$flashcardId': typeof FlashcardsFlashcardIdIndexRoute
-  '/notes/$noteId': typeof NotesNoteIdIndexRoute
-  '/flashcards/new': typeof FlashcardsNewIndexLazyRoute
-  '/notes/new': typeof NotesNewIndexLazyRoute
-  '/flashcards': typeof dashboardDashboardFlashcardsIndexRoute
-  '/notes': typeof dashboardDashboardNotesIndexRoute
-  '/dashboard': typeof dashboardDashboardDashboardIndexLazyRoute
-  '/settings': typeof dashboardDashboardSettingsIndexLazyRoute
+  '/': typeof protectedProtecteddashboardDashboardRouteWithChildren
+  '/signin': typeof authSigninIndexRoute
+  '/signup': typeof authSignupIndexRoute
+  '/flashcards/$flashcardId': typeof protectedProtectedFlashcardsFlashcardIdIndexRoute
+  '/notes/$noteId': typeof protectedProtectedNotesNoteIdIndexRoute
+  '/flashcards/new': typeof protectedProtectedFlashcardsNewIndexLazyRoute
+  '/notes/new': typeof protectedProtectedNotesNewIndexLazyRoute
+  '/flashcards': typeof protectedProtecteddashboardDashboardFlashcardsIndexRoute
+  '/notes': typeof protectedProtecteddashboardDashboardNotesIndexRoute
+  '/ai': typeof protectedProtecteddashboardDashboardAiIndexLazyRoute
+  '/home': typeof protectedProtecteddashboardDashboardHomeIndexLazyRoute
+  '/settings': typeof protectedProtecteddashboardDashboardSettingsIndexLazyRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
-  '/': typeof dashboardRouteWithChildren
-  '/_dashboard': typeof dashboardDashboardRouteWithChildren
-  '/flashcards/$flashcardId/': typeof FlashcardsFlashcardIdIndexRoute
-  '/notes/$noteId/': typeof NotesNoteIdIndexRoute
-  '/flashcards/new/': typeof FlashcardsNewIndexLazyRoute
-  '/notes/new/': typeof NotesNewIndexLazyRoute
-  '/_dashboard/flashcards/': typeof dashboardDashboardFlashcardsIndexRoute
-  '/_dashboard/notes/': typeof dashboardDashboardNotesIndexRoute
-  '/_dashboard/dashboard/': typeof dashboardDashboardDashboardIndexLazyRoute
-  '/_dashboard/settings/': typeof dashboardDashboardSettingsIndexLazyRoute
+  '/': typeof protectedRouteWithChildren
+  '/_protected': typeof protectedProtectedRouteWithChildren
+  '/signin/': typeof authSigninIndexRoute
+  '/signup/': typeof authSignupIndexRoute
+  '/_protected/': typeof protectedProtecteddashboardRouteWithChildren
+  '/_protected/_dashboard': typeof protectedProtecteddashboardDashboardRouteWithChildren
+  '/_protected/flashcards/$flashcardId/': typeof protectedProtectedFlashcardsFlashcardIdIndexRoute
+  '/_protected/notes/$noteId/': typeof protectedProtectedNotesNoteIdIndexRoute
+  '/_protected/flashcards/new/': typeof protectedProtectedFlashcardsNewIndexLazyRoute
+  '/_protected/notes/new/': typeof protectedProtectedNotesNewIndexLazyRoute
+  '/_protected/_dashboard/flashcards/': typeof protectedProtecteddashboardDashboardFlashcardsIndexRoute
+  '/_protected/_dashboard/notes/': typeof protectedProtecteddashboardDashboardNotesIndexRoute
+  '/_protected/_dashboard/ai/': typeof protectedProtecteddashboardDashboardAiIndexLazyRoute
+  '/_protected/_dashboard/home/': typeof protectedProtecteddashboardDashboardHomeIndexLazyRoute
+  '/_protected/_dashboard/settings/': typeof protectedProtecteddashboardDashboardSettingsIndexLazyRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/signin'
+    | '/signup'
     | '/flashcards/$flashcardId'
     | '/notes/$noteId'
     | '/flashcards/new'
     | '/notes/new'
     | '/flashcards'
     | '/notes'
-    | '/dashboard'
+    | '/ai'
+    | '/home'
     | '/settings'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/signin'
+    | '/signup'
     | '/flashcards/$flashcardId'
     | '/notes/$noteId'
     | '/flashcards/new'
     | '/notes/new'
     | '/flashcards'
     | '/notes'
-    | '/dashboard'
+    | '/ai'
+    | '/home'
     | '/settings'
   id:
     | '__root__'
     | '/'
-    | '/_dashboard'
-    | '/flashcards/$flashcardId/'
-    | '/notes/$noteId/'
-    | '/flashcards/new/'
-    | '/notes/new/'
-    | '/_dashboard/flashcards/'
-    | '/_dashboard/notes/'
-    | '/_dashboard/dashboard/'
-    | '/_dashboard/settings/'
+    | '/_protected'
+    | '/signin/'
+    | '/signup/'
+    | '/_protected/'
+    | '/_protected/_dashboard'
+    | '/_protected/flashcards/$flashcardId/'
+    | '/_protected/notes/$noteId/'
+    | '/_protected/flashcards/new/'
+    | '/_protected/notes/new/'
+    | '/_protected/_dashboard/flashcards/'
+    | '/_protected/_dashboard/notes/'
+    | '/_protected/_dashboard/ai/'
+    | '/_protected/_dashboard/home/'
+    | '/_protected/_dashboard/settings/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
-  dashboardRoute: typeof dashboardRouteWithChildren
-  FlashcardsFlashcardIdIndexRoute: typeof FlashcardsFlashcardIdIndexRoute
-  NotesNoteIdIndexRoute: typeof NotesNoteIdIndexRoute
-  FlashcardsNewIndexLazyRoute: typeof FlashcardsNewIndexLazyRoute
-  NotesNewIndexLazyRoute: typeof NotesNewIndexLazyRoute
+  protectedRoute: typeof protectedRouteWithChildren
+  authSigninIndexRoute: typeof authSigninIndexRoute
+  authSignupIndexRoute: typeof authSignupIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
-  dashboardRoute: dashboardRouteWithChildren,
-  FlashcardsFlashcardIdIndexRoute: FlashcardsFlashcardIdIndexRoute,
-  NotesNoteIdIndexRoute: NotesNoteIdIndexRoute,
-  FlashcardsNewIndexLazyRoute: FlashcardsNewIndexLazyRoute,
-  NotesNewIndexLazyRoute: NotesNewIndexLazyRoute,
+  protectedRoute: protectedRouteWithChildren,
+  authSigninIndexRoute: authSigninIndexRoute,
+  authSignupIndexRoute: authSignupIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -337,55 +492,86 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/",
-        "/flashcards/$flashcardId/",
-        "/notes/$noteId/",
-        "/flashcards/new/",
-        "/notes/new/"
+        "/signin/",
+        "/signup/"
       ]
     },
     "/": {
-      "filePath": "(dashboard)",
+      "filePath": "(protected)",
       "children": [
-        "/_dashboard"
+        "/_protected"
       ]
     },
-    "/_dashboard": {
-      "filePath": "(dashboard)/_dashboard.tsx",
+    "/_protected": {
+      "filePath": "(protected)/_protected.tsx",
       "parent": "/",
       "children": [
-        "/_dashboard/flashcards/",
-        "/_dashboard/notes/",
-        "/_dashboard/dashboard/",
-        "/_dashboard/settings/"
+        "/_protected/",
+        "/_protected/flashcards/$flashcardId/",
+        "/_protected/notes/$noteId/",
+        "/_protected/flashcards/new/",
+        "/_protected/notes/new/"
       ]
     },
-    "/flashcards/$flashcardId/": {
-      "filePath": "flashcards/$flashcardId/index.tsx"
+    "/signin/": {
+      "filePath": "(auth)/signin/index.tsx"
     },
-    "/notes/$noteId/": {
-      "filePath": "notes/$noteId/index.tsx"
+    "/signup/": {
+      "filePath": "(auth)/signup/index.tsx"
     },
-    "/flashcards/new/": {
-      "filePath": "flashcards/new/index.lazy.tsx"
+    "/_protected/": {
+      "filePath": "(protected)/_protected/(dashboard)",
+      "parent": "/_protected",
+      "children": [
+        "/_protected/_dashboard"
+      ]
     },
-    "/notes/new/": {
-      "filePath": "notes/new/index.lazy.tsx"
+    "/_protected/_dashboard": {
+      "filePath": "(protected)/_protected/(dashboard)/_dashboard.tsx",
+      "parent": "/_protected/",
+      "children": [
+        "/_protected/_dashboard/flashcards/",
+        "/_protected/_dashboard/notes/",
+        "/_protected/_dashboard/ai/",
+        "/_protected/_dashboard/home/",
+        "/_protected/_dashboard/settings/"
+      ]
     },
-    "/_dashboard/flashcards/": {
-      "filePath": "(dashboard)/_dashboard/flashcards/index.tsx",
-      "parent": "/_dashboard"
+    "/_protected/flashcards/$flashcardId/": {
+      "filePath": "(protected)/_protected/flashcards/$flashcardId/index.tsx",
+      "parent": "/_protected"
     },
-    "/_dashboard/notes/": {
-      "filePath": "(dashboard)/_dashboard/notes/index.tsx",
-      "parent": "/_dashboard"
+    "/_protected/notes/$noteId/": {
+      "filePath": "(protected)/_protected/notes/$noteId/index.tsx",
+      "parent": "/_protected"
     },
-    "/_dashboard/dashboard/": {
-      "filePath": "(dashboard)/_dashboard/dashboard/index.lazy.tsx",
-      "parent": "/_dashboard"
+    "/_protected/flashcards/new/": {
+      "filePath": "(protected)/_protected/flashcards/new/index.lazy.tsx",
+      "parent": "/_protected"
     },
-    "/_dashboard/settings/": {
-      "filePath": "(dashboard)/_dashboard/settings/index.lazy.tsx",
-      "parent": "/_dashboard"
+    "/_protected/notes/new/": {
+      "filePath": "(protected)/_protected/notes/new/index.lazy.tsx",
+      "parent": "/_protected"
+    },
+    "/_protected/_dashboard/flashcards/": {
+      "filePath": "(protected)/_protected/(dashboard)/_dashboard/flashcards/index.tsx",
+      "parent": "/_protected/_dashboard"
+    },
+    "/_protected/_dashboard/notes/": {
+      "filePath": "(protected)/_protected/(dashboard)/_dashboard/notes/index.tsx",
+      "parent": "/_protected/_dashboard"
+    },
+    "/_protected/_dashboard/ai/": {
+      "filePath": "(protected)/_protected/(dashboard)/_dashboard/ai/index.lazy.tsx",
+      "parent": "/_protected/_dashboard"
+    },
+    "/_protected/_dashboard/home/": {
+      "filePath": "(protected)/_protected/(dashboard)/_dashboard/home/index.lazy.tsx",
+      "parent": "/_protected/_dashboard"
+    },
+    "/_protected/_dashboard/settings/": {
+      "filePath": "(protected)/_protected/(dashboard)/_dashboard/settings/index.lazy.tsx",
+      "parent": "/_protected/_dashboard"
     }
   }
 }

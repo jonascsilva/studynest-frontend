@@ -2,12 +2,15 @@ import { createLazyFileRoute, Link } from '@tanstack/react-router'
 import { Button, Heading, Text } from '@chakra-ui/react'
 
 import classes from './index.module.scss'
+import { useState } from 'react'
 
-export const Route = createLazyFileRoute('/')({
-  component: Index
+const Route = createLazyFileRoute('/')({
+  component: Component
 })
 
-function Index() {
+function Component() {
+  const [user] = useState(null)
+
   return (
     <div>
       <nav className={classes.navbar}>
@@ -17,11 +20,26 @@ function Index() {
           </Heading>
         </div>
         <div className={classes.rightContainer}>
-          <Link to='/dashboard'>
-            <Button colorScheme='blue' size='lg'>
-              Dashboard
-            </Button>
-          </Link>
+          {user ? (
+            <Link to='/home'>
+              <Button colorScheme='blue' size='lg'>
+                Dashboard
+              </Button>
+            </Link>
+          ) : (
+            <>
+              <Link to='/signin'>
+                <Button colorScheme='green' size='lg'>
+                  Entrar
+                </Button>
+              </Link>
+              <Link to='/signup'>
+                <Button colorScheme='blue' size='lg'>
+                  Criar conta
+                </Button>
+              </Link>
+            </>
+          )}
         </div>
       </nav>
       <main className={classes.main}>
@@ -38,3 +56,5 @@ function Index() {
     </div>
   )
 }
+
+export { Route, Component }

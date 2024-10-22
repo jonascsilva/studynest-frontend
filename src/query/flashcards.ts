@@ -1,15 +1,25 @@
 import { FlashcardType } from '$/types'
 
-const baseUrl = 'http://localhost:3000'
+type FlashcardInput = { question: string; answer: string; subject: string }
+
+const generateFlashcard = async (): Promise<FlashcardInput> => {
+  const flashcard = fetch(`${import.meta.env.VITE_BACKEND_URL}/flashcards/ai`).then(res =>
+    res.json()
+  )
+
+  return flashcard
+}
 
 const fetchFlashcard = async (flashcardId: string): Promise<FlashcardType> => {
-  const flashcard = fetch(`${baseUrl}/flashcards/${flashcardId}`).then(res => res.json())
+  const flashcard = fetch(`${import.meta.env.VITE_BACKEND_URL}/flashcards/${flashcardId}`).then(
+    res => res.json()
+  )
 
   return flashcard
 }
 
 const fetchFlashcards = async (): Promise<FlashcardType[]> => {
-  const flashcards = fetch(`${baseUrl}/flashcards`).then(res => res.json())
+  const flashcards = fetch(`${import.meta.env.VITE_BACKEND_URL}/flashcards`).then(res => res.json())
 
   return flashcards
 }
@@ -19,7 +29,7 @@ const updateFlashcard =
   async (data: Partial<FlashcardType>): Promise<FlashcardType> => {
     const body = JSON.stringify(data)
 
-    const response = await fetch(`${baseUrl}/flashcards/${flashcardId}`, {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/flashcards/${flashcardId}`, {
       method: 'PATCH',
       headers: {
         Accept: 'application/json',
@@ -33,12 +43,12 @@ const updateFlashcard =
     return result
   }
 
-const createflashcard = async (data: Partial<FlashcardType>): Promise<FlashcardType> => {
+const createFlashcard = async (data: Partial<FlashcardType>): Promise<FlashcardType> => {
   data.userId = '33b2c1a4-98d8-439b-a032-7b4388f7ab94'
 
   const body = JSON.stringify(data)
 
-  const response = await fetch(`${baseUrl}/flashcards`, {
+  const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/flashcards`, {
     method: 'POST',
     headers: {
       Accept: 'application/json',
@@ -52,8 +62,8 @@ const createflashcard = async (data: Partial<FlashcardType>): Promise<FlashcardT
   return result
 }
 
-const deleteflashcard = async (flashcardId: string): Promise<FlashcardType> => {
-  const response = await fetch(`${baseUrl}/flashcards/${flashcardId}`, {
+const deleteFlashcard = async (flashcardId: string): Promise<FlashcardType> => {
+  const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/flashcards/${flashcardId}`, {
     method: 'DELETE'
   })
 
@@ -64,4 +74,11 @@ const deleteflashcard = async (flashcardId: string): Promise<FlashcardType> => {
 
 export type { FlashcardType }
 
-export { fetchFlashcards, fetchFlashcard, updateFlashcard, createflashcard, deleteflashcard }
+export {
+  generateFlashcard,
+  fetchFlashcards,
+  fetchFlashcard,
+  updateFlashcard,
+  createFlashcard,
+  deleteFlashcard
+}
