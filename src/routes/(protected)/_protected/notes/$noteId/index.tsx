@@ -12,7 +12,7 @@ const Route = createFileRoute('/(protected)/_protected/notes/$noteId/')({
 })
 
 function Component() {
-  const { noteId } = useParams({ from: '/notes/$noteId/' })
+  const { noteId } = useParams({ from: '/_protected/notes/$noteId/' })
   const { data: note } = useSuspenseQuery(noteQueryOptions(noteId))
   const queryClient = useQueryClient()
 

@@ -21,7 +21,7 @@ function Component() {
         </div>
         <div className={classes.rightContainer}>
           {user ? (
-            <Link to='/dashboard'>
+            <Link to='/home'>
               <Button colorScheme='blue' size='lg'>
                 Dashboard
               </Button>

@@ -12,7 +12,7 @@ const Route = createFileRoute('/(protected)/_protected/flashcards/$flashcardId/'
 })
 
 function Component() {
-  const { flashcardId } = useParams({ from: '/flashcards/$flashcardId/' })
+  const { flashcardId } = useParams({ from: '/_protected/flashcards/$flashcardId/' })
   const queryClient = useQueryClient()
   const { data: flashcard } = useSuspenseQuery(flashcardQueryOptions(flashcardId))
 
