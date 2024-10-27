@@ -6,10 +6,6 @@ COPY package*.json ./
 
 RUN npm install --ignore-scripts
 
-COPY . .
+EXPOSE 5173
 
-RUN npm run build
-
-EXPOSE 8080
-
-CMD ["npm", "run", "preview"]
+CMD ["npm", "run", "dev"]
