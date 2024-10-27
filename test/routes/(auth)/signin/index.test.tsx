@@ -1,31 +1,20 @@
 import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { describe, it, expect, vi, beforeEach, Mock, afterEach } from 'vitest'
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { renderWithContext } from '../../../customRender'
-import { Component } from '$/routes/(auth)/signin/index.tsx'
+import { Component } from '$/routes/(auth)/signin'
 import { useAuth } from '$/hooks/useAuth'
 
-vi.mock('$/hooks/useAuth', () => ({
-  useAuth: vi.fn()
-}))
-
-vi.mock(import('@tanstack/react-router'), async importOriginal => {
-  const actual = await importOriginal()
-
-  return {
-    ...actual,
-    redirect: vi.fn()
-  }
-})
+vi.mock('$/hooks/useAuth')
 
 describe('SignIn Component', () => {
   const loginMock = vi.fn()
 
   beforeEach(() => {
-    ;(useAuth as Mock).mockReturnValue({
+    vi.mocked(useAuth).mockReturnValue({
       login: loginMock,
       isAuthenticated: false
-    })
+    } as any)
   })
 
   afterEach(() => {

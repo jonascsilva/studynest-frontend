@@ -1,18 +1,16 @@
-import { expect, Mock, it, vi } from 'vitest'
+import { expect, it, vi } from 'vitest'
 import { Route } from '$/routes/(protected)/_protected/notes/$noteId'
 import { noteQueryOptions } from '$/query/notesOptions'
 import { queryClient } from '$/lib/query'
 
-vi.mock('$/query/notesOptions', () => ({
-  noteQueryOptions: vi.fn()
-}))
+vi.mock('$/query/notesOptions')
 
 it('Route loader fetches note data correctly', async () => {
   const noteMockId = '123'
 
   const mockNoteQueryOptions = { queryKey: ['notes', { noteId: noteMockId }], queryFn: vi.fn() }
 
-  ;(noteQueryOptions as Mock).mockReturnValue(mockNoteQueryOptions)
+  vi.mocked(noteQueryOptions).mockReturnValue(mockNoteQueryOptions as any)
 
   const ensureQueryDataMock = vi.fn().mockResolvedValue('noteMock')
 

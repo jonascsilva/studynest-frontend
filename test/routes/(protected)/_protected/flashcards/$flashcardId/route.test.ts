@@ -1,21 +1,19 @@
-import { expect, Mock, it, vi } from 'vitest'
+import { expect, it, vi } from 'vitest'
 import { Route } from '$/routes/(protected)/_protected/flashcards/$flashcardId'
 import { flashcardQueryOptions } from '$/query/flashcardsOptions'
 import { queryClient } from '$/lib/query'
 
-vi.mock('$/query/flashcardsOptions', () => ({
-  flashcardQueryOptions: vi.fn()
-}))
+vi.mock('$/query/flashcardsOptions')
 
 it('Route loader fetches flashcard data correctly', async () => {
   const flashcardMockId = '123'
 
-  const mockFlashcardQueryOptions = {
+  const flashcardQueryOptionsMock = {
     queryKey: ['flashcards', { flashcardId: flashcardMockId }],
     queryFn: vi.fn()
   }
 
-  ;(flashcardQueryOptions as Mock).mockReturnValue(mockFlashcardQueryOptions)
+  vi.mocked(flashcardQueryOptions).mockReturnValue(flashcardQueryOptionsMock as any)
 
   const ensureQueryDataMock = vi.fn().mockResolvedValue('flashcardMock')
 
@@ -33,6 +31,6 @@ it('Route loader fetches flashcard data correctly', async () => {
   const result = await Route.options.loader!(loaderParams as any)
 
   expect(flashcardQueryOptions).toHaveBeenCalledWith(flashcardMockId)
-  expect(ensureQueryDataMock).toHaveBeenCalledWith(mockFlashcardQueryOptions)
+  expect(ensureQueryDataMock).toHaveBeenCalledWith(flashcardQueryOptionsMock)
   expect(result).toBe('flashcardMock')
 })

@@ -1,24 +1,12 @@
 import { screen } from '@testing-library/react'
-import { expect, Mock, it, vi } from 'vitest'
+import { expect, it, vi } from 'vitest'
 import userEvent from '@testing-library/user-event'
-import { Component } from '$/routes/(protected)/_protected/flashcards/new/index.lazy'
-import { createFlashcard } from '$/query/flashcards'
-import { useNavigate } from '@tanstack/react-router'
+import { Route, Component } from '$/routes/(protected)/_protected/flashcards/new/index.lazy'
+import { createFlashcard, FlashcardType } from '$/query/flashcards'
 import { renderWithContext } from '../../../../../customRender'
 import { queryClient } from '$/lib/query'
 
-vi.mock('$/query/flashcards', () => ({
-  createFlashcard: vi.fn()
-}))
-
-vi.mock(import('@tanstack/react-router'), async importOriginal => {
-  const actual = await importOriginal()
-
-  return {
-    ...actual,
-    useNavigate: vi.fn()
-  }
-})
+vi.mock('$/query/flashcards')
 
 it('Index component submits a new flashcard and navigates on success', async () => {
   const user = userEvent.setup()
@@ -32,11 +20,11 @@ it('Index component submits a new flashcard and navigates on success', async () 
     answer: 'New Answer'
   }
 
-  ;(createFlashcard as Mock).mockResolvedValue(flashcardMock)
+  vi.mocked(createFlashcard).mockResolvedValue(flashcardMock as FlashcardType)
 
   const navigateMock = vi.fn()
 
-  ;(useNavigate as Mock).mockReturnValue(navigateMock)
+  Route.useNavigate = vi.fn().mockReturnValue(navigateMock)
 
   renderWithContext(Component)
 

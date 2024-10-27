@@ -1,6 +1,6 @@
 import { signin } from '$/query/auth'
 import { userCredentials } from '$/types'
-import { useCallback, createContext, useState, useEffect, PropsWithChildren } from 'react'
+import { useCallback, createContext, useState, PropsWithChildren, useMemo } from 'react'
 import { jwtDecode } from 'jwt-decode'
 
 type DecodedToken = {
@@ -15,88 +15,93 @@ type User = {
   name?: string
 }
 
-interface AuthContext {
+interface AuthContextType {
   isAuthenticated: boolean
   token: string | null
   user: User | null
-  login: (userCredentials: userCredentials) => Promise<void>
-  logout: () => Promise<void>
+  login: (credentials: userCredentials) => Promise<void>
+  logout: () => void
 }
 
-const AuthContext = createContext<AuthContext | null>(null)
+const AuthContext = createContext<AuthContextType | null>(null)
 
-const key = 'auth.token'
+const TOKEN_KEY = 'auth.token'
 
 function getStoredToken() {
-  return localStorage.getItem(key)
+  return localStorage.getItem(TOKEN_KEY)
 }
 
-function getStoredUser() {
-  const token = getStoredToken()
-
+function setStoredToken(token: string | null): void {
   if (token) {
-    return getUserFromToken(token)
-  }
-
-  return null
-}
-
-function setStoredToken(token: string | null) {
-  if (token) {
-    localStorage.setItem(key, token)
+    localStorage.setItem(TOKEN_KEY, token)
   } else {
-    localStorage.removeItem(key)
+    localStorage.removeItem(TOKEN_KEY)
   }
 }
 
-function getUserFromToken(newToken: string) {
-  const decodedToken = jwtDecode<DecodedToken>(newToken)
+function getUserFromToken(token: string): User | null {
+  try {
+    const decoded = jwtDecode<DecodedToken>(token)
 
-  const user = {
-    id: decodedToken.sub,
-    email: decodedToken.email,
-    name: decodedToken.name
+    return {
+      id: decoded.sub,
+      email: decoded.email,
+      name: decoded.name
+    }
+  } catch (error) {
+    console.error('Failed to decode token:', error)
+
+    return null
   }
-
-  return user
 }
 
-function AuthProvider({ children }: PropsWithChildren) {
+const AuthProvider = ({ children }: PropsWithChildren): JSX.Element => {
   const [token, setToken] = useState<string | null>(getStoredToken())
-  const [user, setUser] = useState<User | null>(getStoredUser())
-  const isAuthenticated = !!token
+  const [user, setUser] = useState<User | null>(() => {
+    const storedToken = getStoredToken()
 
-  const login = useCallback(async (userCredentials: userCredentials) => {
-    const response = await signin(userCredentials)
+    return storedToken ? getUserFromToken(storedToken) : null
+  })
+  const isAuthenticated = Boolean(token)
 
-    const token = response.access_token
+  const login = useCallback(async (credentials: userCredentials) => {
+    try {
+      const response = await signin(credentials)
+      const accessToken = response.access_token
 
-    const user = getUserFromToken(token)
+      if (!accessToken) {
+        throw new Error('No access token in response')
+      }
 
-    setUser(user)
-    setToken(token)
-    setStoredToken(token)
+      const userData = getUserFromToken(accessToken)
+
+      if (!userData) {
+        throw new Error('Invalid token')
+      }
+
+      setToken(accessToken)
+      setUser(userData)
+      setStoredToken(accessToken)
+    } catch (error) {
+      console.error('Login failed:', error)
+
+      throw error
+    }
   }, [])
 
-  const logout = useCallback(async () => {
+  const logout = useCallback(() => {
     setUser(null)
     setToken(null)
     setStoredToken(null)
   }, [])
 
-  useEffect(() => {
-    const user = getStoredUser()
-    const token = getStoredToken()
-
-    setUser(user)
-    setToken(token)
-  }, [])
-
-  return (
-    <AuthContext.Provider value={{ isAuthenticated, token, user, login, logout }}>
-      {children}
-    </AuthContext.Provider>
+  const contextValue = useMemo(
+    () => ({ isAuthenticated, token, user, login, logout }),
+    [isAuthenticated, token, user, login, logout]
   )
+
+  return <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
 }
 
 export { AuthProvider, AuthContext }
+export type { AuthContextType }

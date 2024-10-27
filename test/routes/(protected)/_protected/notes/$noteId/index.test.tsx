@@ -1,16 +1,13 @@
 import { screen } from '@testing-library/react'
-import { expect, it, vi, Mock } from 'vitest'
+import { expect, it, vi } from 'vitest'
 import userEvent from '@testing-library/user-event'
-import { Component } from '$/routes/(protected)/_protected/notes/$noteId'
+import { Route, Component } from '$/routes/(protected)/_protected/notes/$noteId'
 import { updateNote } from '$/query/notes'
-import { useParams } from '@tanstack/react-router'
 import { queryClient } from '$/lib/query'
-import { useSuspenseQuery } from '@tanstack/react-query'
+import { useSuspenseQuery, UseSuspenseQueryResult } from '@tanstack/react-query'
 import { renderWithContext } from '../../../../../customRender'
 
-vi.mock('$/query/notes', () => ({
-  updateNote: vi.fn()
-}))
+vi.mock('$/query/notes')
 
 vi.mock(import('@tanstack/react-query'), async importOriginal => {
   const actual = await importOriginal()
@@ -21,21 +18,12 @@ vi.mock(import('@tanstack/react-query'), async importOriginal => {
   }
 })
 
-vi.mock(import('@tanstack/react-router'), async importOriginal => {
-  const actual = await importOriginal()
-
-  return {
-    ...actual,
-    useParams: vi.fn()
-  }
-})
-
 it('Index component fetches and renders note data, and updates note on form submit', async () => {
   const user = userEvent.setup()
 
   const noteMockId = '123'
 
-  ;(useParams as Mock).mockReturnValue({ noteId: noteMockId })
+  Route.useParams = vi.fn().mockReturnValue({ noteId: noteMockId })
 
   const noteMock = {
     id: noteMockId,
@@ -44,9 +32,9 @@ it('Index component fetches and renders note data, and updates note on form subm
     content: 'Original Content'
   }
 
-  ;(useSuspenseQuery as Mock).mockReturnValue({
+  vi.mocked(useSuspenseQuery).mockReturnValue({
     data: noteMock
-  })
+  } as UseSuspenseQueryResult<unknown, unknown>)
 
   const mutationFnMock = vi.fn().mockResolvedValue({
     ...noteMock,
@@ -55,7 +43,7 @@ it('Index component fetches and renders note data, and updates note on form subm
     content: 'Updated Content'
   })
 
-  ;(updateNote as Mock).mockReturnValue(mutationFnMock)
+  vi.mocked(updateNote).mockReturnValue(mutationFnMock)
 
   vi.spyOn(queryClient, 'setQueryData')
 

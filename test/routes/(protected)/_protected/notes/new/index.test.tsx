@@ -1,24 +1,12 @@
 import { screen } from '@testing-library/react'
-import { expect, Mock, it, vi } from 'vitest'
+import { expect, it, vi } from 'vitest'
 import userEvent from '@testing-library/user-event'
-import { Component } from '$/routes/(protected)/_protected/notes/new/index.lazy'
-import { createNote } from '$/query/notes'
-import { useNavigate } from '@tanstack/react-router'
+import { Route, Component } from '$/routes/(protected)/_protected/notes/new/index.lazy'
+import { createNote, NoteType } from '$/query/notes'
 import { renderWithContext } from '../../../../../customRender'
 import { queryClient } from '$/lib/query'
 
-vi.mock('$/query/notes', () => ({
-  createNote: vi.fn()
-}))
-
-vi.mock(import('@tanstack/react-router'), async importOriginal => {
-  const actual = await importOriginal()
-
-  return {
-    ...actual,
-    useNavigate: vi.fn()
-  }
-})
+vi.mock('$/query/notes')
 
 it('Index component submits a new note and navigates on success', async () => {
   const user = userEvent.setup()
@@ -32,11 +20,11 @@ it('Index component submits a new note and navigates on success', async () => {
     content: 'New Content'
   }
 
-  ;(createNote as Mock).mockResolvedValue(noteMock)
+  vi.mocked(createNote).mockResolvedValue(noteMock as NoteType)
 
   const navigateMock = vi.fn()
 
-  ;(useNavigate as Mock).mockReturnValue(navigateMock)
+  Route.useNavigate = vi.fn().mockReturnValue(navigateMock)
 
   renderWithContext(Component)
 
