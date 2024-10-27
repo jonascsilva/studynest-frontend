@@ -6,7 +6,7 @@ import {
   updateFlashcard,
   createFlashcard,
   deleteFlashcard
-} from '$/query/flashcards.ts'
+} from '$/query/flashcards'
 import { FlashcardType } from '$/types'
 
 beforeEach(() => {

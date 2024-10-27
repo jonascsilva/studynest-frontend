@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { fetchNote, fetchNotes, updateNote, createNote, deleteNote } from '$/query/notes.ts'
+import { fetchNote, fetchNotes, updateNote, createNote, deleteNote } from '$/query/notes'
 import { NoteType } from '$/types'
 
 beforeEach(() => {

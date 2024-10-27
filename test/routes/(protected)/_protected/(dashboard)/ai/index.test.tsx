@@ -2,14 +2,12 @@ import { screen, waitFor } from '@testing-library/react'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import userEvent from '@testing-library/user-event'
 
-import { Component } from '$/routes/(protected)/_protected/(dashboard)/_dashboard/ai/index.lazy.tsx'
+import { Component } from '$/routes/(protected)/_protected/(dashboard)/_dashboard/ai/index.lazy'
 import { generateFlashcard } from '$/query/flashcards'
 
 import { renderWithContext } from '../../../../../customRender'
 
-vi.mock('$/query/flashcards', () => ({
-  generateFlashcard: vi.fn()
-}))
+vi.mock('$/query/flashcards')
 
 describe('AI Component', () => {
   const generateFlashcardMock = vi.mocked(generateFlashcard)

@@ -1,4 +1,4 @@
-import { createFileRoute, useParams } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router'
 import { noteQueryOptions } from '$/query/notesOptions'
 import { useMutation, useSuspenseQuery, useQueryClient } from '@tanstack/react-query'
 import { updateNote } from '$/query/notes'
@@ -12,7 +12,7 @@ const Route = createFileRoute('/(protected)/_protected/notes/$noteId/')({
 })
 
 function Component() {
-  const { noteId } = useParams({ from: '/_protected/notes/$noteId/' })
+  const { noteId } = Route.useParams()
   const { data: note } = useSuspenseQuery(noteQueryOptions(noteId))
   const queryClient = useQueryClient()
 

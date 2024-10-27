@@ -2,25 +2,25 @@ import { createLazyFileRoute, Link } from '@tanstack/react-router'
 import { Button, Heading, Text } from '@chakra-ui/react'
 
 import classes from './index.module.scss'
-import { useState } from 'react'
+import { useAuth } from '$/hooks/useAuth'
 
 const Route = createLazyFileRoute('/')({
   component: Component
 })
 
 function Component() {
-  const [user] = useState(null)
+  const auth = useAuth()
 
   return (
     <div>
       <nav className={classes.navbar}>
         <div className={classes.leftContainer}>
-          <Heading size='2xl' className={classes.heading}>
+          <Heading as='h1' size='2xl' className={classes.heading}>
             Study<span>Nest</span>
           </Heading>
         </div>
         <div className={classes.rightContainer}>
-          {user ? (
+          {auth.user ? (
             <Link to='/home'>
               <Button colorScheme='blue' size='lg'>
                 Dashboard

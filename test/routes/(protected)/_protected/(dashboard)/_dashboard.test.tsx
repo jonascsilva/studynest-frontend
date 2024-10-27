@@ -2,9 +2,9 @@ import { describe, it, expect, vi } from 'vitest'
 import { screen } from '@testing-library/react'
 import { createRoute } from '@tanstack/react-router'
 
-import { Component } from '$/routes/(protected)/_protected/(dashboard)/_dashboard.tsx'
+import { Component } from '$/routes/(protected)/_protected/(dashboard)/_dashboard'
 
-import { renderWithContext } from '../../../../customRender.tsx'
+import { renderWithContext } from '../../../../customRender'
 
 vi.mock('$/cmps/Sidebar', () => ({
   Sidebar: () => <div data-testid='sidebar'>Sidebar</div>
@@ -27,7 +27,6 @@ describe('Component', () => {
     )
 
     expect(screen.getByTestId('sidebar')).toBeInTheDocument()
-
     expect(screen.getByTestId('outlet-content')).toBeInTheDocument()
   })
 })

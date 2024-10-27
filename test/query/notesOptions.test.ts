@@ -1,11 +1,8 @@
-import { describe, it, expect, vi, Mock } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import { noteQueryOptions, notesQueryOptions } from '$/query/notesOptions'
-import { fetchNote, fetchNotes } from '$/query/notes'
+import { fetchNote, fetchNotes, NoteType } from '$/query/notes'
 
-vi.mock('$/query/notes', () => ({
-  fetchNote: vi.fn(),
-  fetchNotes: vi.fn()
-}))
+vi.mock('$/query/notes')
 
 describe('noteQueryOptions', () => {
   it('should return the correct query options for a note', async () => {
@@ -14,13 +11,11 @@ describe('noteQueryOptions', () => {
 
     expect(options.queryKey).toEqual(['notes', { noteId }])
 
-    const mockFetchNote = fetchNote as Mock
-
-    mockFetchNote.mockResolvedValueOnce({ id: noteId, content: 'Test Note' })
+    vi.mocked(fetchNote).mockResolvedValueOnce({ id: noteId, content: 'Test Note' } as NoteType)
 
     const result = await (options.queryFn as any)()
 
-    expect(mockFetchNote).toHaveBeenCalledWith(noteId)
+    expect(fetchNote).toHaveBeenCalledWith(noteId)
 
     expect(result).toEqual({ id: noteId, content: 'Test Note' })
   })
@@ -32,13 +27,11 @@ describe('notesQueryOptions', () => {
 
     expect(options.queryKey).toEqual(['notes'])
 
-    const mockFetchNotes = fetchNotes as Mock
-
-    mockFetchNotes.mockResolvedValueOnce([{ id: '1', content: 'Note 1' }])
+    vi.mocked(fetchNotes).mockResolvedValueOnce([{ id: '1', content: 'Note 1' } as NoteType])
 
     const result = await (options.queryFn as any)()
 
-    expect(mockFetchNotes).toHaveBeenCalled()
+    expect(fetchNotes).toHaveBeenCalled()
     expect(result).toEqual([{ id: '1', content: 'Note 1' }])
   })
 })

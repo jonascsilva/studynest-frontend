@@ -1,4 +1,4 @@
-import { createFileRoute, useParams } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router'
 import { flashcardQueryOptions } from '$/query/flashcardsOptions'
 import { useMutation, useQueryClient, useSuspenseQuery } from '@tanstack/react-query'
 import { updateFlashcard } from '$/query/flashcards'
@@ -12,7 +12,7 @@ const Route = createFileRoute('/(protected)/_protected/flashcards/$flashcardId/'
 })
 
 function Component() {
-  const { flashcardId } = useParams({ from: '/_protected/flashcards/$flashcardId/' })
+  const { flashcardId } = Route.useParams()
   const queryClient = useQueryClient()
   const { data: flashcard } = useSuspenseQuery(flashcardQueryOptions(flashcardId))
 

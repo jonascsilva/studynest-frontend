@@ -1,14 +1,14 @@
 import { Note } from '$/cmps/Note'
 import { createNote } from '$/query/notes'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { createLazyFileRoute, useNavigate } from '@tanstack/react-router'
+import { createLazyFileRoute } from '@tanstack/react-router'
 
 const Route = createLazyFileRoute('/(protected)/_protected/notes/new/')({
   component: Component
 })
 
 function Component() {
-  const navigate = useNavigate()
+  const navigate = Route.useNavigate()
   const queryClient = useQueryClient()
 
   const mutation = useMutation({

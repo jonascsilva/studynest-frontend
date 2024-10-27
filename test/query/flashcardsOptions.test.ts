@@ -1,11 +1,8 @@
-import { describe, it, expect, vi, Mock } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import { flashcardQueryOptions, flashcardsQueryOptions } from '$/query/flashcardsOptions'
-import { fetchFlashcard, fetchFlashcards } from '$/query/flashcards'
+import { fetchFlashcard, fetchFlashcards, FlashcardType } from '$/query/flashcards'
 
-vi.mock('$/query/flashcards', () => ({
-  fetchFlashcard: vi.fn(),
-  fetchFlashcards: vi.fn()
-}))
+vi.mock('$/query/flashcards')
 
 describe('flashcardQueryOptions', () => {
   it('should return the correct query options for a flashcard', async () => {
@@ -14,15 +11,16 @@ describe('flashcardQueryOptions', () => {
 
     expect(options.queryKey).toEqual(['flashcards', { flashcardId }])
 
-    const mockFetchFlashcard = fetchFlashcard as Mock
-
-    mockFetchFlashcard.mockResolvedValueOnce({ id: flashcardId, content: 'Test Flashcard' })
+    vi.mocked(fetchFlashcard).mockResolvedValueOnce({
+      id: flashcardId,
+      question: 'Test Flashcard'
+    } as FlashcardType)
 
     const result = await (options.queryFn as any)()
 
-    expect(mockFetchFlashcard).toHaveBeenCalledWith(flashcardId)
+    expect(fetchFlashcard).toHaveBeenCalledWith(flashcardId)
 
-    expect(result).toEqual({ id: flashcardId, content: 'Test Flashcard' })
+    expect(result).toEqual({ id: flashcardId, question: 'Test Flashcard' })
   })
 })
 
@@ -32,13 +30,13 @@ describe('flashcardsQueryOptions', () => {
 
     expect(options.queryKey).toEqual(['flashcards'])
 
-    const mockFetchFlashcards = fetchFlashcards as Mock
-
-    mockFetchFlashcards.mockResolvedValueOnce([{ id: '1', content: 'Flashcard 1' }])
+    vi.mocked(fetchFlashcards).mockResolvedValueOnce([
+      { id: '1', question: 'Flashcard 1' } as FlashcardType
+    ])
 
     const result = await (options.queryFn as any)()
 
-    expect(mockFetchFlashcards).toHaveBeenCalled()
-    expect(result).toEqual([{ id: '1', content: 'Flashcard 1' }])
+    expect(fetchFlashcard).toHaveBeenCalled()
+    expect(result).toEqual([{ id: '1', question: 'Flashcard 1' }])
   })
 })
