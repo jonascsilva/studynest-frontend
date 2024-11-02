@@ -31,7 +31,7 @@ describe('AI Component', () => {
     )
   })
 
-  it('renders the initial state correctly', () => {
+  it('should render the initial state correctly', () => {
     renderWithContext(Component)
 
     expect(screen.getByRole('button', { name: /gerar/i })).toBeInTheDocument()
@@ -41,7 +41,7 @@ describe('AI Component', () => {
     expect(screen.queryByText('Loading...')).not.toBeInTheDocument()
   })
 
-  it('shows the spinner during mutation and displays data after success', async () => {
+  it('should show the spinner during mutation and display data after success', async () => {
     const user = userEvent.setup()
 
     renderWithContext(Component)
@@ -60,7 +60,7 @@ describe('AI Component', () => {
     expect(screen.getByText('This is the generated answer.')).toBeInTheDocument()
   })
 
-  it('handles mutation errors gracefully', async () => {
+  it('should handle mutation errors gracefully', async () => {
     const user = userEvent.setup()
 
     generateFlashcardMock.mockImplementation(

@@ -9,7 +9,7 @@ describe('Protected Route', () => {
     vi.clearAllMocks()
   })
 
-  it('renders Outlet', async () => {
+  it('should render the Outlet', async () => {
     renderWithContext(
       Component,
       indexRoute => {

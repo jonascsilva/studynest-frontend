@@ -4,7 +4,7 @@ import { renderWithContext } from '../../customRender'
 import { Note } from '$/cmps/Note'
 import userEvent from '@testing-library/user-event'
 
-it('Note renders correctly with provided note data', () => {
+it('should render correctly with provided note data', () => {
   const mutationMock: any = {
     mutate: vi.fn(),
     isPending: false
@@ -23,7 +23,7 @@ it('Note renders correctly with provided note data', () => {
   expect(screen.getByDisplayValue('Test Content')).toBeInTheDocument()
 })
 
-it('Note submit calls mutation.mutate with form data', async () => {
+it('should call mutation.mutate with form data', async () => {
   const user = userEvent.setup()
 
   const mutationMock: any = {
@@ -55,7 +55,7 @@ it('Note submit calls mutation.mutate with form data', async () => {
   })
 })
 
-it('Submit and Back buttons are disabled when mutation is pending', () => {
+it('should disable Submit and Back buttons when mutation is pending', () => {
   const mutationMock: any = {
     mutate: vi.fn(),
     isPending: true
@@ -70,7 +70,7 @@ it('Submit and Back buttons are disabled when mutation is pending', () => {
   expect(backButton).toBeDisabled()
 })
 
-it('Submit button shows loading state when mutation is pending', () => {
+it('should show Submit button loading state when mutation is pending', () => {
   const mutationMock: any = {
     mutate: vi.fn(),
     isPending: true

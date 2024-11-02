@@ -15,7 +15,7 @@ describe('SignUp Component', () => {
     vi.restoreAllMocks()
   })
 
-  it('renders the sign-up form', () => {
+  it('should render the sign-up form', () => {
     renderWithContext(Component)
 
     expect(screen.getByLabelText('Nome')).toBeInTheDocument()
@@ -25,7 +25,7 @@ describe('SignUp Component', () => {
     expect(screen.getByRole('button', { name: /cadastre-se/i })).toBeInTheDocument()
   })
 
-  it('shows validation errors when submitting empty form', async () => {
+  it('should show validation errors when submitting empty form', async () => {
     const user = userEvent.setup()
 
     renderWithContext(Component)
@@ -38,7 +38,7 @@ describe('SignUp Component', () => {
     expect(screen.getByText('Confirmação de senha é obrigatória')).toBeInTheDocument()
   })
 
-  it('shows validation error for invalid password', async () => {
+  it('should show validation error for invalid password', async () => {
     const user = userEvent.setup()
 
     renderWithContext(Component)
@@ -53,7 +53,7 @@ describe('SignUp Component', () => {
     expect(screen.getByText('O comprimento mínimo é 6')).toBeInTheDocument()
   })
 
-  it('shows validation error when passwords do not match', async () => {
+  it('should show validation error when passwords do not match', async () => {
     const user = userEvent.setup()
 
     renderWithContext(Component)
@@ -68,7 +68,7 @@ describe('SignUp Component', () => {
     expect(screen.getByText('As senhas não correspondem')).toBeInTheDocument()
   })
 
-  it('submits the form with valid data', async () => {
+  it('should submit the form with valid data', async () => {
     const user = userEvent.setup()
 
     renderWithContext(Component)

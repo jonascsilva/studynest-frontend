@@ -21,7 +21,7 @@ describe('SignIn Component', () => {
     vi.restoreAllMocks()
   })
 
-  it('renders the sign-in form', () => {
+  it('should render the sign-in form', () => {
     renderWithContext(Component)
 
     expect(screen.getByLabelText('Email')).toBeInTheDocument()
@@ -29,7 +29,7 @@ describe('SignIn Component', () => {
     expect(screen.getByRole('button', { name: /entrar/i })).toBeInTheDocument()
   })
 
-  it('shows validation errors when submitting empty form', async () => {
+  it('should show validation errors when submitting empty form', async () => {
     const user = userEvent.setup()
 
     renderWithContext(Component)
@@ -40,7 +40,7 @@ describe('SignIn Component', () => {
     expect(screen.getByText('Senha é obrigatória')).toBeInTheDocument()
   })
 
-  it('shows validation error for invalid password', async () => {
+  it('should show validation error for invalid password', async () => {
     const user = userEvent.setup()
 
     renderWithContext(Component)
@@ -53,7 +53,7 @@ describe('SignIn Component', () => {
     expect(screen.getByText('O comprimento mínimo é 6')).toBeInTheDocument()
   })
 
-  it('submits the form with valid data', async () => {
+  it('should submit the form with valid data', async () => {
     const user = userEvent.setup()
 
     renderWithContext(Component)

@@ -16,7 +16,7 @@ describe('AuthContext', () => {
     localStorage.clear()
   })
 
-  it('initializes with stored token and user', () => {
+  it('should initialize with stored token and user', () => {
     const mockToken = 'test-token'
     const mockUser = { id: '1', email: 'test@example.com', name: 'Test User' }
 
@@ -48,7 +48,7 @@ describe('AuthContext', () => {
     expect(contextValue.isAuthenticated).toBe(true)
   })
 
-  it('initializes with invalid stored token', () => {
+  it('should initialize with invalid stored token', () => {
     const mockToken = 'invalid-token'
 
     localStorage.setItem('auth.token', mockToken)
@@ -84,212 +84,214 @@ describe('AuthContext', () => {
     consoleErrorSpy.mockRestore()
   })
 
-  it('login function updates token and user', async () => {
-    const mockToken = 'test-token'
-    const mockUser = { id: '1', email: 'test@example.com', name: 'Test User' }
-    const credentials: userCredentials = { email: 'test@example.com', password: 'password123' }
+  describe('login function', () => {
+    it('should update token and user', async () => {
+      const mockToken = 'test-token'
+      const mockUser = { id: '1', email: 'test@example.com', name: 'Test User' }
+      const credentials: userCredentials = { email: 'test@example.com', password: 'password123' }
 
-    vi.mocked(signin).mockResolvedValue({ access_token: mockToken })
-    vi.mocked(jwtDecode).mockReturnValue({
-      sub: mockUser.id,
-      email: mockUser.email,
-      name: mockUser.name
-    })
+      vi.mocked(signin).mockResolvedValue({ access_token: mockToken })
+      vi.mocked(jwtDecode).mockReturnValue({
+        sub: mockUser.id,
+        email: mockUser.email,
+        name: mockUser.name
+      })
 
-    let contextValue: any
+      let contextValue: any
 
-    function TestComponent() {
-      contextValue = useContext(AuthContext)
+      function TestComponent() {
+        contextValue = useContext(AuthContext)
 
-      return null
-    }
-
-    render(
-      <AuthProvider>
-        <TestComponent />
-      </AuthProvider>
-    )
-
-    await act(async () => {
-      await contextValue.login(credentials)
-    })
-
-    expect(signin).toHaveBeenCalledWith(credentials)
-    expect(contextValue.token).toBe(mockToken)
-    expect(contextValue.user).toEqual(mockUser)
-    expect(contextValue.isAuthenticated).toBe(true)
-    expect(localStorage.getItem('auth.token')).toBe(mockToken)
-  })
-
-  it('login function handles missing access_token', async () => {
-    const credentials: userCredentials = { email: 'test@example.com', password: 'password123' }
-
-    vi.mocked(signin).mockResolvedValue({})
-
-    let contextValue: any
-    let caughtError: any
-
-    const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
-
-    function TestComponent() {
-      contextValue = useContext(AuthContext)
-
-      return null
-    }
-
-    render(
-      <AuthProvider>
-        <TestComponent />
-      </AuthProvider>
-    )
-
-    await act(async () => {
-      try {
-        await contextValue.login(credentials)
-      } catch (e) {
-        caughtError = e
+        return null
       }
-    })
 
-    expect(signin).toHaveBeenCalledWith(credentials)
-    expect(caughtError).toEqual(new Error('No access token in response'))
-    expect(contextValue.token).toBeNull()
-    expect(contextValue.user).toBeNull()
-    expect(contextValue.isAuthenticated).toBe(false)
-    expect(localStorage.getItem('auth.token')).toBeNull()
-    expect(consoleErrorSpy).toHaveBeenCalledWith(
-      'Login failed:',
-      new Error('No access token in response')
-    )
+      render(
+        <AuthProvider>
+          <TestComponent />
+        </AuthProvider>
+      )
 
-    consoleErrorSpy.mockRestore()
-  })
-
-  it('login function handles invalid token', async () => {
-    const mockToken = 'invalid-token'
-    const credentials: userCredentials = { email: 'test@example.com', password: 'password123' }
-
-    vi.mocked(signin).mockResolvedValue({ access_token: mockToken })
-    const error = new Error('Invalid token')
-
-    vi.mocked(jwtDecode).mockImplementation(() => {
-      throw error
-    })
-
-    let contextValue: any
-    let caughtError: any
-
-    const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
-
-    function TestComponent() {
-      contextValue = useContext(AuthContext)
-
-      return null
-    }
-
-    render(
-      <AuthProvider>
-        <TestComponent />
-      </AuthProvider>
-    )
-
-    await act(async () => {
-      try {
+      await act(async () => {
         await contextValue.login(credentials)
-      } catch (e) {
-        caughtError = e
+      })
+
+      expect(signin).toHaveBeenCalledWith(credentials)
+      expect(contextValue.token).toBe(mockToken)
+      expect(contextValue.user).toEqual(mockUser)
+      expect(contextValue.isAuthenticated).toBe(true)
+      expect(localStorage.getItem('auth.token')).toBe(mockToken)
+    })
+
+    it('login function handles missing access_token', async () => {
+      const credentials: userCredentials = { email: 'test@example.com', password: 'password123' }
+
+      vi.mocked(signin).mockResolvedValue({})
+
+      let contextValue: any
+      let caughtError: any
+
+      const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
+
+      function TestComponent() {
+        contextValue = useContext(AuthContext)
+
+        return null
       }
+
+      render(
+        <AuthProvider>
+          <TestComponent />
+        </AuthProvider>
+      )
+
+      await act(async () => {
+        try {
+          await contextValue.login(credentials)
+        } catch (e) {
+          caughtError = e
+        }
+      })
+
+      expect(signin).toHaveBeenCalledWith(credentials)
+      expect(caughtError).toEqual(new Error('No access token in response'))
+      expect(contextValue.token).toBeNull()
+      expect(contextValue.user).toBeNull()
+      expect(contextValue.isAuthenticated).toBe(false)
+      expect(localStorage.getItem('auth.token')).toBeNull()
+      expect(consoleErrorSpy).toHaveBeenCalledWith(
+        'Login failed:',
+        new Error('No access token in response')
+      )
+
+      consoleErrorSpy.mockRestore()
     })
 
-    expect(signin).toHaveBeenCalledWith(credentials)
-    expect(caughtError).toEqual(new Error('Invalid token'))
-    expect(contextValue.token).toBeNull()
-    expect(contextValue.user).toBeNull()
-    expect(contextValue.isAuthenticated).toBe(false)
-    expect(localStorage.getItem('auth.token')).toBeNull()
-    expect(consoleErrorSpy).toHaveBeenCalledWith('Failed to decode token:', error)
-    expect(consoleErrorSpy).toHaveBeenCalledWith('Login failed:', new Error('Invalid token'))
+    it('login function handles invalid token', async () => {
+      const mockToken = 'invalid-token'
+      const credentials: userCredentials = { email: 'test@example.com', password: 'password123' }
 
-    consoleErrorSpy.mockRestore()
-  })
+      vi.mocked(signin).mockResolvedValue({ access_token: mockToken })
+      const error = new Error('Invalid token')
 
-  it('handles login errors from signin', async () => {
-    const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
+      vi.mocked(jwtDecode).mockImplementation(() => {
+        throw error
+      })
 
-    const credentials: userCredentials = { email: 'test@example.com', password: 'password123' }
+      let contextValue: any
+      let caughtError: any
 
-    const error = new Error('Network Error')
+      const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
 
-    vi.mocked(signin).mockRejectedValue(error)
+      function TestComponent() {
+        contextValue = useContext(AuthContext)
 
-    let contextValue: any
-    let caughtError: any
-
-    function TestComponent() {
-      contextValue = useContext(AuthContext)
-
-      return null
-    }
-
-    render(
-      <AuthProvider>
-        <TestComponent />
-      </AuthProvider>
-    )
-
-    await act(async () => {
-      try {
-        await contextValue.login(credentials)
-      } catch (e) {
-        caughtError = e
+        return null
       }
+
+      render(
+        <AuthProvider>
+          <TestComponent />
+        </AuthProvider>
+      )
+
+      await act(async () => {
+        try {
+          await contextValue.login(credentials)
+        } catch (e) {
+          caughtError = e
+        }
+      })
+
+      expect(signin).toHaveBeenCalledWith(credentials)
+      expect(caughtError).toEqual(new Error('Invalid token'))
+      expect(contextValue.token).toBeNull()
+      expect(contextValue.user).toBeNull()
+      expect(contextValue.isAuthenticated).toBe(false)
+      expect(localStorage.getItem('auth.token')).toBeNull()
+      expect(consoleErrorSpy).toHaveBeenCalledWith('Failed to decode token:', error)
+      expect(consoleErrorSpy).toHaveBeenCalledWith('Login failed:', new Error('Invalid token'))
+
+      consoleErrorSpy.mockRestore()
     })
 
-    expect(signin).toHaveBeenCalledWith(credentials)
-    expect(caughtError).toBe(error)
-    expect(contextValue.token).toBeNull()
-    expect(contextValue.user).toBeNull()
-    expect(contextValue.isAuthenticated).toBe(false)
-    expect(localStorage.getItem('auth.token')).toBeNull()
-    expect(consoleErrorSpy).toHaveBeenCalledWith('Login failed:', error)
+    it('handles login errors from signin', async () => {
+      const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
 
-    consoleErrorSpy.mockRestore()
-  })
+      const credentials: userCredentials = { email: 'test@example.com', password: 'password123' }
 
-  it('logout function clears token and user', () => {
-    const mockToken = 'test-token'
-    const mockUser = { id: '1', email: 'test@example.com', name: 'Test User' }
+      const error = new Error('Network Error')
 
-    localStorage.setItem('auth.token', mockToken)
+      vi.mocked(signin).mockRejectedValue(error)
 
-    vi.mocked(jwtDecode).mockReturnValue({
-      sub: mockUser.id,
-      email: mockUser.email,
-      name: mockUser.name
+      let contextValue: any
+      let caughtError: any
+
+      function TestComponent() {
+        contextValue = useContext(AuthContext)
+
+        return null
+      }
+
+      render(
+        <AuthProvider>
+          <TestComponent />
+        </AuthProvider>
+      )
+
+      await act(async () => {
+        try {
+          await contextValue.login(credentials)
+        } catch (e) {
+          caughtError = e
+        }
+      })
+
+      expect(signin).toHaveBeenCalledWith(credentials)
+      expect(caughtError).toBe(error)
+      expect(contextValue.token).toBeNull()
+      expect(contextValue.user).toBeNull()
+      expect(contextValue.isAuthenticated).toBe(false)
+      expect(localStorage.getItem('auth.token')).toBeNull()
+      expect(consoleErrorSpy).toHaveBeenCalledWith('Login failed:', error)
+
+      consoleErrorSpy.mockRestore()
     })
 
-    let contextValue: any
+    it('logout function clears token and user', () => {
+      const mockToken = 'test-token'
+      const mockUser = { id: '1', email: 'test@example.com', name: 'Test User' }
 
-    function TestComponent() {
-      contextValue = useContext(AuthContext)
-      return null
-    }
+      localStorage.setItem('auth.token', mockToken)
 
-    render(
-      <AuthProvider>
-        <TestComponent />
-      </AuthProvider>
-    )
+      vi.mocked(jwtDecode).mockReturnValue({
+        sub: mockUser.id,
+        email: mockUser.email,
+        name: mockUser.name
+      })
 
-    expect(contextValue.isAuthenticated).toBe(true)
+      let contextValue: any
 
-    act(() => {
-      contextValue.logout()
+      function TestComponent() {
+        contextValue = useContext(AuthContext)
+        return null
+      }
+
+      render(
+        <AuthProvider>
+          <TestComponent />
+        </AuthProvider>
+      )
+
+      expect(contextValue.isAuthenticated).toBe(true)
+
+      act(() => {
+        contextValue.logout()
+      })
+
+      expect(contextValue.token).toBeNull()
+      expect(contextValue.user).toBeNull()
+      expect(contextValue.isAuthenticated).toBe(false)
+      expect(localStorage.getItem('auth.token')).toBeNull()
     })
-
-    expect(contextValue.token).toBeNull()
-    expect(contextValue.user).toBeNull()
-    expect(contextValue.isAuthenticated).toBe(false)
-    expect(localStorage.getItem('auth.token')).toBeNull()
   })
 })

@@ -1,11 +1,11 @@
 import { screen } from '@testing-library/react'
 import { expect, it, vi } from 'vitest'
 import userEvent from '@testing-library/user-event'
-import { Route, Component } from '$/routes/(protected)/_protected/notes/$noteId'
+import { Route, Component } from '$/routes/(protected)/_protected/notes/edit/$noteId'
 import { updateNote } from '$/query/notes'
 import { queryClient } from '$/lib/query'
 import { useSuspenseQuery, UseSuspenseQueryResult } from '@tanstack/react-query'
-import { renderWithContext } from '../../../../../customRender'
+import { renderWithContext } from '../../../../../../customRender'
 
 vi.mock('$/query/notes')
 
@@ -18,7 +18,7 @@ vi.mock(import('@tanstack/react-query'), async importOriginal => {
   }
 })
 
-it('Index component fetches and renders note data, and updates note on form submit', async () => {
+it('should fetch and render note data, and update note on form submit', async () => {
   const user = userEvent.setup()
 
   const noteMockId = '123'

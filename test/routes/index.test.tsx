@@ -12,7 +12,7 @@ describe('HomePage Component', () => {
     vi.clearAllMocks()
   })
 
-  it('renders correctly when user is not authenticated', () => {
+  it('should render correctly when user is not authenticated', () => {
     vi.mocked(useAuth).mockReturnValue({ user: null } as AuthContextType)
 
     renderWithContext(Component)
@@ -46,7 +46,7 @@ describe('HomePage Component', () => {
     ).toBeInTheDocument()
   })
 
-  it('renders correctly when user is authenticated', () => {
+  it('should render correctly when user is authenticated', () => {
     vi.mocked(useAuth).mockReturnValue({ user: { name: 'Test User' } } as AuthContextType)
 
     renderWithContext(Component)

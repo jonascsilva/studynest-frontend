@@ -4,7 +4,7 @@ import { AuthContext } from '$/contexts/auth'
 import { describe, it, expect, vi } from 'vitest'
 
 describe('useAuth hook', () => {
-  it('returns the context when used within AuthProvider', () => {
+  it('should return the context when used within AuthProvider', () => {
     const mockAuthContextValue = {
       user: { id: 'fake-id', name: 'Test User', email: 'test@example.com' },
       login: vi.fn(),
@@ -22,7 +22,7 @@ describe('useAuth hook', () => {
     expect(result.current).toEqual(mockAuthContextValue)
   })
 
-  it('throws error when used outside of AuthProvider', () => {
+  it('should throw error when used outside of AuthProvider', () => {
     const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
 
     expect(() => renderHook(() => useAuth())).toThrow('useAuth must be used within an AuthProvider')

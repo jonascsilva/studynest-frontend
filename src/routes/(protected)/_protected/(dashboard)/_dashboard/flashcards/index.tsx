@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { useMutation, useQueryClient, useSuspenseQuery } from '@tanstack/react-query'
 import {
+  Box,
   Button,
   Flex,
   Heading,
@@ -15,7 +16,7 @@ import {
 } from '@chakra-ui/react'
 
 import classes from './index.module.scss'
-import { AddIcon, DeleteIcon, EditIcon, ExternalLinkIcon } from '@chakra-ui/icons'
+import { AddIcon, DeleteIcon, EditIcon, ExternalLinkIcon, ViewIcon } from '@chakra-ui/icons'
 import { flashcardsQueryOptions } from '$/query/flashcardsOptions'
 import { deleteFlashcard } from '$/query/flashcards'
 
@@ -44,27 +45,40 @@ function Component() {
           </Button>
         </Link>
       </header>
-      <TableContainer>
+      <TableContainer whiteSpace='unset' overflowY='scroll' maxHeight='100%'>
         <Table variant='simple'>
           <Thead>
             <Tr>
               <Th>Pergunta</Th>
               <Th>Assunto</Th>
               <Th>Última modificação</Th>
-              {/* <Th>Próxima revisão</Th> */}
-              <Th></Th>
+              <Th>Próxima revisão</Th>
+              <Th>Ações</Th>
             </Tr>
           </Thead>
           <Tbody>
             {flashcards.map(flashcard => (
               <Tr key={flashcard.id}>
-                <Td>{flashcard.question}</Td>
+                <Td>
+                  <Box noOfLines={1} maxWidth='100%'>
+                    {flashcard.question}
+                  </Box>
+                </Td>
                 <Td>{flashcard.subject}</Td>
                 <Td>{flashcard.updatedAt}</Td>
+                <Td>???</Td>
                 <Td>
                   <Flex gap={10}>
                     <Link
-                      to='/flashcards/$flashcardId'
+                      to='/flashcards/review/$flashcardId'
+                      params={{
+                        flashcardId: flashcard.id
+                      }}
+                    >
+                      <IconButton aria-label='Revisar' icon={<ViewIcon />} />
+                    </Link>
+                    <Link
+                      to='/flashcards/edit/$flashcardId'
                       params={{
                         flashcardId: flashcard.id
                       }}

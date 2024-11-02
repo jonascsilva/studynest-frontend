@@ -3,7 +3,7 @@ import { screen } from '@testing-library/react'
 import { Sidebar } from '$/cmps/Sidebar'
 import { renderWithContext } from '../../customRender'
 
-it('Sidebar renders correctly', () => {
+it('should render correctly', () => {
   renderWithContext(Sidebar)
 
   expect(screen.getByText('Study')).toBeInTheDocument()

@@ -10,7 +10,7 @@ describe('signin function', () => {
     vi.resetAllMocks()
   })
 
-  it('sends a POST request to the correct URL with the correct data', async () => {
+  it('should send a POST request to the correct URL with the correct data', async () => {
     const mockResponse = {
       json: vi.fn().mockResolvedValue({ token: 'test-token' })
     }
@@ -31,7 +31,7 @@ describe('signin function', () => {
     expect(result).toEqual({ token: 'test-token' })
   })
 
-  it('handles fetch errors', async () => {
+  it('should handle fetch errors', async () => {
     vi.mocked(fetch).mockRejectedValue(new Error('Network Error'))
 
     const data = { email: 'test@example.com', password: 'password123' }

@@ -1,11 +1,11 @@
 import { screen } from '@testing-library/react'
 import { expect, it, vi } from 'vitest'
 import userEvent from '@testing-library/user-event'
-import { Route, Component } from '$/routes/(protected)/_protected/flashcards/$flashcardId'
+import { Route, Component } from '$/routes/(protected)/_protected/flashcards/edit/$flashcardId'
 import { updateFlashcard } from '$/query/flashcards'
 import { queryClient } from '$/lib/query'
 import { useSuspenseQuery, UseSuspenseQueryResult } from '@tanstack/react-query'
-import { renderWithContext } from '../../../../../customRender'
+import { renderWithContext } from '../../../../../../customRender'
 
 vi.mock('$/query/flashcards')
 
@@ -18,7 +18,7 @@ vi.mock(import('@tanstack/react-query'), async importOriginal => {
   }
 })
 
-it('Index component fetches and renders flashcard data, and updates flashcard on form submit', async () => {
+it('should fetch and render flashcard data, and update flashcard on form submit', async () => {
   const user = userEvent.setup()
 
   const flashcardMockId = '123'
@@ -51,9 +51,9 @@ it('Index component fetches and renders flashcard data, and updates flashcard on
 
   expect(screen.getByDisplayValue('Original Question')).toBeInTheDocument()
 
-  const questionInput = screen.getByDisplayValue('Original Question') as HTMLInputElement
-  const subjectInput = screen.getByDisplayValue('Original Subject') as HTMLInputElement
-  const answerInput = screen.getByDisplayValue('Original Answer') as HTMLTextAreaElement
+  const questionInput = screen.getByDisplayValue('Original Question')
+  const subjectInput = screen.getByDisplayValue('Original Subject')
+  const answerInput = screen.getByDisplayValue('Original Answer')
 
   await user.clear(questionInput)
   await user.type(questionInput, 'Updated Question')

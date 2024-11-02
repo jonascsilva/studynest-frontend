@@ -4,7 +4,7 @@ import { ParsedLocation, redirect } from '@tanstack/react-router'
 import { MyRouterContext } from '$/routes/__root'
 
 describe('Protected Route beforeLoad', () => {
-  it('throws redirect to /signin if not authenticated', () => {
+  it('should redirect to /signin if not authenticated', () => {
     const context = { auth: { isAuthenticated: false } } as MyRouterContext
     const location = { href: '/protected' } as ParsedLocation
 
@@ -26,7 +26,7 @@ describe('Protected Route beforeLoad', () => {
     )
   })
 
-  it('does not throw if authenticated', () => {
+  it('should not redirect if authenticated', () => {
     const context = { auth: { isAuthenticated: true } } as MyRouterContext
     const location = { href: '/protected' } as ParsedLocation
 

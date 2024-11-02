@@ -17,7 +17,7 @@ function Component() {
       queryClient.setQueryData(['flashcards', { flashcardId: data.id }], data)
 
       navigate({
-        to: '/flashcards/$flashcardId',
+        to: '/flashcards/edit/$flashcardId',
         params: { flashcardId: data.id }
       })
     }

@@ -4,7 +4,7 @@ import { redirect } from '@tanstack/react-router'
 import { MyRouterContext } from '$/routes/__root'
 
 describe('Protected Route beforeLoad', () => {
-  it('throws redirect to /home if authenticated', () => {
+  it('should throw redirect to /home if authenticated', () => {
     const context = { auth: { isAuthenticated: true } } as MyRouterContext
 
     let thrownError
@@ -22,7 +22,7 @@ describe('Protected Route beforeLoad', () => {
     )
   })
 
-  it('does not throw if authenticated', () => {
+  it('should not redirect if authenticated', () => {
     const context = { auth: { isAuthenticated: false } } as MyRouterContext
 
     let thrownError

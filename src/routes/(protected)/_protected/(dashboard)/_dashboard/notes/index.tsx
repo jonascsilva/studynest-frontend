@@ -63,7 +63,7 @@ function Component() {
                 <Td>
                   <Flex gap={10}>
                     <Link
-                      to='/notes/$noteId'
+                      to='/notes/edit/$noteId'
                       params={{
                         noteId: note.id
                       }}

@@ -2,9 +2,11 @@
   display: grid;
   grid-template-columns: 1fr;
   gap: 3rem;
+  height: 100%;
 }
 
 .header {
   display: flex;
   justify-content: space-between;
+  padding: 2rem 2rem 0 2rem;
 }

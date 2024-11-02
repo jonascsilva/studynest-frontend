@@ -14,9 +14,11 @@ function Component() {
 
   return (
     <div className={classes.container}>
-      <Heading className={classes.heading}>
-        Bem vindo <span>{user?.name || user?.email}</span>!
-      </Heading>
+      <div className={classes.header}>
+        <Heading className={classes.heading}>
+          Bem vindo <span>{user?.name || user?.email}</span>!
+        </Heading>
+      </div>
       <section className={classes.section}>
         <Heading size='md'>Revisar</Heading>
         <div>

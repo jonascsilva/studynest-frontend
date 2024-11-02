@@ -17,7 +17,7 @@ function Component() {
     onSuccess: data => {
       queryClient.setQueryData(['notes', { noteId: data.id }], data)
 
-      navigate({ to: '/notes/$noteId', params: { noteId: data.id } })
+      navigate({ to: '/notes/edit/$noteId', params: { noteId: data.id } })
     }
   })
 

@@ -8,7 +8,7 @@ import { queryClient } from '$/lib/query'
 
 vi.mock('$/query/flashcards')
 
-it('Index component submits a new flashcard and navigates on success', async () => {
+it('should submit a new flashcard and navigate on success', async () => {
   const user = userEvent.setup()
 
   vi.spyOn(queryClient, 'setQueryData')
@@ -54,7 +54,7 @@ it('Index component submits a new flashcard and navigates on success', async () 
   )
 
   expect(navigateMock).toHaveBeenCalledWith({
-    to: '/flashcards/$flashcardId',
+    to: '/flashcards/edit/$flashcardId',
     params: { flashcardId: flashcardMock.id }
   })
 })

@@ -1,11 +1,11 @@
 import { expect, it, vi } from 'vitest'
-import { Route } from '$/routes/(protected)/_protected/flashcards/$flashcardId'
+import { Route } from '$/routes/(protected)/_protected/flashcards/edit/$flashcardId'
 import { flashcardQueryOptions } from '$/query/flashcardsOptions'
 import { queryClient } from '$/lib/query'
 
 vi.mock('$/query/flashcardsOptions')
 
-it('Route loader fetches flashcard data correctly', async () => {
+it('should fetch flashcard data correctly', async () => {
   const flashcardMockId = '123'
 
   const flashcardQueryOptionsMock = {
