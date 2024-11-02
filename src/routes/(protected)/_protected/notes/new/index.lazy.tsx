@@ -1,4 +1,4 @@
-import { Note } from '$/cmps/Note'
+import { Note } from '$/components/Note'
 import { createNote } from '$/query/notes'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { createLazyFileRoute } from '@tanstack/react-router'
@@ -17,7 +17,10 @@ function Component() {
     onSuccess: data => {
       queryClient.setQueryData(['notes', { noteId: data.id }], data)
 
-      navigate({ to: '/notes/edit/$noteId', params: { noteId: data.id } })
+      navigate({
+        to: '/notes/edit/$noteId',
+        params: { noteId: data.id }
+      })
     }
   })
 

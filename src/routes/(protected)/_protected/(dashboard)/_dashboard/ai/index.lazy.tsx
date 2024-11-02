@@ -31,7 +31,7 @@ function Component() {
 
   return (
     <div className={classes.container}>
-      <Button colorScheme='blue' onClick={() => mutation.mutate()}>
+      <Button colorPalette='blue' onClick={() => mutation.mutate()}>
         Gerar
       </Button>
       <div className={classes.response}>
@@ -39,8 +39,8 @@ function Component() {
           <Spinner size='xl' />
         ) : (
           <>
-            <Heading size='2xl'>{subject}</Heading>
-            <Heading size='md'>{question}</Heading>
+            <Heading size='3xl'>{subject}</Heading>
+            <Heading size='lg'>{question}</Heading>
             <Text>{answer}</Text>
           </>
         )}

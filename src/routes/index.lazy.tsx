@@ -15,26 +15,26 @@ function Component() {
     <div>
       <nav className={classes.navbar}>
         <div className={classes.leftContainer}>
-          <Heading as='h1' size='2xl' className={classes.heading}>
+          <Heading as='h1' size='5xl' className={classes.heading}>
             Study<span>Nest</span>
           </Heading>
         </div>
         <div className={classes.rightContainer}>
           {auth.user ? (
             <Link to='/home'>
-              <Button colorScheme='blue' size='lg'>
+              <Button colorPalette='blue' size='xl'>
                 Dashboard
               </Button>
             </Link>
           ) : (
             <>
               <Link to='/signin'>
-                <Button colorScheme='green' size='lg'>
+                <Button colorPalette='green' size='xl'>
                   Entrar
                 </Button>
               </Link>
               <Link to='/signup'>
-                <Button colorScheme='blue' size='lg'>
+                <Button colorPalette='blue' size='xl'>
                   Criar conta
                 </Button>
               </Link>
@@ -46,10 +46,10 @@ function Component() {
         <section className={classes.section}>
           <div className={classes.imageContainer}>PLACEHOLDER</div>
           <div className={classes.textContainer}>
-            <Heading as='h2' size='2xl'>
+            <Heading as='h2' size='4xl'>
               Aprenda hoje, lembre-se para sempre!
             </Heading>
-            <Text fontSize='2xl'>Sua ferramenta completa para um aprendizado eficiente.</Text>
+            <Text fontSize='3xl'>Sua ferramenta completa para um aprendizado eficiente.</Text>
           </div>
         </section>
       </main>

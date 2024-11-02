@@ -1,10 +1,11 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { flashcardQueryOptions } from '$/query/flashcardsOptions'
 import { useSuspenseQuery } from '@tanstack/react-query'
-import { Button, Card, CardBody, Heading, Skeleton, Text } from '@chakra-ui/react'
+import { Button, Card, Heading, Text } from '@chakra-ui/react'
 
 import classes from './index.module.scss'
 import { useState } from 'react'
+import { Skeleton } from '$/components/ui/skeleton'
 
 const Route = createFileRoute('/(protected)/_protected/flashcards/review/$flashcardId/')({
   loader: ({ context: { queryClient }, params: { flashcardId } }) => {
@@ -20,35 +21,35 @@ function Component() {
 
   return (
     <div className={classes.container}>
-      <Card width='100%'>
-        <CardBody>
-          <Heading textAlign='center' p='1.5rem' size='xl'>
+      <Card.Root width='100%' height='100%'>
+        <Card.Body justifyContent='center'>
+          <Heading textAlign='center' p='1.5rem' size='3xl'>
             {flashcard.question}
           </Heading>
-        </CardBody>
-      </Card>
-      <Card width='100%' maxHeight='50%'>
-        <CardBody position='relative'>
-          <Skeleton startColor='gray.600' endColor='gray.600' isLoaded={isRevealed}>
-            <Text textAlign='center' p='1.5rem' fontSize='3xl'>
+        </Card.Body>
+      </Card.Root>
+      <Card.Root width='100%' height='100%'>
+        <Card.Body justifyContent='center'>
+          <Skeleton variant='none' loading={!isRevealed}>
+            <Text textAlign='center' p='1.5rem' fontSize='xl' truncate>
               {flashcard.answer}
             </Text>
           </Skeleton>
           {!isRevealed && (
             <div className={classes.buttonContainer}>
-              <Button colorScheme='blue' onClick={() => setIsRevealed(true)}>
+              <Button size='lg' colorPalette='blue' onClick={() => setIsRevealed(true)}>
                 Revelar
               </Button>
             </div>
           )}
-        </CardBody>
-      </Card>
+        </Card.Body>
+      </Card.Root>
       {isRevealed && (
         <div className={classes.containerResult}>
-          <Button size='lg' w='16rem' h='4rem' colorScheme='red'>
+          <Button size='lg' w='16rem' h='4rem' colorPalette='red'>
             Não lembrei
           </Button>
-          <Button size='lg' w='16rem' h='4rem' colorScheme='green'>
+          <Button size='lg' w='16rem' h='4rem' colorPalette='green'>
             Lembrei
           </Button>
         </div>

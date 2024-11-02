@@ -6,7 +6,7 @@ import { Component } from '$/routes/(protected)/_protected/(dashboard)/_dashboar
 
 import { renderWithContext } from '../../../../customRender'
 
-vi.mock('$/cmps/Sidebar', () => ({
+vi.mock('$/components/Sidebar', () => ({
   Sidebar: () => <div data-testid='sidebar'>Sidebar</div>
 }))
 

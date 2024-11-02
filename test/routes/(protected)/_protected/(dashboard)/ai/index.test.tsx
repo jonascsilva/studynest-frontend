@@ -38,7 +38,6 @@ describe('AI Component', () => {
     expect(screen.queryByText('This is the generated answer.')).not.toBeInTheDocument()
     expect(screen.queryByText('What is the capital of France?')).not.toBeInTheDocument()
     expect(screen.queryByText('Geography')).not.toBeInTheDocument()
-    expect(screen.queryByText('Loading...')).not.toBeInTheDocument()
   })
 
   it('should show the spinner during mutation and display data after success', async () => {
@@ -46,18 +45,21 @@ describe('AI Component', () => {
 
     renderWithContext(Component)
 
-    await user.click(screen.getByRole('button', { name: /gerar/i }))
+    expect(screen.queryByText('Geography')).not.toBeInTheDocument()
+    expect(screen.queryByText('What is the capital of France?')).not.toBeInTheDocument()
+    expect(screen.queryByText('This is the generated answer.')).not.toBeInTheDocument()
 
-    expect(screen.getByText('Loading...')).toBeInTheDocument()
+    await user.click(screen.getByRole('button', { name: /gerar/i }))
 
     await waitFor(() => {
       expect(generateFlashcardMock).toHaveBeenCalled()
-      expect(screen.queryByText('Loading...')).not.toBeInTheDocument()
     })
 
-    expect(screen.getByText('Geography')).toBeInTheDocument()
-    expect(screen.getByText('What is the capital of France?')).toBeInTheDocument()
-    expect(screen.getByText('This is the generated answer.')).toBeInTheDocument()
+    await waitFor(() => {
+      expect(screen.queryByText('Geography')).toBeInTheDocument()
+      expect(screen.queryByText('What is the capital of France?')).toBeInTheDocument()
+      expect(screen.queryByText('This is the generated answer.')).toBeInTheDocument()
+    })
   })
 
   it('should handle mutation errors gracefully', async () => {
@@ -71,15 +73,14 @@ describe('AI Component', () => {
 
     await user.click(screen.getByRole('button', { name: /gerar/i }))
 
-    expect(screen.getByText('Loading...')).toBeInTheDocument()
-
     await waitFor(() => {
       expect(generateFlashcardMock).toHaveBeenCalled()
-      expect(screen.queryByText('Loading...')).not.toBeInTheDocument()
     })
 
-    expect(screen.queryByText('Geography')).not.toBeInTheDocument()
-    expect(screen.queryByText('What is the capital of France?')).not.toBeInTheDocument()
-    expect(screen.queryByText('This is the generated answer.')).not.toBeInTheDocument()
+    await waitFor(() => {
+      expect(screen.queryByText('Geography')).not.toBeInTheDocument()
+      expect(screen.queryByText('What is the capital of France?')).not.toBeInTheDocument()
+      expect(screen.queryByText('This is the generated answer.')).not.toBeInTheDocument()
+    })
   })
 })

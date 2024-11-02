@@ -2,10 +2,9 @@
 
 .navbar {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   padding: 0 4rem;
   height: 7.5rem;
-  box-sizing: border-box;
 
   > .leftContainer {
     display: flex;
@@ -23,7 +22,7 @@
 
 .heading {
   span {
-    color: $blue-400;
+    color: $blue-600;
   }
 }
 
@@ -31,7 +30,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  box-sizing: border-box;
   margin-top: 4rem;
 }
 
@@ -39,7 +37,7 @@
   height: 32rem;
   width: 100%;
   display: grid;
-  grid-template-columns: 1fr 1.3fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
   place-items: center;
   padding: 0 16rem 0 8rem;
 }
@@ -52,7 +50,6 @@
   place-items: center;
   font-size: 3rem;
   padding: 2rem;
-  box-sizing: border-box;
 }
 
 .textContainer {

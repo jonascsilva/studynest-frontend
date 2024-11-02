@@ -1,9 +1,11 @@
 .container {
   padding: 2rem;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);
   gap: 4rem;
   align-items: center;
+  height: 100vh;
 }
 
 .buttonContainer {
@@ -19,6 +21,7 @@
 .containerResult {
   display: flex;
   justify-content: center;
-  width: 100%;
+  align-items: flex-start;
+  height: 100%;
   gap: 10rem;
 }

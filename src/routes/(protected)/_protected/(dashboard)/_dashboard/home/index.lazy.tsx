@@ -1,6 +1,7 @@
 import { createLazyFileRoute } from '@tanstack/react-router'
-import { Alert, AlertIcon, Heading } from '@chakra-ui/react'
+import { Heading } from '@chakra-ui/react'
 import { useAuth } from '$/hooks/useAuth'
+import { Alert } from '$/components/ui/alert'
 
 import classes from './index.module.scss'
 
@@ -15,17 +16,14 @@ function Component() {
   return (
     <div className={classes.container}>
       <div className={classes.header}>
-        <Heading className={classes.heading}>
+        <Heading size='4xl' className={classes.heading}>
           Bem vindo <span>{user?.name || user?.email}</span>!
         </Heading>
       </div>
       <section className={classes.section}>
-        <Heading size='md'>Revisar</Heading>
+        <Heading size='2xl'>Revisar</Heading>
         <div>
-          <Alert status='success'>
-            <AlertIcon />
-            Nada para revisar no momento. Continue assim!
-          </Alert>
+          <Alert status='success' title='Nada para revisar no momento. Continue assim!' />
         </div>
       </section>
     </div>

@@ -1,5 +1,6 @@
 import { UseMutationResult } from '@tanstack/react-query'
-import { Button, Textarea, Input } from '@chakra-ui/react'
+import { Textarea, Input } from '@chakra-ui/react'
+import { Button } from '$/components/ui/button'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { Link } from '@tanstack/react-router'
 import classes from './index.module.scss'
@@ -31,11 +32,13 @@ function Flashcard({ mutation, flashcard }: Readonly<Props>) {
           <Input defaultValue={flashcard?.subject} {...register('subject')} />
         </div>
         <div className={classes.rightContent}>
-          <Button isLoading={mutation.isPending} colorScheme='blue' type='submit'>
+          <Button loading={mutation.isPending} colorPalette='green' type='submit'>
             Salvar
           </Button>
-          <Link to='..'>
-            <Button isDisabled={mutation.isPending}>Voltar</Button>
+          <Link to='/flashcards'>
+            <Button disabled={mutation.isPending} variant='outline'>
+              Voltar
+            </Button>
           </Link>
         </div>
       </header>

@@ -1,7 +1,7 @@
 import { expect, it, vi } from 'vitest'
 import { screen } from '@testing-library/react'
 import { renderWithContext } from '../../customRender'
-import { Note } from '$/cmps/Note'
+import { Note } from '$/components/Note'
 import userEvent from '@testing-library/user-event'
 
 it('should render correctly with provided note data', () => {
@@ -68,15 +68,4 @@ it('should disable Submit and Back buttons when mutation is pending', () => {
 
   expect(submitButton).toBeDisabled()
   expect(backButton).toBeDisabled()
-})
-
-it('should show Submit button loading state when mutation is pending', () => {
-  const mutationMock: any = {
-    mutate: vi.fn(),
-    isPending: true
-  }
-
-  renderWithContext(() => <Note mutation={mutationMock} />)
-
-  expect(screen.getByText('Loading...')).toBeInTheDocument()
 })

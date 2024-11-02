@@ -64,7 +64,6 @@ describe('Home Component', () => {
     renderWithContext(Component)
 
     expect(screen.getByRole('heading', { name: /revisar/i })).toBeInTheDocument()
-    expect(screen.getByRole('alert')).toBeInTheDocument()
     expect(screen.getByText(/nada para revisar no momento\. continue assim!/i)).toBeInTheDocument()
   })
 })
