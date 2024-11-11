@@ -10,7 +10,7 @@ import {
 } from '@chakra-ui/react'
 import { forwardRef, useRef } from 'react'
 import { LuEye, LuEyeOff } from 'react-icons/lu'
-import { InputGroup } from './input-group'
+import { InputGroup } from '$/components/ui/input-group'
 
 export interface PasswordVisibilityProps {
   defaultVisible?: boolean
@@ -60,7 +60,12 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
         }
         {...rootProps}
       >
-        <Input {...rest} ref={mergeRefs(ref, inputRef)} type={visible ? 'text' : 'password'} />
+        <Input
+          role='textbox'
+          {...rest}
+          ref={mergeRefs(ref, inputRef)}
+          type={visible ? 'text' : 'password'}
+        />
       </InputGroup>
     )
   }
@@ -101,6 +106,7 @@ export const PasswordStrengthMeter = forwardRef<HTMLDivElement, PasswordStrength
         <HStack width='full' ref={ref} {...rest}>
           {Array.from({ length: max }).map((_, index) => (
             <Box
+              role='progressbar'
               key={index}
               height='1'
               flex='1'

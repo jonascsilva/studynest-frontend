@@ -2,9 +2,10 @@ import { screen } from '@testing-library/react'
 import { expect, it, vi } from 'vitest'
 import userEvent from '@testing-library/user-event'
 import { Route, Component } from '$/routes/(protected)/_protected/flashcards/new/index.lazy'
-import { createFlashcard, FlashcardType } from '$/query/flashcards'
+import { createFlashcard } from '$/query/flashcards'
 import { renderWithContext } from '../../../../../customRender'
 import { queryClient } from '$/lib/query'
+import { FlashcardType } from '$/types'
 
 vi.mock('$/query/flashcards')
 
@@ -49,7 +50,7 @@ it('should submit a new flashcard and navigate on success', async () => {
   })
 
   expect(queryClient.setQueryData).toHaveBeenCalledWith(
-    ['flashcards', { flashcardId: flashcardMock.id }],
+    ['flashcards', flashcardMock.id],
     flashcardMock
   )
 

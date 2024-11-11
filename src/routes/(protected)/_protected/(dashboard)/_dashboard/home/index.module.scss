@@ -7,9 +7,11 @@
 }
 
 .section {
-  gap: 1rem;
+  gap: 2rem;
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
+  padding: 0rem 3rem;
 }
 
 .heading {
@@ -20,4 +22,8 @@
 
 .header {
   padding: 2rem 2rem 0 2rem;
+}
+
+.quantity {
+  color: $orange-500;
 }

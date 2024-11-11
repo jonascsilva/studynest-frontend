@@ -1,6 +1,7 @@
 import { describe, it, expect, vi } from 'vitest'
 import { noteQueryOptions, notesQueryOptions } from '$/query/notesOptions'
-import { fetchNote, fetchNotes, NoteType } from '$/query/notes'
+import { fetchNote, fetchNotes } from '$/query/notes'
+import { NoteType } from '$/types'
 
 vi.mock('$/query/notes')
 
@@ -9,7 +10,7 @@ describe('noteQueryOptions', () => {
     const noteId = '123'
     const options = noteQueryOptions(noteId)
 
-    expect(options.queryKey).toEqual(['notes', { noteId }])
+    expect(options.queryKey).toEqual(['notes', noteId])
 
     vi.mocked(fetchNote).mockResolvedValueOnce({ id: noteId, content: 'Test Note' } as NoteType)
 
@@ -23,7 +24,7 @@ describe('noteQueryOptions', () => {
 
 describe('notesQueryOptions', () => {
   it('should return the correct query options for notes', async () => {
-    const options = notesQueryOptions
+    const options = notesQueryOptions()
 
     expect(options.queryKey).toEqual(['notes'])
 

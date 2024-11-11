@@ -31,7 +31,7 @@ function Component() {
             size='lg'
             aria-label={['slider-settings-2']}
             colorPalette='blue'
-            min={1}
+            min={2}
             max={6}
             defaultValue={[2]}
             marks={[1, 2, 3, 4, 5, 6]}

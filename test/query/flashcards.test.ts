@@ -5,9 +5,13 @@ import {
   fetchFlashcards,
   updateFlashcard,
   createFlashcard,
-  deleteFlashcard
+  deleteFlashcard,
+  reviewFlashcard
 } from '$/query/flashcards'
 import { FlashcardType } from '$/types'
+import { getStoredToken } from '$/lib/storage'
+
+vi.mock('$/lib/storage')
 
 beforeEach(() => {
   vi.restoreAllMocks()
@@ -68,6 +72,10 @@ describe('fetchFlashcard', () => {
 
 describe('fetchFlashcards', () => {
   it('should fetch all flashcards', async () => {
+    const fakeToken = 'fake-token'
+
+    vi.mocked(getStoredToken).mockReturnValue(fakeToken)
+
     const mockFlashcards: Partial<FlashcardType>[] = [
       { id: '1', answer: 'Flashcard 1', userId: 'user1' },
       { id: '2', answer: 'Flashcard 2', userId: 'user1' }
@@ -79,14 +87,16 @@ describe('fetchFlashcards', () => {
 
     const result = await fetchFlashcards()
 
-    expect(fetch).toHaveBeenCalledWith('https://fakeurl.com/flashcards')
+    expect(fetch).toHaveBeenCalledWith('https://fakeurl.com/flashcards?', {
+      headers: { Authorization: `Bearer ${fakeToken}` }
+    })
     expect(result).toEqual(mockFlashcards)
   })
 })
 
 describe('updateFlashcard', () => {
   it('should update a flashcard and return the updated flashcard', async () => {
-    const flashcardId = '123'
+    const flashcardId = 'fake-falshcard-id'
     const updateData: Partial<FlashcardType> = { answer: 'Updated Content' }
     const updatedFlashcard: Partial<FlashcardType> = {
       id: flashcardId,
@@ -113,13 +123,40 @@ describe('updateFlashcard', () => {
   })
 })
 
+describe('reviewFlashcard', () => {
+  it('should review a flashcard', async () => {
+    const flashcardId = 'fake-falshcard-id'
+    const fakeToken = 'fake-token'
+    const result = 1
+    const reviewData = { result }
+
+    vi.mocked(getStoredToken).mockReturnValue(fakeToken)
+
+    const reviewFlashcardFn = reviewFlashcard(flashcardId)
+    await reviewFlashcardFn(result)
+
+    expect(fetch).toHaveBeenCalledWith(`https://fakeurl.com/flashcards/review/${flashcardId}`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${fakeToken}`
+      },
+      body: JSON.stringify(reviewData)
+    })
+  })
+})
+
 describe('createFlashcard', () => {
   it('should create a new flashcard and return it', async () => {
-    const flashcardData: Partial<FlashcardType> = { answer: 'New Flashcard' }
+    const flashcardData: Partial<FlashcardType> = {
+      answer: 'New Flashcard',
+      userId: 'fake-user-id'
+    }
     const createdFlashcard: Partial<FlashcardType> = {
       id: '123',
       answer: 'New Flashcard',
-      userId: '33b2c1a4-98d8-439b-a032-7b4388f7ab94'
+      userId: 'fake-user-id'
     }
 
     mockFetch.mockResolvedValueOnce({
@@ -134,7 +171,7 @@ describe('createFlashcard', () => {
         Accept: 'application/json',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ ...flashcardData, userId: '33b2c1a4-98d8-439b-a032-7b4388f7ab94' })
+      body: JSON.stringify({ ...flashcardData, userId: 'fake-user-id' })
     })
     expect(result).toEqual(createdFlashcard)
   })

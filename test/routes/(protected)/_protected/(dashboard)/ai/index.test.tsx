@@ -13,8 +13,6 @@ describe('AI Component', () => {
   const generateFlashcardMock = vi.mocked(generateFlashcard)
 
   beforeEach(() => {
-    vi.clearAllMocks()
-
     generateFlashcardMock.mockImplementation(
       () =>
         new Promise(resolve =>

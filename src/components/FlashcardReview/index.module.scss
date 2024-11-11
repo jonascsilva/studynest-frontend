@@ -1,11 +1,20 @@
 .container {
-  padding: 2rem;
+  padding: 2rem 2rem 0rem 2rem;
+  height: 100vh;
+}
+
+.alertContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.main {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   grid-template-rows: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);
   gap: 4rem;
   align-items: center;
-  height: 100vh;
+  padding: 2rem 0rem;
 }
 
 .buttonContainer {

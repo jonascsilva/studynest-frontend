@@ -1,20 +1,19 @@
 import { NoteType } from '$/types'
 
-const fetchNote = async (noteId: string): Promise<NoteType> => {
+async function fetchNote(noteId: string): Promise<NoteType> {
   const note = fetch(`${import.meta.env.VITE_BACKEND_URL}/notes/${noteId}`).then(res => res.json())
 
   return note
 }
 
-const fetchNotes = async (): Promise<NoteType[]> => {
+async function fetchNotes(): Promise<NoteType[]> {
   const notes = fetch(`${import.meta.env.VITE_BACKEND_URL}/notes`).then(res => res.json())
 
   return notes
 }
 
-const updateNote =
-  (noteId: string) =>
-  async (data: Partial<NoteType>): Promise<NoteType> => {
+function updateNote(noteId: string) {
+  return async (data: Partial<NoteType>): Promise<NoteType> => {
     const body = JSON.stringify(data)
 
     const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/notes/${noteId}`, {
@@ -30,10 +29,9 @@ const updateNote =
 
     return result
   }
+}
 
-const createNote = async (data: Partial<NoteType>): Promise<NoteType> => {
-  data.userId = '33b2c1a4-98d8-439b-a032-7b4388f7ab94'
-
+async function createNote(data: Partial<NoteType>): Promise<NoteType> {
   const body = JSON.stringify(data)
 
   const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/notes`, {
@@ -50,7 +48,7 @@ const createNote = async (data: Partial<NoteType>): Promise<NoteType> => {
   return result
 }
 
-const deleteNote = async (noteId: string): Promise<NoteType> => {
+async function deleteNote(noteId: string): Promise<NoteType> {
   const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/notes/${noteId}`, {
     method: 'DELETE'
   })
@@ -59,7 +57,5 @@ const deleteNote = async (noteId: string): Promise<NoteType> => {
 
   return result
 }
-
-export type { NoteType }
 
 export { fetchNote, fetchNotes, updateNote, createNote, deleteNote }

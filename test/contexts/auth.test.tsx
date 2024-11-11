@@ -4,7 +4,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { AuthProvider, AuthContext } from '$/contexts/auth'
 import { signin } from '$/query/auth'
 import { jwtDecode } from 'jwt-decode'
-import { userCredentials } from '$/types'
+import { UserCredentials } from '$/types'
 
 vi.mock('$/query/auth')
 vi.mock('jwt-decode')
@@ -88,7 +88,7 @@ describe('AuthContext', () => {
     it('should update token and user', async () => {
       const mockToken = 'test-token'
       const mockUser = { id: '1', email: 'test@example.com', name: 'Test User' }
-      const credentials: userCredentials = { email: 'test@example.com', password: 'password123' }
+      const credentials: UserCredentials = { email: 'test@example.com', password: 'password123' }
 
       vi.mocked(signin).mockResolvedValue({ access_token: mockToken })
       vi.mocked(jwtDecode).mockReturnValue({
@@ -123,7 +123,7 @@ describe('AuthContext', () => {
     })
 
     it('login function handles missing access_token', async () => {
-      const credentials: userCredentials = { email: 'test@example.com', password: 'password123' }
+      const credentials: UserCredentials = { email: 'test@example.com', password: 'password123' }
 
       vi.mocked(signin).mockResolvedValue({})
 
@@ -168,7 +168,7 @@ describe('AuthContext', () => {
 
     it('login function handles invalid token', async () => {
       const mockToken = 'invalid-token'
-      const credentials: userCredentials = { email: 'test@example.com', password: 'password123' }
+      const credentials: UserCredentials = { email: 'test@example.com', password: 'password123' }
 
       vi.mocked(signin).mockResolvedValue({ access_token: mockToken })
       const error = new Error('Invalid token')
@@ -217,7 +217,7 @@ describe('AuthContext', () => {
     it('handles login errors from signin', async () => {
       const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
 
-      const credentials: userCredentials = { email: 'test@example.com', password: 'password123' }
+      const credentials: UserCredentials = { email: 'test@example.com', password: 'password123' }
 
       const error = new Error('Network Error')
 

@@ -19,28 +19,29 @@ export const Slider = forwardRef<HTMLDivElement, SliderProps>(function Slider(pr
   const hasMarkLabel = !!marks?.some(mark => mark.label)
 
   return (
-    <ChakraSlider.Root ref={ref} thumbAlignment='center' {...rest}>
-      {label && <ChakraSlider.Label fontWeight='medium'>{label}</ChakraSlider.Label>}
-      <ChakraSlider.Control mb={hasMarkLabel ? '4' : undefined}>
+    <ChakraSlider.Root ref={ref} role='slider' thumbAlignment='center' {...rest}>
+      {label && (
+        <ChakraSlider.Label data-testid='slider-label' fontWeight='medium'>
+          {label}
+        </ChakraSlider.Label>
+      )}
+      <ChakraSlider.Control data-testid='slider-control' mb={hasMarkLabel ? '4' : undefined}>
         <ChakraSlider.Track>
           <ChakraSlider.Range />
         </ChakraSlider.Track>
         {value?.map((_, index) => (
-          <ChakraSlider.Thumb key={index} index={index}>
+          <ChakraSlider.Thumb data-testid='slider-thumb' key={index} index={index}>
             <ChakraSlider.HiddenInput />
           </ChakraSlider.Thumb>
         ))}
       </ChakraSlider.Control>
       {marks?.length && (
-        <ChakraSlider.MarkerGroup>
+        <ChakraSlider.MarkerGroup data-testid='slider-marker-group'>
           {marks.map((mark, index) => {
-            const value = typeof mark === 'number' ? mark : mark.value
-            const label = typeof mark === 'number' ? undefined : mark.label
-
             return (
-              <ChakraSlider.Marker key={index} value={value}>
+              <ChakraSlider.Marker data-testid='slider-marker' key={index} value={mark.value}>
                 <ChakraSlider.MarkerIndicator />
-                {label}
+                {mark.label}
               </ChakraSlider.Marker>
             )
           })}

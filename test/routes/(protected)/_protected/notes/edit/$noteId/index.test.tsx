@@ -76,7 +76,7 @@ it('should fetch and render note data, and update note on form submit', async ()
     content: 'Updated Content'
   })
 
-  expect(queryClient.setQueryData).toHaveBeenCalledWith(['notes', { noteId: noteMockId }], {
+  expect(queryClient.setQueryData).toHaveBeenCalledWith(['notes', noteMockId], {
     id: noteMockId,
     title: 'Updated Title',
     subject: 'Updated Subject',

@@ -1,8 +1,10 @@
-import { FlashcardType } from '$/types'
+import { FlashcardsQueryOptions, FlashcardType } from '$/types'
+import { serializeParams } from '$/query/utils'
+import { getStoredToken } from '$/lib/storage'
 
 type FlashcardInput = { question: string; answer: string; subject: string }
 
-const generateFlashcard = async (): Promise<FlashcardInput> => {
+async function generateFlashcard(): Promise<FlashcardInput> {
   const flashcard = fetch(`${import.meta.env.VITE_BACKEND_URL}/flashcards/ai`).then(res =>
     res.json()
   )
@@ -10,23 +12,29 @@ const generateFlashcard = async (): Promise<FlashcardInput> => {
   return flashcard
 }
 
-const fetchFlashcard = async (flashcardId: string): Promise<FlashcardType> => {
-  const flashcard = fetch(`${import.meta.env.VITE_BACKEND_URL}/flashcards/${flashcardId}`).then(
-    res => res.json()
-  )
+async function fetchFlashcard(flashcardId: string): Promise<FlashcardType> {
+  const flashcard = await fetch(
+    `${import.meta.env.VITE_BACKEND_URL}/flashcards/${flashcardId}`
+  ).then(res => res.json())
 
   return flashcard
 }
 
-const fetchFlashcards = async (): Promise<FlashcardType[]> => {
-  const flashcards = fetch(`${import.meta.env.VITE_BACKEND_URL}/flashcards`).then(res => res.json())
+async function fetchFlashcards(opts: FlashcardsQueryOptions = {}): Promise<FlashcardType[]> {
+  const queryString = serializeParams(opts)
+  const token = getStoredToken()
+
+  const flashcards = await fetch(`${import.meta.env.VITE_BACKEND_URL}/flashcards?${queryString}`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  }).then(res => res.json())
 
   return flashcards
 }
 
-const updateFlashcard =
-  (flashcardId: string) =>
-  async (data: Partial<FlashcardType>): Promise<FlashcardType> => {
+function updateFlashcard(flashcardId: string) {
+  return async (data: Partial<FlashcardType>): Promise<FlashcardType> => {
     const body = JSON.stringify(data)
 
     const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/flashcards/${flashcardId}`, {
@@ -42,10 +50,26 @@ const updateFlashcard =
 
     return result
   }
+}
 
-const createFlashcard = async (data: Partial<FlashcardType>): Promise<FlashcardType> => {
-  data.userId = '33b2c1a4-98d8-439b-a032-7b4388f7ab94'
+function reviewFlashcard(flashcardId: string) {
+  return async (result: number): Promise<void> => {
+    const token = getStoredToken()
+    const body = JSON.stringify({ result })
 
+    await fetch(`${import.meta.env.VITE_BACKEND_URL}/flashcards/review/${flashcardId}`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      },
+      body
+    })
+  }
+}
+
+async function createFlashcard(data: Partial<FlashcardType>): Promise<FlashcardType> {
   const body = JSON.stringify(data)
 
   const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/flashcards`, {
@@ -62,7 +86,7 @@ const createFlashcard = async (data: Partial<FlashcardType>): Promise<FlashcardT
   return result
 }
 
-const deleteFlashcard = async (flashcardId: string): Promise<FlashcardType> => {
+async function deleteFlashcard(flashcardId: string): Promise<FlashcardType> {
   const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/flashcards/${flashcardId}`, {
     method: 'DELETE'
   })
@@ -72,13 +96,12 @@ const deleteFlashcard = async (flashcardId: string): Promise<FlashcardType> => {
   return result
 }
 
-export type { FlashcardType }
-
 export {
   generateFlashcard,
   fetchFlashcards,
   fetchFlashcard,
   updateFlashcard,
+  reviewFlashcard,
   createFlashcard,
   deleteFlashcard
 }

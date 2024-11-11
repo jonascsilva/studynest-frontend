@@ -7,8 +7,16 @@ import { useSuspenseQuery, UseSuspenseQueryResult } from '@tanstack/react-query'
 import { flashcardsQueryOptions } from '$/query/flashcardsOptions'
 import { deleteFlashcard } from '$/query/flashcards'
 
-vi.mock('$/query/flashcardsOptions')
 vi.mock('$/query/flashcards')
+
+vi.mock(import('$/query/flashcardsOptions'), async importOriginal => {
+  const actual = await importOriginal()
+
+  return {
+    ...actual,
+    flashcardsQueryOptions: vi.fn().mockReturnValue({ queryFn: vi.fn() })
+  }
+})
 
 vi.mock(import('@tanstack/react-query'), async importOriginal => {
   const actual = await importOriginal()
@@ -36,7 +44,7 @@ describe('Flashcards Component', () => {
   ]
 
   beforeEach(() => {
-    vi.mocked(flashcardsQueryOptions.queryFn as Mock).mockResolvedValue(flashcardsMock)
+    vi.mocked(flashcardsQueryOptions().queryFn as Mock).mockResolvedValue(flashcardsMock)
     vi.mocked(useSuspenseQuery).mockReturnValue({ data: flashcardsMock } as UseSuspenseQueryResult<
       unknown,
       unknown

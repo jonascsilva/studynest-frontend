@@ -1,7 +1,8 @@
 import { signin } from '$/query/auth'
-import { userCredentials } from '$/types'
+import { UserCredentials } from '$/types'
 import { useCallback, createContext, useState, PropsWithChildren, useMemo } from 'react'
 import { jwtDecode } from 'jwt-decode'
+import { getStoredToken, setStoredToken } from '$/lib/storage'
 
 type DecodedToken = {
   sub: string
@@ -19,25 +20,11 @@ interface AuthContextType {
   isAuthenticated: boolean
   token: string | null
   user: User | null
-  login: (credentials: userCredentials) => Promise<void>
+  login: (credentials: UserCredentials) => Promise<void>
   logout: () => void
 }
 
 const AuthContext = createContext<AuthContextType | null>(null)
-
-const TOKEN_KEY = 'auth.token'
-
-function getStoredToken() {
-  return localStorage.getItem(TOKEN_KEY)
-}
-
-function setStoredToken(token: string | null): void {
-  if (token) {
-    localStorage.setItem(TOKEN_KEY, token)
-  } else {
-    localStorage.removeItem(TOKEN_KEY)
-  }
-}
 
 function getUserFromToken(token: string): User | null {
   try {
@@ -64,7 +51,7 @@ const AuthProvider = ({ children }: PropsWithChildren): JSX.Element => {
   })
   const isAuthenticated = Boolean(token)
 
-  const login = useCallback(async (credentials: userCredentials) => {
+  const login = useCallback(async (credentials: UserCredentials) => {
     try {
       const response = await signin(credentials)
       const accessToken = response.access_token

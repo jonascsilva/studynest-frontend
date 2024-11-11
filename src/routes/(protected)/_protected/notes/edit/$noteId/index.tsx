@@ -17,10 +17,10 @@ function Component() {
   const { data: note } = useSuspenseQuery(noteQueryOptions(noteId))
 
   const mutation = useMutation({
-    mutationKey: ['notes'],
+    mutationKey: ['editNote'],
     mutationFn: updateNote(noteId),
     onSuccess: data => {
-      queryClient.setQueryData(['notes', { noteId: data.id }], data)
+      queryClient.setQueryData(['notes', data.id], data)
     }
   })
 

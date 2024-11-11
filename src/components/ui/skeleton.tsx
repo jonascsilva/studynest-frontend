@@ -16,7 +16,14 @@ export const SkeletonText = forwardRef<HTMLDivElement, SkeletonTextProps>(
     return (
       <Stack gap={gap} width='full' ref={ref}>
         {Array.from({ length: noOfLines }).map((_, index) => (
-          <ChakraSkeleton height='4' key={index} {...props} _last={{ maxW: '80%' }} {...rest} />
+          <ChakraSkeleton
+            data-testid='skeleton'
+            height='4'
+            key={index}
+            {...props}
+            _last={{ maxW: '80%' }}
+            {...rest}
+          />
         ))}
       </Stack>
     )

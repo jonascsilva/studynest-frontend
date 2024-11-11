@@ -12,10 +12,10 @@ function Component() {
   const queryClient = useQueryClient()
 
   const mutation = useMutation({
-    mutationKey: ['flashcards'],
+    mutationKey: ['createFlashcard'],
     mutationFn: createFlashcard,
     onSuccess: data => {
-      queryClient.setQueryData(['flashcards', { flashcardId: data.id }], data)
+      queryClient.setQueryData(['flashcards', data.id], data)
 
       navigate({
         to: '/flashcards/edit/$flashcardId',

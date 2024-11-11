@@ -17,10 +17,10 @@ function Component() {
   const { data: flashcard } = useSuspenseQuery(flashcardQueryOptions(flashcardId))
 
   const mutation = useMutation({
-    mutationKey: ['flashcards'],
+    mutationKey: ['editFlashcard'],
     mutationFn: updateFlashcard(flashcardId),
     onSuccess: data => {
-      queryClient.setQueryData(['flashcards', { flashcardId: data.id }], data)
+      queryClient.setQueryData(['flashcards', data.id], data)
     }
   })
 

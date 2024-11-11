@@ -18,9 +18,13 @@ type NoteType = {
   updatedAt: string
 }
 
-type userCredentials = {
+type UserCredentials = {
   email: string
   password: string
 }
 
-export type { FlashcardType, NoteType, userCredentials }
+type FlashcardsQueryOptions = {
+  due?: boolean
+}
+
+export type { FlashcardType, NoteType, UserCredentials, FlashcardsQueryOptions }

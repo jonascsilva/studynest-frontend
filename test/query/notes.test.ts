@@ -85,11 +85,14 @@ describe('updateNote', () => {
 
 describe('createNote', () => {
   it('should create a new note and return it', async () => {
-    const noteData: Partial<NoteType> = { content: 'New Note' }
+    const noteData: Partial<NoteType> = {
+      content: 'New Note',
+      userId: 'fake-user-id'
+    }
     const createdNote: Partial<NoteType> = {
       id: '123',
       content: 'New Note',
-      userId: '33b2c1a4-98d8-439b-a032-7b4388f7ab94'
+      userId: 'fake-user-id'
     }
 
     mockFetch.mockResolvedValueOnce({
@@ -104,7 +107,7 @@ describe('createNote', () => {
         Accept: 'application/json',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ ...noteData, userId: '33b2c1a4-98d8-439b-a032-7b4388f7ab94' })
+      body: JSON.stringify({ ...noteData, userId: 'fake-user-id' })
     })
     expect(result).toEqual(createdNote)
   })

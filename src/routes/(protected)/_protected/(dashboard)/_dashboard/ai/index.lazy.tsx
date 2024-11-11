@@ -16,7 +16,7 @@ function Component() {
   const [subject, setSubject] = useState('')
   const queryClient = useQueryClient()
   const mutation = useMutation({
-    mutationKey: ['flashcards', 'ai'],
+    mutationKey: ['generateFlashcard'],
     mutationFn: generateFlashcard,
     onSuccess: data => {
       queryClient.setQueryData(['flashcards', 'ai'], data)

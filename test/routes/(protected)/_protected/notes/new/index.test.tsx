@@ -2,9 +2,10 @@ import { screen } from '@testing-library/react'
 import { expect, it, vi } from 'vitest'
 import userEvent from '@testing-library/user-event'
 import { Route, Component } from '$/routes/(protected)/_protected/notes/new/index.lazy'
-import { createNote, NoteType } from '$/query/notes'
+import { createNote } from '$/query/notes'
 import { renderWithContext } from '../../../../../customRender'
 import { queryClient } from '$/lib/query'
+import { NoteType } from '$/types'
 
 vi.mock('$/query/notes')
 
@@ -48,10 +49,7 @@ it('should submit a new note and navigate on success', async () => {
     content: 'New Content'
   })
 
-  expect(queryClient.setQueryData).toHaveBeenCalledWith(
-    ['notes', { noteId: noteMock.id }],
-    noteMock
-  )
+  expect(queryClient.setQueryData).toHaveBeenCalledWith(['notes', noteMock.id], noteMock)
 
   expect(navigateMock).toHaveBeenCalledWith({
     to: '/notes/edit/$noteId',

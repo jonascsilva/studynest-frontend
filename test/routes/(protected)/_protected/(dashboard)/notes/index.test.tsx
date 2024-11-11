@@ -7,8 +7,16 @@ import { useSuspenseQuery, UseSuspenseQueryResult } from '@tanstack/react-query'
 import { notesQueryOptions } from '$/query/notesOptions'
 import { deleteNote } from '$/query/notes'
 
-vi.mock('$/query/notesOptions')
 vi.mock('$/query/notes')
+
+vi.mock(import('$/query/notesOptions'), async importOriginal => {
+  const actual = await importOriginal()
+
+  return {
+    ...actual,
+    notesQueryOptions: vi.fn().mockReturnValue({ queryFn: vi.fn() })
+  }
+})
 
 vi.mock(import('@tanstack/react-query'), async importOriginal => {
   const actual = await importOriginal()
@@ -36,7 +44,7 @@ describe('Notes Component', () => {
   ]
 
   beforeEach(() => {
-    vi.mocked(notesQueryOptions.queryFn as Mock).mockResolvedValue(notesMock)
+    vi.mocked(notesQueryOptions().queryFn as Mock).mockResolvedValue(notesMock)
     vi.mocked(useSuspenseQuery).mockReturnValue({ data: notesMock } as UseSuspenseQueryResult<
       unknown,
       unknown

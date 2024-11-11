@@ -1,14 +1,10 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { describe, it, expect } from 'vitest'
 import { Component } from '$/routes/(protected)/_protected'
 import { createRoute } from '@tanstack/react-router'
 import { screen } from '@testing-library/react'
 import { renderWithContext } from '../../customRender'
 
 describe('Protected Route', () => {
-  beforeEach(() => {
-    vi.clearAllMocks()
-  })
-
   it('should render the Outlet', async () => {
     renderWithContext(
       Component,

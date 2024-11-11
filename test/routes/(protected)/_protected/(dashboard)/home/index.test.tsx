@@ -1,15 +1,60 @@
 import { screen } from '@testing-library/react'
-import { describe, it, expect, vi, afterEach } from 'vitest'
+import { describe, it, expect, vi, beforeEach, Mock } from 'vitest'
 import { renderWithContext } from '../../../../../customRender'
-import { Component } from '$/routes/(protected)/_protected/(dashboard)/_dashboard/home/index.lazy'
+import { Component } from '$/routes/(protected)/_protected/(dashboard)/_dashboard/home/index'
 import { useAuth } from '$/hooks/useAuth'
 import { AuthContextType } from '$/contexts/auth'
+import { flashcardsQueryOptions } from '$/query/flashcardsOptions'
+import { useSuspenseQuery, UseSuspenseQueryResult } from '@tanstack/react-query'
 
 vi.mock('$/hooks/useAuth')
 
+vi.mock(import('$/query/flashcardsOptions'), async importOriginal => {
+  const actual = await importOriginal()
+
+  return {
+    ...actual,
+    flashcardsQueryOptions: vi.fn().mockReturnValue({ queryFn: vi.fn() })
+  }
+})
+
+vi.mock(import('@tanstack/react-query'), async importOriginal => {
+  const actual = await importOriginal()
+
+  return {
+    ...actual,
+    useSuspenseQuery: vi.fn()
+  }
+})
+
 describe('Home Component', () => {
-  afterEach(() => {
-    vi.clearAllMocks()
+  const flashcardsMock = [
+    {
+      id: '1',
+      question: 'Question 1',
+      subject: 'Subject 1',
+      updatedAt: '2023-01-01',
+      currentLevel: 1,
+      nextRevisionDate: '2024-11-11'
+    },
+    {
+      id: '2',
+      question: 'Question 2',
+      subject: 'Subject 2',
+      updatedAt: '2023-01-02',
+      currentLevel: 1,
+      nextRevisionDate: '2024-11-11'
+    }
+  ]
+
+  beforeEach(() => {
+    vi.mocked(flashcardsQueryOptions({ due: true }).queryFn as Mock).mockResolvedValue(
+      flashcardsMock
+    )
+    vi.mocked(useSuspenseQuery).mockReturnValue({ data: flashcardsMock } as UseSuspenseQueryResult<
+      unknown,
+      unknown
+    >)
   })
 
   it('should render the welcome message with user name', () => {
@@ -63,7 +108,9 @@ describe('Home Component', () => {
 
     renderWithContext(Component)
 
-    expect(screen.getByRole('heading', { name: /revisar/i })).toBeInTheDocument()
-    expect(screen.getByText(/nada para revisar no momento\. continue assim!/i)).toBeInTheDocument()
+    expect(screen.getByText(/Você tem/i)).toBeInTheDocument()
+    expect(screen.getByText(/2/i)).toBeInTheDocument()
+    expect(screen.getByText(/flashcards para revisar/i)).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /começar revisão/i })).toBeInTheDocument()
   })
 })

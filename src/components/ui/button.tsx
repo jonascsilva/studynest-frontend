@@ -17,13 +17,13 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
       {loading && !loadingText ? (
         <>
           <AbsoluteCenter display='inline-flex'>
-            <Spinner size='inherit' color='inherit' />
+            <Spinner size='inherit' color='inherit' role='status' />
           </AbsoluteCenter>
           <Span opacity={0}>{children}</Span>
         </>
       ) : loading && loadingText ? (
         <>
-          <Spinner size='inherit' color='inherit' />
+          <Spinner size='inherit' color='inherit' role='status' />
           {loadingText}
         </>
       ) : (

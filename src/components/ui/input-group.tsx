@@ -16,7 +16,7 @@ export const InputGroup = forwardRef<HTMLDivElement, InputGroupProps>(
       props
 
     return (
-      <Group ref={ref} {...rest}>
+      <Group data-testid='input-group' ref={ref} {...rest}>
         {startElement && (
           <InputElement pointerEvents='none' {...startElementProps}>
             {startElement}

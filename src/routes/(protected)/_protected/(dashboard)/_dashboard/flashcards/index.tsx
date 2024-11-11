@@ -15,17 +15,19 @@ import { Button } from '$/components/ui/button'
 import classes from './index.module.scss'
 
 const Route = createFileRoute('/(protected)/_protected/(dashboard)/_dashboard/flashcards/')({
-  loader: ({ context: { queryClient } }) => queryClient.ensureQueryData(flashcardsQueryOptions),
+  loader: ({ context: { queryClient } }) => queryClient.ensureQueryData(flashcardsQueryOptions()),
   component: Component
 })
 
 function Component() {
-  const { data: flashcards } = useSuspenseQuery(flashcardsQueryOptions)
+  const { data: flashcards } = useSuspenseQuery(flashcardsQueryOptions())
   const queryClient = useQueryClient()
   const mutation = useMutation({
     mutationFn: deleteFlashcard,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['flashcards'] })
+    onSuccess: deletedFlashcard => {
+      const newFlashcards = flashcards.filter(flashcard => flashcard.id !== deletedFlashcard.id)
+
+      queryClient.setQueryData(['flashcards'], newFlashcards)
     }
   })
 
@@ -70,12 +72,12 @@ function Component() {
                   <Table.Cell>
                     <Flex gap='6' justifyContent='center'>
                       <Link
-                        to='/flashcards/review/$flashcardId'
+                        to='/flashcards/preview/$flashcardId'
                         params={{
                           flashcardId: flashcard.id
                         }}
                       >
-                        <IconButton aria-label='Revisar' variant='surface' colorPalette='green'>
+                        <IconButton aria-label='Preview' variant='surface' colorPalette='green'>
                           <BsEyeFill />
                         </IconButton>
                       </Link>

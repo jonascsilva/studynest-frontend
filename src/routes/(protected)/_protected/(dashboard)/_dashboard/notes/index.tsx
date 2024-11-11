@@ -9,17 +9,19 @@ import { Button } from '$/components/ui/button'
 import classes from './index.module.scss'
 
 const Route = createFileRoute('/(protected)/_protected/(dashboard)/_dashboard/notes/')({
-  loader: ({ context: { queryClient } }) => queryClient.ensureQueryData(notesQueryOptions),
+  loader: ({ context: { queryClient } }) => queryClient.ensureQueryData(notesQueryOptions()),
   component: Component
 })
 
 function Component() {
-  const { data: notes } = useSuspenseQuery(notesQueryOptions)
+  const { data: notes } = useSuspenseQuery(notesQueryOptions())
   const queryClient = useQueryClient()
   const mutation = useMutation({
     mutationFn: deleteNote,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['notes'] })
+    onSuccess: deletedNote => {
+      const newNotes = notes.filter(note => note.id !== deletedNote.id)
+
+      queryClient.setQueryData(['notes'], newNotes)
     }
   })
 

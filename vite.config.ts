@@ -27,6 +27,7 @@ export default defineConfig({
     coverage: {
       exclude: [
         '**/main.tsx',
+        '**/router.tsx',
         '**/routeTree.gen.ts',
         '**/__root.tsx',
         '**/App.tsx',

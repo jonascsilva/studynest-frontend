@@ -76,13 +76,10 @@ it('should fetch and render flashcard data, and update flashcard on form submit'
     answer: 'Updated Answer'
   })
 
-  expect(queryClient.setQueryData).toHaveBeenCalledWith(
-    ['flashcards', { flashcardId: flashcardMockId }],
-    {
-      id: flashcardMockId,
-      question: 'Updated Question',
-      subject: 'Updated Subject',
-      answer: 'Updated Answer'
-    }
-  )
+  expect(queryClient.setQueryData).toHaveBeenCalledWith(['flashcards', flashcardMockId], {
+    id: flashcardMockId,
+    question: 'Updated Question',
+    subject: 'Updated Subject',
+    answer: 'Updated Answer'
+  })
 })
