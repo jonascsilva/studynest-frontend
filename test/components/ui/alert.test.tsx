@@ -5,21 +5,21 @@ import { renderWithContext } from '../../customRender'
 import userEvent from '@testing-library/user-event'
 
 describe('Alert Component', () => {
-  it('renders the Alert with title and description', () => {
+  it('should render the Alert with title and description', () => {
     renderWithContext(() => <Alert title='Test Title'>Test Description</Alert>)
 
     expect(screen.getByText('Test Title')).toBeInTheDocument()
     expect(screen.getByText('Test Description')).toBeInTheDocument()
   })
 
-  it('renders the Alert with only title when no children are provided', () => {
+  it('should render the Alert with title only when no children are provided', () => {
     renderWithContext(() => <Alert title='Test Title' />)
 
     expect(screen.getByText('Test Title')).toBeInTheDocument()
     expect(screen.queryByText('Test Description')).not.toBeInTheDocument()
   })
 
-  it('renders the startElement when provided', () => {
+  it('should render the startElement when provided', () => {
     renderWithContext(() => (
       <Alert title='Test Title' startElement={<div data-testid='start-element'>Start</div>}>
         Test Description
@@ -29,7 +29,7 @@ describe('Alert Component', () => {
     expect(screen.getByTestId('start-element')).toBeInTheDocument()
   })
 
-  it('renders the icon when provided and no startElement', () => {
+  it('should render the icon when provided and no startElement', () => {
     renderWithContext(() => (
       <Alert title='Test Title' icon={<div data-testid='icon-element'>Icon</div>}>
         Test Description
@@ -39,7 +39,7 @@ describe('Alert Component', () => {
     expect(screen.getByTestId('icon-element')).toBeInTheDocument()
   })
 
-  it('renders the endElement when provided', () => {
+  it('should render the endElement when provided', () => {
     renderWithContext(() => (
       <Alert title='Test Title' endElement={<div data-testid='end-element'>End</div>}>
         Test Description
@@ -49,7 +49,7 @@ describe('Alert Component', () => {
     expect(screen.getByTestId('end-element')).toBeInTheDocument()
   })
 
-  it('renders the CloseButton when closable is true', () => {
+  it('should render the CloseButton when closable is true', () => {
     renderWithContext(() => (
       <Alert title='Test Title' closable>
         Test Description
@@ -59,7 +59,7 @@ describe('Alert Component', () => {
     expect(screen.getByRole('button')).toBeInTheDocument()
   })
 
-  it('calls onClose when CloseButton is clicked', async () => {
+  it('should call onClose when CloseButton is clicked', async () => {
     const user = userEvent.setup()
 
     const onCloseMock = vi.fn()

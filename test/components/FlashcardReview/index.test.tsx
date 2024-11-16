@@ -3,7 +3,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { FlashcardReview } from '$/components/FlashcardReview'
 import { useNavigate } from '@tanstack/react-router'
 import { UseMutationResult } from '@tanstack/react-query'
-import { FlashcardType } from '$/types'
+import { FlashcardType, ReviewResult } from '$/types'
 import { renderWithContext } from '../../customRender'
 import userEvent from '@testing-library/user-event'
 
@@ -29,19 +29,19 @@ describe('FlashcardReview Component', () => {
     answer: 'A JavaScript library for building user interfaces'
   } as FlashcardType
 
-  it('renders flashcard question', () => {
+  it('should render flashcard question', () => {
     renderWithContext(() => <FlashcardReview flashcard={flashcard} />)
 
     expect(screen.getByText(flashcard.question)).toBeInTheDocument()
   })
 
-  it('does not show answer initially', () => {
+  it('should not show answer initially', () => {
     renderWithContext(() => <FlashcardReview flashcard={flashcard} />)
 
     expect(screen.getByText('Revelar')).toBeInTheDocument()
   })
 
-  it('shows answer after clicking "Revelar"', async () => {
+  it('should show answer after clicking "Revelar"', async () => {
     const user = userEvent.setup()
 
     renderWithContext(() => <FlashcardReview flashcard={flashcard} />)
@@ -52,7 +52,7 @@ describe('FlashcardReview Component', () => {
     expect(screen.queryByText('Revelar')).not.toBeInTheDocument()
   })
 
-  it('shows "Não lembrei" and "Lembrei" buttons after revealing the answer', async () => {
+  it('should show result buttons after revealing the answer', async () => {
     const user = userEvent.setup()
 
     renderWithContext(() => <FlashcardReview flashcard={flashcard} />)
@@ -63,7 +63,7 @@ describe('FlashcardReview Component', () => {
     expect(screen.getByText('Lembrei')).toBeInTheDocument()
   })
 
-  it('calls handleResult with 0 when "Não lembrei" is clicked and mutation is provided', async () => {
+  it('should call handleResult with 0 when "Não lembrei" is clicked and mutation is provided', async () => {
     const user = userEvent.setup()
 
     const mutateAsync = vi.fn().mockResolvedValue(undefined)
@@ -78,10 +78,10 @@ describe('FlashcardReview Component', () => {
 
     await user.click(screen.getByText('Não lembrei'))
 
-    expect(mutateAsync).toHaveBeenCalledWith(0)
+    expect(mutateAsync).toHaveBeenCalledWith({ result: 0 })
   })
 
-  it('calls handleResult with 1 when "Lembrei" is clicked and mutation is provided', async () => {
+  it('should call handleResult with 1 when "Lembrei" is clicked and mutation is provided', async () => {
     const user = userEvent.setup()
 
     const mutateAsync = vi.fn().mockResolvedValue(undefined)
@@ -96,10 +96,10 @@ describe('FlashcardReview Component', () => {
 
     await user.click(screen.getByText('Lembrei'))
 
-    expect(mutateAsync).toHaveBeenCalledWith(1)
+    expect(mutateAsync).toHaveBeenCalledWith({ result: 1 })
   })
 
-  it('navigates to "/flashcards" when handleResult is called without mutation', async () => {
+  it('should navigate to "/flashcards" when handleResult is called without mutation', async () => {
     const user = userEvent.setup()
 
     renderWithContext(() => <FlashcardReview flashcard={flashcard} />)
@@ -111,7 +111,7 @@ describe('FlashcardReview Component', () => {
     expect(mockNavigate).toHaveBeenCalledWith({ to: '/flashcards' })
   })
 
-  it('resets isRevealed after handling result with mutation', async () => {
+  it('should reset isRevealed after handling result with mutation', async () => {
     const user = userEvent.setup()
 
     const mutateAsync = vi.fn().mockResolvedValue(undefined)
@@ -129,7 +129,7 @@ describe('FlashcardReview Component', () => {
     expect(screen.getByText('Revelar')).toBeInTheDocument()
   })
 
-  it('shows Alert when in preview mode (no mutation provided)', () => {
+  it('should show Alert when in preview mode (no mutation provided)', () => {
     renderWithContext(() => <FlashcardReview flashcard={flashcard} />)
 
     expect(
@@ -137,8 +137,8 @@ describe('FlashcardReview Component', () => {
     ).toBeInTheDocument()
   })
 
-  it('does not show Alert when mutation is provided', () => {
-    const mutation = {} as UseMutationResult<void, Error, number, unknown>
+  it('should not show Alert when mutation is provided', () => {
+    const mutation = {} as UseMutationResult<void, Error, ReviewResult, unknown>
 
     renderWithContext(() => <FlashcardReview flashcard={flashcard} mutation={mutation} />)
 
@@ -147,7 +147,7 @@ describe('FlashcardReview Component', () => {
     ).not.toBeInTheDocument()
   })
 
-  it('disables buttons when mutation is pending', async () => {
+  it('should disable buttons when mutation is pending', async () => {
     const user = userEvent.setup()
 
     const mutateAsync = vi.fn()

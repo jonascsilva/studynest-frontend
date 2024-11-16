@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { useMutation, useQueryClient, useSuspenseQuery } from '@tanstack/react-query'
-import { Flex, Heading, IconButton, Table, Text } from '@chakra-ui/react'
+import { Flex, Heading, Table, Text } from '@chakra-ui/react'
 import {
   BsPlusLg,
   BsPencilFill,
@@ -13,6 +13,7 @@ import { deleteFlashcard } from '$/query/flashcards'
 import { Button } from '$/components/ui/button'
 
 import classes from './index.module.scss'
+import { TableButton } from '$/components/TableButton'
 
 const Route = createFileRoute('/(protected)/_protected/(dashboard)/_dashboard/flashcards/')({
   loader: ({ context: { queryClient } }) => queryClient.ensureQueryData(flashcardsQueryOptions()),
@@ -77,9 +78,9 @@ function Component() {
                           flashcardId: flashcard.id
                         }}
                       >
-                        <IconButton aria-label='Preview' variant='surface' colorPalette='green'>
+                        <TableButton label='Preview' colorPalette='green'>
                           <BsEyeFill />
-                        </IconButton>
+                        </TableButton>
                       </Link>
                       <Link
                         to='/flashcards/edit/$flashcardId'
@@ -87,21 +88,20 @@ function Component() {
                           flashcardId: flashcard.id
                         }}
                       >
-                        <IconButton aria-label='Editar' variant='surface' colorPalette='yellow'>
+                        <TableButton label='Editar' colorPalette='yellow'>
                           <BsPencilFill />
-                        </IconButton>
+                        </TableButton>
                       </Link>
-                      <IconButton aria-label='Compartilhar' variant='surface' colorPalette='orange'>
+                      <TableButton label='Compartilhar' colorPalette='orange'>
                         <BsFillShareFill />
-                      </IconButton>
-                      <IconButton
-                        variant='surface'
+                      </TableButton>
+                      <TableButton
+                        label='Excluir'
                         colorPalette='red'
-                        aria-label='Excluir'
                         onClick={() => mutation.mutate(flashcard.id)}
                       >
                         <BsFillTrash3Fill />
-                      </IconButton>
+                      </TableButton>
                     </Flex>
                   </Table.Cell>
                 </Table.Row>

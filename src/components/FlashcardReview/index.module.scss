@@ -8,6 +8,17 @@
   justify-content: center;
 }
 
+.closeButtonContainer {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 8fr) minmax(0, 1fr);
+}
+
 .main {
   display: grid;
   grid-template-columns: minmax(0, 1fr);

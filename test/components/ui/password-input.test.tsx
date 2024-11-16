@@ -14,7 +14,7 @@ describe('PasswordInput Component', () => {
     vi.clearAllMocks()
   })
 
-  it('renders without crashing', () => {
+  it('should render without crashing', () => {
     render(
       <ChakraProvider>
         <PasswordInput />
@@ -24,7 +24,7 @@ describe('PasswordInput Component', () => {
     expect(screen.getByTestId('input-group')).toBeInTheDocument()
   })
 
-  it('toggles password visibility when icon is clicked', async () => {
+  it('should toggle password visibility when icon is clicked', async () => {
     const user = userEvent.setup()
 
     render(
@@ -48,7 +48,7 @@ describe('PasswordInput Component', () => {
     expect(input).toHaveAttribute('type', 'password')
   })
 
-  it('does not toggle visibility when input is disabled', () => {
+  it('should not toggle visibility when input is disabled', () => {
     render(
       <ChakraProvider>
         <PasswordInput disabled />
@@ -66,7 +66,7 @@ describe('PasswordInput Component', () => {
     expect(input).toHaveAttribute('type', 'password')
   })
 
-  it('does not toggle visibility when pointer event button is not 0', () => {
+  it('should not toggle visibility when pointer event button is not 0', () => {
     render(
       <ChakraProvider>
         <PasswordInput />
@@ -84,7 +84,7 @@ describe('PasswordInput Component', () => {
     expect(input).toHaveAttribute('type', 'password')
   })
 
-  it('respects defaultVisible prop', () => {
+  it('should respect defaultVisible prop', () => {
     render(
       <ChakraProvider>
         <PasswordInput defaultVisible />
@@ -96,7 +96,7 @@ describe('PasswordInput Component', () => {
     expect(input).toHaveAttribute('type', 'text')
   })
 
-  it('calls onVisibleChange when visibility changes', async () => {
+  it('should call onVisibleChange when visibility changes', async () => {
     const onVisibleChange = vi.fn()
 
     const user = userEvent.setup()
@@ -118,7 +118,7 @@ describe('PasswordInput Component', () => {
     expect(onVisibleChange).toHaveBeenCalledWith(false)
   })
 
-  it('renders custom visibility icons when provided', async () => {
+  it('should render custom visibility icons when provided', async () => {
     const user = userEvent.setup()
 
     render(
@@ -141,7 +141,7 @@ describe('PasswordInput Component', () => {
     expect(screen.getByTestId('custom-off-icon')).toBeInTheDocument()
   })
 
-  it('disables toggle button when input is disabled', () => {
+  it('should disable toggle button when input is disabled', () => {
     render(
       <ChakraProvider>
         <PasswordInput disabled />
@@ -155,7 +155,7 @@ describe('PasswordInput Component', () => {
 })
 
 describe('PasswordStrengthMeter Component', () => {
-  it('renders correct number of bars based on max prop', () => {
+  it('should render correct number of bars based on max prop', () => {
     render(
       <ChakraProvider>
         <PasswordStrengthMeter value={2} max={5} />
@@ -167,7 +167,7 @@ describe('PasswordStrengthMeter Component', () => {
     expect(bars).toHaveLength(5)
   })
 
-  it('highlights correct number of bars based on value', () => {
+  it('should highlight correct number of bars based on value', () => {
     render(
       <ChakraProvider>
         <PasswordStrengthMeter value={3} max={4} />
@@ -182,7 +182,7 @@ describe('PasswordStrengthMeter Component', () => {
     expect(bars[3]).not.toHaveAttribute('data-selected')
   })
 
-  it('displays correct label based on value percentage', () => {
+  it('should display correct label based on value percentage', () => {
     const { rerender } = render(
       <ChakraProvider>
         <PasswordStrengthMeter value={1} max={4} />

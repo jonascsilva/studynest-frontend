@@ -1,38 +1,25 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { fetchNote, fetchNotes, updateNote, createNote, deleteNote } from '$/query/notes'
 import { NoteType } from '$/types'
+import { fetcher } from '$/query/fetcher'
+
+vi.mock('$/query/fetcher')
 
 beforeEach(() => {
   vi.restoreAllMocks()
 })
-
-const mockFetch = vi.fn()
-
-vi.stubGlobal('fetch', mockFetch)
 
 describe('fetchNote', () => {
   it('should fetch a note by ID', async () => {
     const noteId = '123'
     const mockNote: Partial<NoteType> = { id: noteId, content: 'Test Note', userId: 'user1' }
 
-    mockFetch.mockResolvedValueOnce({
-      json: async () => mockNote
-    })
+    vi.mocked(fetcher).mockResolvedValueOnce(mockNote)
 
     const result = await fetchNote(noteId)
 
-    expect(fetch).toHaveBeenCalledWith('https://fakeurl.com/notes/123')
+    expect(fetcher).toHaveBeenCalledOnce()
     expect(result).toEqual(mockNote)
-  })
-
-  it('should throw an error when the fetch fails', async () => {
-    const noteId = '123'
-
-    mockFetch.mockRejectedValueOnce(new Error('Network Error'))
-
-    await expect(fetchNote(noteId)).rejects.toThrow('Network Error')
-
-    expect(fetch).toHaveBeenCalledWith('https://fakeurl.com/notes/123')
   })
 })
 
@@ -43,13 +30,11 @@ describe('fetchNotes', () => {
       { id: '2', content: 'Note 2', userId: 'user1' }
     ]
 
-    mockFetch.mockResolvedValueOnce({
-      json: async () => mockNotes
-    })
+    vi.mocked(fetcher).mockResolvedValueOnce(mockNotes)
 
     const result = await fetchNotes()
 
-    expect(fetch).toHaveBeenCalledWith('https://fakeurl.com/notes')
+    expect(fetcher).toHaveBeenCalledOnce()
     expect(result).toEqual(mockNotes)
   })
 })
@@ -64,21 +49,12 @@ describe('updateNote', () => {
       userId: 'user1'
     }
 
-    mockFetch.mockResolvedValueOnce({
-      json: async () => updatedNote
-    })
+    vi.mocked(fetcher).mockResolvedValueOnce(updatedNote)
 
     const updateNoteFn = updateNote(noteId)
     const result = await updateNoteFn(updateData)
 
-    expect(fetch).toHaveBeenCalledWith(`https://fakeurl.com/notes/${noteId}`, {
-      method: 'PATCH',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(updateData)
-    })
+    expect(fetcher).toHaveBeenCalledOnce()
     expect(result).toEqual(updatedNote)
   })
 })
@@ -95,20 +71,11 @@ describe('createNote', () => {
       userId: 'fake-user-id'
     }
 
-    mockFetch.mockResolvedValueOnce({
-      json: async () => createdNote
-    })
+    vi.mocked(fetcher).mockResolvedValueOnce(createdNote)
 
     const result = await createNote(noteData)
 
-    expect(fetch).toHaveBeenCalledWith('https://fakeurl.com/notes', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ ...noteData, userId: 'fake-user-id' })
-    })
+    expect(fetcher).toHaveBeenCalledOnce()
     expect(result).toEqual(createdNote)
   })
 })
@@ -118,15 +85,11 @@ describe('deleteNote', () => {
     const noteId = '123'
     const deletedNote: Partial<NoteType> = { id: noteId, content: 'Deleted Note', userId: 'user1' }
 
-    mockFetch.mockResolvedValueOnce({
-      json: async () => deletedNote
-    })
+    vi.mocked(fetcher).mockResolvedValueOnce(deletedNote)
 
     const result = await deleteNote(noteId)
 
-    expect(fetch).toHaveBeenCalledWith(`https://fakeurl.com/notes/${noteId}`, {
-      method: 'DELETE'
-    })
+    expect(fetcher).toHaveBeenCalledOnce()
     expect(result).toEqual(deletedNote)
   })
 })

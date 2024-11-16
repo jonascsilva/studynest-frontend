@@ -1,6 +1,6 @@
-import { userCredentials } from '$/types'
+import { UserCredentials } from '$/types'
 
-async function signin(data: userCredentials) {
+async function signin(data: UserCredentials) {
   const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/auth/signin`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

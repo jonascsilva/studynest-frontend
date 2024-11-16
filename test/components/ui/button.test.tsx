@@ -5,13 +5,13 @@ import { renderWithContext } from '../../customRender'
 import userEvent from '@testing-library/user-event'
 
 describe('Button Component', () => {
-  it('renders children when not loading', () => {
+  it('should render children when not loading', () => {
     renderWithContext(() => <Button>Click Me</Button>)
 
     expect(screen.getByText('Click Me')).toBeInTheDocument()
   })
 
-  it('renders spinner and hides children when loading without loadingText', () => {
+  it('should render spinner and hides children when loading without loadingText', () => {
     renderWithContext(() => <Button loading>Click Me</Button>)
 
     const spinner = screen.getByRole('status')
@@ -24,7 +24,7 @@ describe('Button Component', () => {
     expect(hiddenChildren).toHaveStyle('opacity: 0')
   })
 
-  it('renders spinner and loadingText when loading with loadingText', () => {
+  it('should render spinner and loadingText when loading with loadingText', () => {
     renderWithContext(() => (
       <Button loading loadingText='Loading...'>
         Click Me
@@ -39,7 +39,7 @@ describe('Button Component', () => {
     expect(screen.queryByText('Click Me')).not.toBeInTheDocument()
   })
 
-  it('disables the button when loading', () => {
+  it('should disable the button when loading', () => {
     renderWithContext(() => <Button loading>Click Me</Button>)
 
     const button = screen.getByRole('button')
@@ -47,7 +47,7 @@ describe('Button Component', () => {
     expect(button).toBeDisabled()
   })
 
-  it('disables the button when disabled prop is true', () => {
+  it('should disable the button when disabled prop is true', () => {
     renderWithContext(() => <Button disabled>Click Me</Button>)
 
     const button = screen.getByRole('button')
@@ -55,7 +55,7 @@ describe('Button Component', () => {
     expect(button).toBeDisabled()
   })
 
-  it('calls onClick when not disabled or loading', async () => {
+  it('should call onClick when not disabled or loading', async () => {
     const onClick = vi.fn()
     const user = userEvent.setup()
 
@@ -68,7 +68,7 @@ describe('Button Component', () => {
     expect(onClick).toHaveBeenCalledTimes(1)
   })
 
-  it('does not call onClick when button is disabled', async () => {
+  it('should call onClick when button is disabled', async () => {
     const onClick = vi.fn()
 
     const user = userEvent.setup()
@@ -86,7 +86,7 @@ describe('Button Component', () => {
     expect(onClick).not.toHaveBeenCalled()
   })
 
-  it('passes additional props to the ChakraButton', () => {
+  it('should pass additional props to the ChakraButton', () => {
     renderWithContext(() => (
       <Button colorScheme='teal' size='lg'>
         Click Me

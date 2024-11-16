@@ -11,7 +11,7 @@ vi.mock('$/components/Pending/index.module.scss', () => ({
 }))
 
 describe('Pending Component', () => {
-  it('renders the Spinner component', () => {
+  it('should render the Spinner component', () => {
     renderWithContext(() => <Pending />)
 
     const spinner = screen.getByRole('status')
@@ -19,7 +19,7 @@ describe('Pending Component', () => {
     expect(spinner).toBeInTheDocument()
   })
 
-  it('applies only container class when fullPage prop is not provided', () => {
+  it('should apply only container class when fullPage prop is not provided', () => {
     renderWithContext(() => <Pending />)
 
     const containerDiv = screen.getByRole('status').parentElement
@@ -28,7 +28,7 @@ describe('Pending Component', () => {
     expect(containerDiv).not.toHaveClass('fullPage')
   })
 
-  it('applies fullPage class when fullPage prop is true', () => {
+  it('should apply fullPage class when fullPage prop is true', () => {
     renderWithContext(() => <Pending fullPage={true} />)
 
     const containerDiv = screen.getByRole('status').parentElement
@@ -36,7 +36,7 @@ describe('Pending Component', () => {
     expect(containerDiv).toHaveClass('container', 'fullPage')
   })
 
-  it('does not apply fullPage class when fullPage prop is false', () => {
+  it('should not apply fullPage class when fullPage prop is false', () => {
     renderWithContext(() => <Pending fullPage={false} />)
 
     const containerDiv = screen.getByRole('status').parentElement

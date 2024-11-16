@@ -4,7 +4,7 @@ import { InputGroup } from '$/components/ui/input-group'
 import { Provider as ChakraProvider } from '$/components/ui/provider'
 
 describe('InputGroup Component', () => {
-  it('renders without crashing', () => {
+  it('should render without crashing', () => {
     render(
       <ChakraProvider>
         <InputGroup>
@@ -15,7 +15,7 @@ describe('InputGroup Component', () => {
     expect(screen.getByTestId('input-group')).toBeInTheDocument()
   })
 
-  it('renders startElement when provided', () => {
+  it('should render startElement when provided', () => {
     render(
       <ChakraProvider>
         <InputGroup startElement={<span data-testid='start-element'>Start</span>}>
@@ -26,7 +26,7 @@ describe('InputGroup Component', () => {
     expect(screen.getByTestId('start-element')).toBeInTheDocument()
   })
 
-  it('renders endElement when provided', () => {
+  it('should render endElement when provided', () => {
     render(
       <ChakraProvider>
         <InputGroup endElement={<span data-testid='end-element'>End</span>}>
@@ -37,7 +37,7 @@ describe('InputGroup Component', () => {
     expect(screen.getByTestId('end-element')).toBeInTheDocument()
   })
 
-  it('clones child and adds padding when startElement is provided', () => {
+  it('should clone child and adds padding when startElement is provided', () => {
     let receivedProps: any = null
 
     function TestInput(props: any) {
@@ -56,7 +56,7 @@ describe('InputGroup Component', () => {
     expect(receivedProps).toHaveProperty('ps', 'calc(var(--input-height) - 6px)')
   })
 
-  it('clones child and adds padding when endElement is provided', () => {
+  it('should clone child and adds padding when endElement is provided', () => {
     let receivedProps: any = null
 
     function TestInput(props: any) {
@@ -75,7 +75,7 @@ describe('InputGroup Component', () => {
     expect(receivedProps).toHaveProperty('pe', 'calc(var(--input-height) - 6px)')
   })
 
-  it('clones child and adds padding when both startElement and endElement are provided', () => {
+  it('should clone child and adds padding when both startElement and endElement are provided', () => {
     let receivedProps: any = null
 
     function TestInput(props: any) {
@@ -95,7 +95,7 @@ describe('InputGroup Component', () => {
     expect(receivedProps).toHaveProperty('pe', 'calc(var(--input-height) - 6px)')
   })
 
-  it('merges children props with added padding', () => {
+  it('should merge children props with added padding', () => {
     let receivedProps: any = null
 
     function TestInput(props: any) {
@@ -119,7 +119,7 @@ describe('InputGroup Component', () => {
     })
   })
 
-  it('passes rest props to Group', () => {
+  it('should pass rest props to Group', () => {
     render(
       <ChakraProvider>
         <InputGroup data-testid='input-group' id='group-id'>

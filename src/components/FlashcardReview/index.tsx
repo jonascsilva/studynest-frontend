@@ -5,14 +5,15 @@ import { Skeleton } from '$/components/ui/skeleton'
 import { Alert } from '$/components/ui/alert'
 
 import classes from './index.module.scss'
-import { FlashcardType } from '$/types'
+import { FlashcardType, ReviewResult } from '$/types'
 import { UseMutationResult } from '@tanstack/react-query'
-import { useNavigate } from '@tanstack/react-router'
+import { Link, useNavigate } from '@tanstack/react-router'
 import { Button } from '$/components/ui/button'
+import { CloseButton } from '$/components/ui/close-button'
 
 type Props = {
   flashcard: FlashcardType
-  mutation?: UseMutationResult<void, Error, number, unknown>
+  mutation?: UseMutationResult<void, Error, ReviewResult, unknown>
 }
 
 function FlashcardReview({ flashcard, mutation }: Props) {
@@ -21,7 +22,9 @@ function FlashcardReview({ flashcard, mutation }: Props) {
 
   const handleResult = async (result: number) => {
     if (mutation) {
-      await mutation.mutateAsync(result)
+      const data = { result }
+
+      await mutation.mutateAsync(data)
 
       setIsRevealed(false)
     } else {
@@ -31,17 +34,24 @@ function FlashcardReview({ flashcard, mutation }: Props) {
 
   return (
     <div className={classes.container}>
-      {!mutation && (
-        <div className={classes.alertContainer}>
-          <Alert
-            status='warning'
-            title='Você está no modo Preview. O resultado desta revisão não será salvo!'
-            size='lg'
-            variant='surface'
-            w='auto'
-          />
+      <header className={classes.header}>
+        <div className={classes.closeButtonContainer}>
+          <Link to={mutation ? '/home' : '/flashcards'}>
+            <CloseButton size='xl' variant='solid' />
+          </Link>
         </div>
-      )}
+        {!mutation && (
+          <div className={classes.alertContainer}>
+            <Alert
+              status='warning'
+              title='Você está no modo Preview. O resultado desta revisão não será salvo!'
+              size='lg'
+              variant='surface'
+              w='auto'
+            />
+          </div>
+        )}
+      </header>
       <main className={classes.main}>
         <Card.Root width='100%' height='100%'>
           <Card.Body justifyContent='center'>

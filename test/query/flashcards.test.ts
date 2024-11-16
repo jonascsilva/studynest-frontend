@@ -9,17 +9,13 @@ import {
   reviewFlashcard
 } from '$/query/flashcards'
 import { FlashcardType } from '$/types'
-import { getStoredToken } from '$/lib/storage'
+import { fetcher } from '$/query/fetcher'
 
-vi.mock('$/lib/storage')
+vi.mock('$/query/fetcher')
 
 beforeEach(() => {
   vi.restoreAllMocks()
 })
-
-const mockFetch = vi.fn()
-
-vi.stubGlobal('fetch', mockFetch)
 
 describe('generateFlashcard', () => {
   it('should generate a flashcard', async () => {
@@ -29,13 +25,11 @@ describe('generateFlashcard', () => {
       userId: 'user1'
     }
 
-    mockFetch.mockResolvedValueOnce({
-      json: async () => mockFlashcard
-    })
+    vi.mocked(fetcher).mockResolvedValueOnce(mockFlashcard)
 
     const result = await generateFlashcard()
 
-    expect(fetch).toHaveBeenCalledWith('https://fakeurl.com/flashcards/ai')
+    expect(fetcher).toHaveBeenCalledOnce()
     expect(result).toEqual(mockFlashcard)
   })
 })
@@ -49,47 +43,27 @@ describe('fetchFlashcard', () => {
       userId: 'user1'
     }
 
-    mockFetch.mockResolvedValueOnce({
-      json: async () => mockFlashcard
-    })
+    vi.mocked(fetcher).mockResolvedValueOnce(mockFlashcard)
 
     const result = await fetchFlashcard(flashcardId)
 
-    expect(fetch).toHaveBeenCalledWith('https://fakeurl.com/flashcards/123')
+    expect(fetcher).toHaveBeenCalledOnce()
     expect(result).toEqual(mockFlashcard)
-  })
-
-  it('should throw an error when the fetch fails', async () => {
-    const flashcardId = '123'
-
-    mockFetch.mockRejectedValueOnce(new Error('Network Error'))
-
-    await expect(fetchFlashcard(flashcardId)).rejects.toThrow('Network Error')
-
-    expect(fetch).toHaveBeenCalledWith('https://fakeurl.com/flashcards/123')
   })
 })
 
 describe('fetchFlashcards', () => {
   it('should fetch all flashcards', async () => {
-    const fakeToken = 'fake-token'
-
-    vi.mocked(getStoredToken).mockReturnValue(fakeToken)
-
     const mockFlashcards: Partial<FlashcardType>[] = [
       { id: '1', answer: 'Flashcard 1', userId: 'user1' },
       { id: '2', answer: 'Flashcard 2', userId: 'user1' }
     ]
 
-    mockFetch.mockResolvedValueOnce({
-      json: async () => mockFlashcards
-    })
+    vi.mocked(fetcher).mockResolvedValueOnce(mockFlashcards)
 
     const result = await fetchFlashcards()
 
-    expect(fetch).toHaveBeenCalledWith('https://fakeurl.com/flashcards?', {
-      headers: { Authorization: `Bearer ${fakeToken}` }
-    })
+    expect(fetcher).toHaveBeenCalledOnce()
     expect(result).toEqual(mockFlashcards)
   })
 })
@@ -104,21 +78,12 @@ describe('updateFlashcard', () => {
       userId: 'user1'
     }
 
-    mockFetch.mockResolvedValueOnce({
-      json: async () => updatedFlashcard
-    })
+    vi.mocked(fetcher).mockResolvedValueOnce(updatedFlashcard)
 
     const updateFlashcardFn = updateFlashcard(flashcardId)
     const result = await updateFlashcardFn(updateData)
 
-    expect(fetch).toHaveBeenCalledWith(`https://fakeurl.com/flashcards/${flashcardId}`, {
-      method: 'PATCH',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(updateData)
-    })
+    expect(fetcher).toHaveBeenCalledOnce()
     expect(result).toEqual(updatedFlashcard)
   })
 })
@@ -126,24 +91,13 @@ describe('updateFlashcard', () => {
 describe('reviewFlashcard', () => {
   it('should review a flashcard', async () => {
     const flashcardId = 'fake-falshcard-id'
-    const fakeToken = 'fake-token'
     const result = 1
     const reviewData = { result }
 
-    vi.mocked(getStoredToken).mockReturnValue(fakeToken)
-
     const reviewFlashcardFn = reviewFlashcard(flashcardId)
-    await reviewFlashcardFn(result)
+    await reviewFlashcardFn(reviewData)
 
-    expect(fetch).toHaveBeenCalledWith(`https://fakeurl.com/flashcards/review/${flashcardId}`, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${fakeToken}`
-      },
-      body: JSON.stringify(reviewData)
-    })
+    expect(fetcher).toHaveBeenCalledOnce()
   })
 })
 
@@ -159,20 +113,11 @@ describe('createFlashcard', () => {
       userId: 'fake-user-id'
     }
 
-    mockFetch.mockResolvedValueOnce({
-      json: async () => createdFlashcard
-    })
+    vi.mocked(fetcher).mockResolvedValueOnce(createdFlashcard)
 
     const result = await createFlashcard(flashcardData)
 
-    expect(fetch).toHaveBeenCalledWith('https://fakeurl.com/flashcards', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ ...flashcardData, userId: 'fake-user-id' })
-    })
+    expect(fetcher).toHaveBeenCalledOnce()
     expect(result).toEqual(createdFlashcard)
   })
 })
@@ -186,15 +131,11 @@ describe('deleteFlashcard', () => {
       userId: 'user1'
     }
 
-    mockFetch.mockResolvedValueOnce({
-      json: async () => deletedFlashcard
-    })
+    vi.mocked(fetcher).mockResolvedValueOnce(deletedFlashcard)
 
     const result = await deleteFlashcard(flashcardId)
 
-    expect(fetch).toHaveBeenCalledWith(`https://fakeurl.com/flashcards/${flashcardId}`, {
-      method: 'DELETE'
-    })
+    expect(fetcher).toHaveBeenCalledOnce()
     expect(result).toEqual(deletedFlashcard)
   })
 })

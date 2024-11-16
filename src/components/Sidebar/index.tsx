@@ -3,7 +3,15 @@ import { Heading } from '@chakra-ui/react'
 import { Button } from '$/components/ui/button'
 import classes from './index.module.scss'
 import { useAuth } from '$/hooks/useAuth'
-import { BsDoorOpen } from 'react-icons/bs'
+import {
+  BsCardText,
+  BsDoorOpen,
+  BsFileEarmarkText,
+  BsGear,
+  BsHouseDoor,
+  BsStars
+} from 'react-icons/bs'
+import { Separator } from "@chakra-ui/react"
 
 function Sidebar() {
   const { logout } = useAuth()
@@ -21,7 +29,7 @@ function Sidebar() {
             colorPalette={isActive ? 'blue' : undefined}
             width='100%'
           >
-            Dashboard
+            <BsHouseDoor /> Dashboard
           </Button>
         )}
       </Link>
@@ -33,7 +41,7 @@ function Sidebar() {
             colorPalette={isActive ? 'blue' : undefined}
             width='100%'
           >
-            Anotações
+            <BsFileEarmarkText /> Anotações
           </Button>
         )}
       </Link>
@@ -45,7 +53,7 @@ function Sidebar() {
             colorPalette={isActive ? 'blue' : undefined}
             width='100%'
           >
-            Flashcards
+            <BsCardText /> Flashcards
           </Button>
         )}
       </Link>
@@ -57,10 +65,11 @@ function Sidebar() {
             colorPalette={isActive ? 'blue' : undefined}
             width='100%'
           >
-            AI
+            <BsStars /> AI
           </Button>
         )}
       </Link>
+      <Separator />
       <Link to='/settings' className={classes.link}>
         {({ isActive }) => (
           <Button
@@ -69,7 +78,7 @@ function Sidebar() {
             colorPalette={isActive ? 'blue' : undefined}
             width='100%'
           >
-            Configurações
+            <BsGear /> Configurações
           </Button>
         )}
       </Link>

@@ -63,10 +63,6 @@ vi.mock(import('@tanstack/react-router'), async importOriginal => {
   }
 })
 
-vi.mock('react-icons/bs', () => ({
-  BsDoorOpen: () => <svg data-testid='bs-door-open' />
-}))
-
 describe('Sidebar Component', () => {
   beforeEach(() => {
     activeRoutes = []

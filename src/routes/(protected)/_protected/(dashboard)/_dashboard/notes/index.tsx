@@ -1,10 +1,11 @@
 import { Link, createFileRoute } from '@tanstack/react-router'
-import { Flex, Heading, IconButton, Table, Text } from '@chakra-ui/react'
+import { Flex, Heading, Table, Text } from '@chakra-ui/react'
 import { BsPlusLg, BsPencilFill, BsFillTrash3Fill, BsFillShareFill } from 'react-icons/bs'
 import { notesQueryOptions } from '$/query/notesOptions'
 import { useMutation, useQueryClient, useSuspenseQuery } from '@tanstack/react-query'
 import { deleteNote } from '$/query/notes'
 import { Button } from '$/components/ui/button'
+import { TableButton } from '$/components/TableButton'
 
 import classes from './index.module.scss'
 
@@ -69,21 +70,20 @@ function Component() {
                           noteId: note.id
                         }}
                       >
-                        <IconButton aria-label='Editar' variant='surface' colorPalette='yellow'>
+                        <TableButton label='Editar' colorPalette='yellow'>
                           <BsPencilFill />
-                        </IconButton>
+                        </TableButton>
                       </Link>
-                      <IconButton aria-label='Compartilhar' variant='surface' colorPalette='orange'>
+                      <TableButton label='Compartilhar' colorPalette='orange'>
                         <BsFillShareFill />
-                      </IconButton>
-                      <IconButton
-                        aria-label='Excluir'
-                        variant='surface'
+                      </TableButton>
+                      <TableButton
+                        label='Excluir'
                         colorPalette='red'
                         onClick={() => mutation.mutate(note.id)}
                       >
                         <BsFillTrash3Fill />
-                      </IconButton>
+                      </TableButton>
                     </Flex>
                   </Table.Cell>
                 </Table.Row>

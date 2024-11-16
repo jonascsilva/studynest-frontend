@@ -122,7 +122,7 @@ describe('AuthContext', () => {
       expect(localStorage.getItem('auth.token')).toBe(mockToken)
     })
 
-    it('login function handles missing access_token', async () => {
+    it('should handle missing access_token', async () => {
       const credentials: UserCredentials = { email: 'test@example.com', password: 'password123' }
 
       vi.mocked(signin).mockResolvedValue({})
@@ -166,7 +166,7 @@ describe('AuthContext', () => {
       consoleErrorSpy.mockRestore()
     })
 
-    it('login function handles invalid token', async () => {
+    it('should handle invalid token', async () => {
       const mockToken = 'invalid-token'
       const credentials: UserCredentials = { email: 'test@example.com', password: 'password123' }
 
@@ -214,7 +214,7 @@ describe('AuthContext', () => {
       consoleErrorSpy.mockRestore()
     })
 
-    it('handles login errors from signin', async () => {
+    it('should handle errors from signin', async () => {
       const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
 
       const credentials: UserCredentials = { email: 'test@example.com', password: 'password123' }
@@ -257,41 +257,43 @@ describe('AuthContext', () => {
       consoleErrorSpy.mockRestore()
     })
 
-    it('logout function clears token and user', () => {
-      const mockToken = 'test-token'
-      const mockUser = { id: '1', email: 'test@example.com', name: 'Test User' }
+    describe('logout function', () => {
+      it('should clear token and user', () => {
+        const mockToken = 'test-token'
+        const mockUser = { id: '1', email: 'test@example.com', name: 'Test User' }
 
-      localStorage.setItem('auth.token', mockToken)
+        localStorage.setItem('auth.token', mockToken)
 
-      vi.mocked(jwtDecode).mockReturnValue({
-        sub: mockUser.id,
-        email: mockUser.email,
-        name: mockUser.name
+        vi.mocked(jwtDecode).mockReturnValue({
+          sub: mockUser.id,
+          email: mockUser.email,
+          name: mockUser.name
+        })
+
+        let contextValue: any
+
+        function TestComponent() {
+          contextValue = useContext(AuthContext)
+          return null
+        }
+
+        render(
+          <AuthProvider>
+            <TestComponent />
+          </AuthProvider>
+        )
+
+        expect(contextValue.isAuthenticated).toBe(true)
+
+        act(() => {
+          contextValue.logout()
+        })
+
+        expect(contextValue.token).toBeNull()
+        expect(contextValue.user).toBeNull()
+        expect(contextValue.isAuthenticated).toBe(false)
+        expect(localStorage.getItem('auth.token')).toBeNull()
       })
-
-      let contextValue: any
-
-      function TestComponent() {
-        contextValue = useContext(AuthContext)
-        return null
-      }
-
-      render(
-        <AuthProvider>
-          <TestComponent />
-        </AuthProvider>
-      )
-
-      expect(contextValue.isAuthenticated).toBe(true)
-
-      act(() => {
-        contextValue.logout()
-      })
-
-      expect(contextValue.token).toBeNull()
-      expect(contextValue.user).toBeNull()
-      expect(contextValue.isAuthenticated).toBe(false)
-      expect(localStorage.getItem('auth.token')).toBeNull()
     })
   })
 })

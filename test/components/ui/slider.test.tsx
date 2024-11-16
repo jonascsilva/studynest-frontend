@@ -4,25 +4,25 @@ import { Slider } from '$/components/ui/slider'
 import { renderWithContext } from '../../customRender'
 
 describe('Slider Component', () => {
-  it('renders without crashing', () => {
+  it('should render without crashing', () => {
     renderWithContext(() => <Slider />)
 
     expect(screen.getByRole('slider')).toBeInTheDocument()
   })
 
-  it('renders label when provided', () => {
+  it('should render label when provided', () => {
     renderWithContext(() => <Slider label='Test Label' />)
 
     expect(screen.getByText(/Test Label/i)).toBeInTheDocument()
   })
 
-  it('does not render label when not provided', () => {
+  it('should not render label when not provided', () => {
     renderWithContext(() => <Slider />)
 
     expect(screen.queryByTestId('slider-label')).not.toBeInTheDocument()
   })
 
-  it('sets margin bottom on control when hasMarkLabel is true', () => {
+  it('should set margin bottom on control when hasMarkLabel is true', () => {
     const marks = [{ value: 10, label: 'Ten' }]
 
     renderWithContext(() => <Slider marks={marks} />)
@@ -30,7 +30,7 @@ describe('Slider Component', () => {
     expect(screen.getByTestId('slider-control')).toHaveStyle({ marginBottom: '4' })
   })
 
-  it('does not set margin bottom on control when hasMarkLabel is false', () => {
+  it('should not set margin bottom on control when hasMarkLabel is false', () => {
     const marks = [10, 20, 30]
 
     renderWithContext(() => <Slider marks={marks} />)
@@ -38,7 +38,7 @@ describe('Slider Component', () => {
     expect(screen.getByTestId('slider-control')).toHaveStyle({ marginBottom: '' })
   })
 
-  it('renders thumbs based on value array', () => {
+  it('should render thumbs based on value array', () => {
     const value = [10, 20]
 
     renderWithContext(() => <Slider value={value} />)
@@ -48,7 +48,7 @@ describe('Slider Component', () => {
     expect(thumbs).toHaveLength(2)
   })
 
-  it('renders thumbs based on defaultValue array', () => {
+  it('should render thumbs based on defaultValue array', () => {
     const defaultValue = [15, 25, 35]
 
     renderWithContext(() => <Slider defaultValue={defaultValue} />)
@@ -57,13 +57,13 @@ describe('Slider Component', () => {
     expect(thumbs).toHaveLength(3)
   })
 
-  it('does not render markers when marks are not provided', () => {
+  it('should not render markers when marks are not provided', () => {
     renderWithContext(() => <Slider />)
 
     expect(screen.queryByTestId('slider-marker-group')).not.toBeInTheDocument()
   })
 
-  it('processes marks correctly when marks are numbers', () => {
+  it('should handle marks correctly when marks are numbers', () => {
     const marks = [10, 20, 30]
 
     renderWithContext(() => <Slider marks={marks} />)
@@ -77,7 +77,7 @@ describe('Slider Component', () => {
     })
   })
 
-  it('passes rest props to ChakraSlider.Root', () => {
+  it('should pass rest props to ChakraSlider.Root', () => {
     renderWithContext(() => <Slider orientation='vertical' />)
 
     expect(screen.getByRole('slider')).toHaveAttribute('data-orientation', 'vertical')
