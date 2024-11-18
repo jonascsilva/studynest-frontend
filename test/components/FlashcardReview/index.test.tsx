@@ -3,9 +3,10 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { FlashcardReview } from '$/components/FlashcardReview'
 import { useNavigate } from '@tanstack/react-router'
 import { UseMutationResult } from '@tanstack/react-query'
-import { FlashcardType, ReviewResult } from '$/types'
+import { FlashcardType, FlashcardWithRevisionType, ReviewResult } from '$/types'
 import { renderWithContext } from '../../customRender'
 import userEvent from '@testing-library/user-event'
+import { queryClient } from '$/lib/query'
 
 vi.mock(import('@tanstack/react-router'), async importOriginal => {
   const actual = await importOriginal()
@@ -66,7 +67,7 @@ describe('FlashcardReview Component', () => {
   it('should call handleResult with 0 when "Não lembrei" is clicked and mutation is provided', async () => {
     const user = userEvent.setup()
 
-    const mutateAsync = vi.fn().mockResolvedValue(undefined)
+    const mutateAsync = vi.fn().mockResolvedValue({ nextReviewDate: new Date() })
     const mutation = {
       mutateAsync,
       isPending: false
@@ -84,7 +85,7 @@ describe('FlashcardReview Component', () => {
   it('should call handleResult with 1 when "Lembrei" is clicked and mutation is provided', async () => {
     const user = userEvent.setup()
 
-    const mutateAsync = vi.fn().mockResolvedValue(undefined)
+    const mutateAsync = vi.fn().mockResolvedValue({ nextReviewDate: new Date() })
     const mutation = {
       mutateAsync,
       isPending: false
@@ -111,14 +112,20 @@ describe('FlashcardReview Component', () => {
     expect(mockNavigate).toHaveBeenCalledWith({ to: '/flashcards' })
   })
 
-  it('should reset isRevealed after handling result with mutation', async () => {
+  it('should navigate to next flashcard when there is one', async () => {
     const user = userEvent.setup()
 
-    const mutateAsync = vi.fn().mockResolvedValue(undefined)
+    const mutateAsync = vi.fn().mockResolvedValue({ nextReviewDate: new Date() })
     const mutation = {
       mutateAsync,
       isPending: false
     } as any
+
+    const flashcardsMock = [{ id: 'flashcard-id-1' }, { id: 'flashcard-id-2' }]
+
+    const ensureQueryDataMock = vi.fn().mockResolvedValue(flashcardsMock)
+
+    queryClient.ensureQueryData = ensureQueryDataMock
 
     renderWithContext(() => <FlashcardReview flashcard={flashcard} mutation={mutation} />)
 
@@ -126,7 +133,43 @@ describe('FlashcardReview Component', () => {
 
     await user.click(screen.getByText('Lembrei'))
 
-    expect(screen.getByText('Revelar')).toBeInTheDocument()
+    expect(await screen.findByTestId('dialog-content')).toBeInTheDocument()
+
+    await user.click(screen.getByRole('button', { name: 'Ok' }))
+
+    expect(await screen.findByText('Revelar')).toBeInTheDocument()
+    expect(mockNavigate).toHaveBeenCalledWith({
+      to: '/flashcards/review/$flashcardId',
+      params: { flashcardId: 'flashcard-id-1' },
+      replace: true
+    })
+  })
+
+  it('should navigate to home when there is no next flashcard', async () => {
+    const user = userEvent.setup()
+
+    const mutateAsync = vi.fn().mockResolvedValue({ nextReviewDate: new Date() })
+    const mutation = {
+      mutateAsync,
+      isPending: false
+    } as any
+
+    const ensureQueryDataMock = vi.fn().mockResolvedValue([])
+
+    queryClient.ensureQueryData = ensureQueryDataMock
+
+    renderWithContext(() => <FlashcardReview flashcard={flashcard} mutation={mutation} />)
+
+    await user.click(screen.getByText('Revelar'))
+
+    await user.click(screen.getByText('Lembrei'))
+
+    expect(await screen.findByTestId('dialog-content')).toBeInTheDocument()
+
+    await user.click(screen.getByRole('button', { name: 'Ok' }))
+
+    expect(await screen.findByText('Revelar')).toBeInTheDocument()
+    expect(mockNavigate).toHaveBeenCalledWith({ to: '/home', replace: true })
   })
 
   it('should show Alert when in preview mode (no mutation provided)', () => {
@@ -138,7 +181,12 @@ describe('FlashcardReview Component', () => {
   })
 
   it('should not show Alert when mutation is provided', () => {
-    const mutation = {} as UseMutationResult<void, Error, ReviewResult, unknown>
+    const mutation = {} as UseMutationResult<
+      FlashcardWithRevisionType,
+      Error,
+      ReviewResult,
+      unknown
+    >
 
     renderWithContext(() => <FlashcardReview flashcard={flashcard} mutation={mutation} />)
 

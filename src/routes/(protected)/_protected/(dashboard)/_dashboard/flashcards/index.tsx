@@ -14,14 +14,18 @@ import { Button } from '$/components/ui/button'
 
 import classes from './index.module.scss'
 import { TableButton } from '$/components/TableButton'
+import { getFormattedDate } from '$/lib/datetime'
 
 const Route = createFileRoute('/(protected)/_protected/(dashboard)/_dashboard/flashcards/')({
-  loader: ({ context: { queryClient } }) => queryClient.ensureQueryData(flashcardsQueryOptions()),
+  loader: ({ context: { queryClient } }) =>
+    queryClient.ensureQueryData(flashcardsQueryOptions({ due: true, upcoming: true })),
   component: Component
 })
 
 function Component() {
-  const { data: flashcards } = useSuspenseQuery(flashcardsQueryOptions())
+  const { data: flashcards } = useSuspenseQuery(
+    flashcardsQueryOptions({ due: true, upcoming: true })
+  )
   const queryClient = useQueryClient()
   const mutation = useMutation({
     mutationFn: deleteFlashcard,
@@ -58,6 +62,7 @@ function Component() {
                 <Table.ColumnHeader>Assunto</Table.ColumnHeader>
                 <Table.ColumnHeader>Última modificação</Table.ColumnHeader>
                 <Table.ColumnHeader>Próxima revisão</Table.ColumnHeader>
+                <Table.ColumnHeader>Nível</Table.ColumnHeader>
                 <Table.ColumnHeader textAlign='center'>Ações</Table.ColumnHeader>
               </Table.Row>
             </Table.Header>
@@ -68,8 +73,9 @@ function Component() {
                     <Text truncate>{flashcard.question}</Text>
                   </Table.Cell>
                   <Table.Cell>{flashcard.subject}</Table.Cell>
-                  <Table.Cell>{flashcard.updatedAt}</Table.Cell>
-                  <Table.Cell>???</Table.Cell>
+                  <Table.Cell>{getFormattedDate(flashcard.updatedAt)}</Table.Cell>
+                  <Table.Cell>{getFormattedDate(flashcard.nextReviewDate, true)}</Table.Cell>
+                  <Table.Cell>{flashcard.currentLevel}</Table.Cell>
                   <Table.Cell>
                     <Flex gap='6' justifyContent='center'>
                       <Link

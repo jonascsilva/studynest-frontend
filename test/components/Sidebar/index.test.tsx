@@ -78,10 +78,9 @@ describe('Sidebar Component', () => {
     expect(screen.getByRole('heading', { level: 2 })).toHaveTextContent('StudyNest')
 
     const links = [
-      { text: 'Dashboard', href: '/home' },
+      { text: 'Home', href: '/home' },
       { text: 'Anotações', href: '/notes' },
       { text: 'Flashcards', href: '/flashcards' },
-      { text: 'AI', href: '/ai' },
       { text: 'Configurações', href: '/settings' }
     ]
 
@@ -117,7 +116,7 @@ describe('Sidebar Component', () => {
 
     renderWithContext(() => <Sidebar />)
 
-    const activeLinks = ['Dashboard', 'Flashcards']
+    const activeLinks = ['Home', 'Flashcards']
 
     activeLinks.forEach(text => {
       const button = screen.getByText(text).closest('button')
@@ -125,7 +124,7 @@ describe('Sidebar Component', () => {
       expect(button).toHaveAttribute('data-colorpalette', 'blue')
     })
 
-    const inactiveLinks = ['Anotações', 'AI', 'Configurações']
+    const inactiveLinks = ['Anotações', 'Configurações']
 
     inactiveLinks.forEach(text => {
       const button = screen.getByText(text).closest('button')
@@ -138,11 +137,11 @@ describe('Sidebar Component', () => {
     const logoutMock = vi.fn()
     useAuthMock.mockReturnValue({ logout: logoutMock })
 
-    activeRoutes = ['/home', '/flashcards', '/notes', '/ai', '/settings']
+    activeRoutes = ['/home', '/flashcards', '/notes', '/settings']
 
     renderWithContext(() => <Sidebar />)
 
-    const activeLinks = ['Dashboard', 'Flashcards', 'Anotações', 'AI', 'Configurações']
+    const activeLinks = ['Home', 'Flashcards', 'Anotações', 'Configurações']
 
     activeLinks.forEach(text => {
       const button = screen.getByText(text).closest('button')
@@ -160,7 +159,7 @@ describe('Sidebar Component', () => {
 
     renderWithContext(() => <Sidebar />)
 
-    const links = ['Dashboard', 'Anotações', 'Flashcards', 'AI', 'Configurações']
+    const links = ['Home', 'Anotações', 'Flashcards', 'Configurações']
 
     links.forEach(text => {
       const button = screen.getByText(text).closest('button')

@@ -3,7 +3,7 @@ import { Route } from '$/routes/(protected)/_protected/(dashboard)/_dashboard/fl
 import { queryClient } from '$/lib/query'
 import { flashcardsQueryOptions } from '$/query/flashcardsOptions'
 import { fetchFlashcards } from '$/query/flashcards'
-import { FlashcardType } from '$/types'
+import { FlashcardWithRevisionType } from '$/types'
 
 vi.mock('$/query/flashcards', () => ({
   fetchFlashcards: vi.fn()
@@ -11,19 +11,25 @@ vi.mock('$/query/flashcards', () => ({
 
 describe('Flashcards Route', () => {
   it('should ensure query data is preloaded', async () => {
-    const mockData = [
-      { id: 'fake-id', question: 'What is React?', answer: 'A JavaScript library' }
-    ] as FlashcardType[]
+    const dataMock = [
+      {
+        id: 'fake-id',
+        question: 'What is React?',
+        answer: 'A JavaScript library',
+        currentLevel: 1,
+        nextReviewDate: '2023-01-01'
+      }
+    ] as FlashcardWithRevisionType[]
 
-    vi.mocked(fetchFlashcards).mockResolvedValue(mockData)
+    vi.mocked(fetchFlashcards).mockResolvedValue(dataMock)
 
     const loaderParams = { context: { queryClient } }
 
     await Route.options.loader!(loaderParams as any)
 
-    const data = queryClient.getQueryData(['flashcards'])
+    const data = queryClient.getQueryData(['flashcards', { due: true, upcoming: true }])
 
-    expect(data).toEqual(mockData)
+    expect(data).toEqual(dataMock)
   })
 
   it('should use the correct options', async () => {
@@ -37,7 +43,7 @@ describe('Flashcards Route', () => {
 
     expect(ensureQueryDataMock).toHaveBeenCalledTimes(1)
 
-    const expectedOptions = flashcardsQueryOptions()
+    const expectedOptions = flashcardsQueryOptions({ due: true, upcoming: true })
 
     expect(ensureQueryDataMock).toHaveBeenCalledWith(
       expect.objectContaining({

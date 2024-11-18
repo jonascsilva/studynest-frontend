@@ -11,15 +11,15 @@ it('should render correctly with provided note data', () => {
   }
 
   const mockNote: any = {
-    title: 'Test Title',
     subject: 'Test Subject',
+    title: 'Test Title',
     content: 'Test Content'
   }
 
   renderWithContext(() => <Note mutation={mutationMock} note={mockNote} />)
 
-  expect(screen.getByDisplayValue('Test Title')).toBeInTheDocument()
   expect(screen.getByDisplayValue('Test Subject')).toBeInTheDocument()
+  expect(screen.getByDisplayValue('Test Title')).toBeInTheDocument()
   expect(screen.getByDisplayValue('Test Content')).toBeInTheDocument()
 })
 
@@ -37,10 +37,10 @@ it('should call mutation.mutate with form data', async () => {
 
   expect(inputs.length).toBe(3)
 
-  const [titleInput, subjectInput, contentTextArea] = inputs
+  const [subjectInput, titleInput, contentTextArea] = inputs
 
-  await user.type(titleInput, 'New Title')
   await user.type(subjectInput, 'New Subject')
+  await user.type(titleInput, 'New Title')
   await user.type(contentTextArea, 'New Content')
 
   const submitButton = screen.getByRole('button', { name: /Salvar/i })
@@ -49,8 +49,8 @@ it('should call mutation.mutate with form data', async () => {
 
   expect(mutationMock.mutate).toHaveBeenCalled()
   expect(mutationMock.mutate).toHaveBeenCalledWith({
-    title: 'New Title',
     subject: 'New Subject',
+    title: 'New Title',
     content: 'New Content'
   })
 })
@@ -64,7 +64,7 @@ it('should disable Submit and Back buttons when mutation is pending', () => {
   renderWithContext(() => <Note mutation={mutationMock} />)
 
   const submitButton = screen.getByRole('button', { name: /Salvar/i })
-  const backButton = screen.getByRole('button', { name: /Voltar/i })
+  const backButton = screen.getByTestId('close-button')
 
   expect(submitButton).toBeDisabled()
   expect(backButton).toBeDisabled()

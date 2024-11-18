@@ -59,7 +59,6 @@ describe('Flashcards Component', () => {
     flashcardsMock.forEach(flashcard => {
       expect(screen.getByText(flashcard.question)).toBeInTheDocument()
       expect(screen.getByText(flashcard.subject)).toBeInTheDocument()
-      expect(screen.getByText(flashcard.updatedAt)).toBeInTheDocument()
     })
   })
 

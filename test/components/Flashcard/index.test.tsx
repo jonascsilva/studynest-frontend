@@ -11,15 +11,15 @@ it('should render correctly with provided note data', () => {
   }
 
   const mockFlashcard: any = {
-    question: 'Test Question',
     subject: 'Test Subject',
+    question: 'Test Question',
     answer: 'Test Answer'
   }
 
   renderWithContext(() => <Flashcard mutation={mutationMock} flashcard={mockFlashcard} />)
 
-  expect(screen.getByDisplayValue('Test Question')).toBeInTheDocument()
   expect(screen.getByDisplayValue('Test Subject')).toBeInTheDocument()
+  expect(screen.getByDisplayValue('Test Question')).toBeInTheDocument()
   expect(screen.getByDisplayValue('Test Answer')).toBeInTheDocument()
 })
 
@@ -37,20 +37,19 @@ it('should call mutation.mutate with form data', async () => {
 
   expect(inputs.length).toBe(3)
 
-  const [questionInput, subjectInput, answerTextArea] = inputs
+  const [subjectInput, questionInput, answerTextArea] = inputs
 
-  await user.type(questionInput, 'New Question')
   await user.type(subjectInput, 'New Subject')
+  await user.type(questionInput, 'New Question')
   await user.type(answerTextArea, 'New Answer')
 
   const submitButton = screen.getByRole('button', { name: /Salvar/i })
 
   await user.click(submitButton)
 
-  expect(mutationMock.mutate).toHaveBeenCalled()
   expect(mutationMock.mutate).toHaveBeenCalledWith({
-    question: 'New Question',
     subject: 'New Subject',
+    question: 'New Question',
     answer: 'New Answer'
   })
 })
@@ -64,7 +63,7 @@ it('should disable Submit and Back buttons when mutation is pending', () => {
   renderWithContext(() => <Flashcard mutation={mutationMock} />)
 
   const submitButton = screen.getByRole('button', { name: /Salvar/i })
-  const backButton = screen.getByRole('button', { name: /Voltar/i })
+  const backButton = screen.getByTestId('close-button')
 
   expect(submitButton).toBeDisabled()
   expect(backButton).toBeDisabled()

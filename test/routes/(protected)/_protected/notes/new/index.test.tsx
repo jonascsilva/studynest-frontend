@@ -16,8 +16,8 @@ it('should submit a new note and navigate on success', async () => {
 
   const noteMock = {
     id: '123',
-    title: 'New Title',
     subject: 'New Subject',
+    title: 'New Title',
     content: 'New Content'
   }
 
@@ -33,10 +33,10 @@ it('should submit a new note and navigate on success', async () => {
 
   expect(inputs.length).toBe(3)
 
-  const [titleInput, subjectInput, contentTextArea] = inputs
+  const [subjectInput, titleInput, contentTextArea] = inputs
 
-  await user.type(titleInput, 'New Title')
   await user.type(subjectInput, 'New Subject')
+  await user.type(titleInput, 'New Title')
   await user.type(contentTextArea, 'New Content')
 
   const submitButton = screen.getByRole('button', { name: /Salvar/i })
@@ -44,8 +44,8 @@ it('should submit a new note and navigate on success', async () => {
   await user.click(submitButton)
 
   expect(createNote).toHaveBeenCalledWith({
-    title: 'New Title',
     subject: 'New Subject',
+    title: 'New Title',
     content: 'New Content'
   })
 

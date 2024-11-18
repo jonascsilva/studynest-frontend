@@ -59,7 +59,6 @@ describe('Notes Component', () => {
     notesMock.forEach(note => {
       expect(screen.getByText(note.title)).toBeInTheDocument()
       expect(screen.getByText(note.subject)).toBeInTheDocument()
-      expect(screen.getByText(note.updatedAt)).toBeInTheDocument()
     })
   })
 

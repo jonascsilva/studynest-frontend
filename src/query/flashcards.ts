@@ -1,4 +1,9 @@
-import { FlashcardsQueryOptions, FlashcardType, ReviewResult } from '$/types'
+import {
+  FlashcardsQueryOptions,
+  FlashcardType,
+  FlashcardWithRevisionType,
+  ReviewResult
+} from '$/types'
 import { serializeParams } from '$/query/utils'
 import { fetcher } from '$/query/fetcher'
 
@@ -16,10 +21,12 @@ async function fetchFlashcard(flashcardId: string): Promise<FlashcardType> {
   return flashcard
 }
 
-async function fetchFlashcards(opts: FlashcardsQueryOptions = {}): Promise<FlashcardType[]> {
+async function fetchFlashcards(
+  opts: FlashcardsQueryOptions = {}
+): Promise<FlashcardWithRevisionType[]> {
   const queryString = serializeParams(opts)
 
-  const flashcards = await fetcher<FlashcardType[]>(`flashcards?${queryString}`)
+  const flashcards = await fetcher<FlashcardWithRevisionType[]>(`flashcards?${queryString}`)
 
   return flashcards
 }
@@ -33,8 +40,14 @@ function updateFlashcard(flashcardId: string) {
 }
 
 function reviewFlashcard(flashcardId: string) {
-  return async (reviewResult: ReviewResult): Promise<void> => {
-    await fetcher(`flashcards/review/${flashcardId}`, 'POST', reviewResult)
+  return async (reviewResult: ReviewResult): Promise<FlashcardWithRevisionType> => {
+    const flashcardWithReview = await fetcher<FlashcardWithRevisionType>(
+      `flashcards/review/${flashcardId}`,
+      'POST',
+      reviewResult
+    )
+
+    return flashcardWithReview
   }
 }
 

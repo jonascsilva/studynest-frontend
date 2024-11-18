@@ -6,6 +6,7 @@ import { useMutation, useQueryClient, useSuspenseQuery } from '@tanstack/react-q
 import { deleteNote } from '$/query/notes'
 import { Button } from '$/components/ui/button'
 import { TableButton } from '$/components/TableButton'
+import { getFormattedDate } from '$/lib/datetime'
 
 import classes from './index.module.scss'
 
@@ -61,7 +62,7 @@ function Component() {
                     <Text truncate>{note.title}</Text>
                   </Table.Cell>
                   <Table.Cell>{note.subject}</Table.Cell>
-                  <Table.Cell>{note.updatedAt}</Table.Cell>
+                  <Table.Cell>{getFormattedDate(note.updatedAt)}</Table.Cell>
                   <Table.Cell>
                     <Flex gap='6' justifyContent='center'>
                       <Link

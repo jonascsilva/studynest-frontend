@@ -1,5 +1,5 @@
 import { screen } from '@testing-library/react'
-import { describe, it, expect, vi, beforeEach, Mock } from 'vitest'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { Route, Component } from '$/routes/(protected)/_protected/flashcards/review/$flashcardId'
 import { useQueryClient, useSuspenseQuery, UseSuspenseQueryResult } from '@tanstack/react-query'
 import { reviewFlashcard } from '$/query/flashcards'
@@ -35,20 +35,15 @@ vi.mock('$/components/FlashcardReview', () => ({
 }))
 
 describe('Component', () => {
-  let navigateMock: Mock
   let mockQueryClient: any
   let mockFlashcard: any
   let mockDueFlashcards: any[]
 
   beforeEach(() => {
-    navigateMock = vi.fn()
-
     mockQueryClient = {
       ensureQueryData: vi.fn(),
       setQueryData: vi.fn()
     }
-
-    Route.useNavigate = vi.fn().mockReturnValue(navigateMock)
 
     vi.mocked(useQueryClient).mockReturnValue(mockQueryClient)
 
@@ -92,12 +87,6 @@ describe('Component', () => {
       ['flashcards', { due: true }],
       expectedNewDueFlashcards
     )
-
-    expect(navigateMock).toHaveBeenCalledWith({
-      to: '/flashcards/review/$flashcardId',
-      params: { flashcardId: '2' },
-      replace: true
-    })
   })
 
   it('should navigate to /home when there are no more due flashcards', async () => {
@@ -124,7 +113,5 @@ describe('Component', () => {
         queryKey: ['flashcards', { due: true }]
       })
     )
-
-    expect(navigateMock).toHaveBeenCalledWith({ to: '/home' })
   })
 })

@@ -8,6 +8,11 @@ type FlashcardType = {
   updatedAt: string
 }
 
+type FlashcardWithRevisionType = FlashcardType & {
+  nextReviewDate: string
+  currentLevel: number
+}
+
 type NoteType = {
   id: string
   title: string
@@ -29,6 +34,14 @@ type UserCredentials = {
 
 type FlashcardsQueryOptions = {
   due?: boolean
+  upcoming?: boolean
 }
 
-export type { FlashcardType, NoteType, ReviewResult, UserCredentials, FlashcardsQueryOptions }
+export type {
+  FlashcardType,
+  FlashcardWithRevisionType,
+  NoteType,
+  ReviewResult,
+  UserCredentials,
+  FlashcardsQueryOptions
+}

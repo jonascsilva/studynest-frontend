@@ -16,8 +16,8 @@ it('should submit a new flashcard and navigate on success', async () => {
 
   const flashcardMock = {
     id: '123',
-    question: 'New Question',
     subject: 'New Subject',
+    question: 'New Question',
     answer: 'New Answer'
   }
 
@@ -33,10 +33,10 @@ it('should submit a new flashcard and navigate on success', async () => {
 
   expect(inputs.length).toBe(3)
 
-  const [questionInput, subjectInput, answerTextArea] = inputs
+  const [subjectInput, questionInput, answerTextArea] = inputs
 
-  await user.type(questionInput, 'New Question')
   await user.type(subjectInput, 'New Subject')
+  await user.type(questionInput, 'New Question')
   await user.type(answerTextArea, 'New Answer')
 
   const submitButton = screen.getByRole('button', { name: /Salvar/i })
@@ -44,8 +44,8 @@ it('should submit a new flashcard and navigate on success', async () => {
   await user.click(submitButton)
 
   expect(createFlashcard).toHaveBeenCalledWith({
-    question: 'New Question',
     subject: 'New Subject',
+    question: 'New Question',
     answer: 'New Answer'
   })
 

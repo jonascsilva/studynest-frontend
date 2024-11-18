@@ -3,15 +3,8 @@ import { Heading } from '@chakra-ui/react'
 import { Button } from '$/components/ui/button'
 import classes from './index.module.scss'
 import { useAuth } from '$/hooks/useAuth'
-import {
-  BsCardText,
-  BsDoorOpen,
-  BsFileEarmarkText,
-  BsGear,
-  BsHouseDoor,
-  BsStars
-} from 'react-icons/bs'
-import { Separator } from "@chakra-ui/react"
+import { BsCardText, BsDoorOpen, BsFileEarmarkText, BsGear, BsHouseDoor } from 'react-icons/bs'
+import { Separator } from '@chakra-ui/react'
 
 function Sidebar() {
   const { logout } = useAuth()
@@ -29,7 +22,7 @@ function Sidebar() {
             colorPalette={isActive ? 'blue' : undefined}
             width='100%'
           >
-            <BsHouseDoor /> Dashboard
+            <BsHouseDoor /> Home
           </Button>
         )}
       </Link>
@@ -54,18 +47,6 @@ function Sidebar() {
             width='100%'
           >
             <BsCardText /> Flashcards
-          </Button>
-        )}
-      </Link>
-      <Link to='/ai' className={classes.link}>
-        {({ isActive }) => (
-          <Button
-            size='lg'
-            variant='surface'
-            colorPalette={isActive ? 'blue' : undefined}
-            width='100%'
-          >
-            <BsStars /> AI
           </Button>
         )}
       </Link>

@@ -1,10 +1,12 @@
 import { UseMutationResult } from '@tanstack/react-query'
-import { Textarea, Input } from '@chakra-ui/react'
+import { Textarea, Heading, Input } from '@chakra-ui/react'
 import { Button } from '$/components/ui/button'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { Link } from '@tanstack/react-router'
 import classes from './index.module.scss'
 import { FlashcardType } from '$/types'
+import { CloseButton } from '$/components/ui/close-button'
+import { BsStars } from 'react-icons/bs'
 
 type Inputs = {
   question: string
@@ -28,22 +30,62 @@ function Flashcard({ mutation, flashcard }: Readonly<Props>) {
     <form onSubmit={handleSubmit(onSubmit)} className={classes.form}>
       <header className={classes.header}>
         <div className={classes.leftContent}>
-          <Input defaultValue={flashcard?.question} {...register('question')} />
-          <Input defaultValue={flashcard?.subject} {...register('subject')} />
-        </div>
-        <div className={classes.rightContent}>
-          <Button loading={mutation.isPending} colorPalette='green' type='submit'>
+          <Link to='/flashcards'>
+            <CloseButton disabled={mutation.isPending} size='lg' variant='solid' />
+          </Link>
+          <Button loading={mutation.isPending} colorPalette='green' type='submit' size='lg'>
             Salvar
           </Button>
-          <Link to='/flashcards'>
-            <Button disabled={mutation.isPending} variant='outline'>
-              Voltar
-            </Button>
-          </Link>
         </div>
+        <Heading size='3xl' justifySelf='center'>
+          {flashcard ? 'Editar' : 'Criar'}
+        </Heading>
       </header>
-      <div className={classes.contentContainer}>
-        <Textarea defaultValue={flashcard?.answer} {...register('answer')} h='100%' />
+      <div className={classes.inputContainer}>
+        <div className={classes.labelContainer}>
+          <Heading size='xl'>Assunto</Heading>
+        </div>
+        <Input
+          w='20%'
+          size='xl'
+          variant='subtle'
+          defaultValue={flashcard?.subject}
+          {...register('subject')}
+        />
+      </div>
+      <div className={classes.inputContainer}>
+        <div className={classes.labelContainer}>
+          <Heading size='2xl'>Pergunta</Heading>
+        </div>
+        <Textarea
+          px='1rem'
+          fontSize='xl'
+          lineHeight='1.6'
+          resize='none'
+          flexGrow='1'
+          variant='subtle'
+          defaultValue={flashcard?.question}
+          {...register('question')}
+        />
+      </div>
+      <div className={classes.inputContainer}>
+        <div className={classes.labelContainer}>
+          <Heading size='2xl'>Resposta</Heading>
+          <Button colorPalette='blue' size='sm'>
+            <BsStars /> Gerar
+          </Button>
+        </div>
+        <Textarea
+          px='1rem'
+          size='xl'
+          fontSize='xl'
+          lineHeight='1.6'
+          resize='none'
+          flexGrow='1'
+          variant='subtle'
+          defaultValue={flashcard?.answer}
+          {...register('answer')}
+        />
       </div>
     </form>
   )
