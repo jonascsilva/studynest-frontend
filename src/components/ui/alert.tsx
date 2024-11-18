@@ -1,5 +1,5 @@
 import { Alert as ChakraAlert } from '@chakra-ui/react'
-import { CloseButton } from './close-button'
+import { CloseButton } from '$/components/ui/close-button'
 import { forwardRef } from 'react'
 
 export interface AlertProps extends Omit<ChakraAlert.RootProps, 'title'> {

@@ -3,6 +3,7 @@ import { Button, Heading, Text } from '@chakra-ui/react'
 
 import classes from './index.module.scss'
 import { useAuth } from '$/hooks/useAuth'
+import { ColorModeButton } from '$/components/ui/color-mode-button'
 
 const Route = createLazyFileRoute('/')({
   component: Component
@@ -40,6 +41,7 @@ function Component() {
               </Link>
             </>
           )}
+          <ColorModeButton />
         </div>
       </nav>
       <main className={classes.main}>

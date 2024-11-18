@@ -5,15 +5,19 @@ import classes from './index.module.scss'
 import { useAuth } from '$/hooks/useAuth'
 import { BsCardText, BsDoorOpen, BsFileEarmarkText, BsGear, BsHouseDoor } from 'react-icons/bs'
 import { Separator } from '@chakra-ui/react'
+import { ColorModeButton } from '$/components/ui/color-mode-button'
 
 function Sidebar() {
   const { logout } = useAuth()
 
   return (
     <aside className={classes.sidebar}>
-      <Heading className={classes.heading} size='5xl'>
-        Study<span>Nest</span>
-      </Heading>
+      <div className={classes.headerContainer}>
+        <Heading className={classes.heading} size='5xl'>
+          Study<span>Nest</span>
+        </Heading>
+        <ColorModeButton />
+      </div>
       <Link to='/home' className={classes.link}>
         {({ isActive }) => (
           <Button

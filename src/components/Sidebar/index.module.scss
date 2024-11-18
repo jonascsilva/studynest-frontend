@@ -1,7 +1,6 @@
 @use '$/styles/colors' as *;
 
 .sidebar {
-  border-right: solid 0.2rem $gray-900;
   height: inherit;
   display: flex;
   flex-direction: column;
@@ -18,7 +17,16 @@
   width: 100%;
 }
 
+.headerContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
 .heading {
+  padding-bottom: 0.5rem;
+
   span {
     color: $blue-600;
   }
