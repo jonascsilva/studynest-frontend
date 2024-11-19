@@ -1,18 +1,43 @@
 import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { describe, it, expect, vi, beforeEach, afterEach, MockInstance } from 'vitest'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { Component } from '$/routes/(auth)/signup'
 import { renderWithContext } from '../../../customRender'
+import { useAuth } from '$/hooks/useAuth'
+import { useNavigate } from '@tanstack/react-router'
+import { useMutation } from '@tanstack/react-query'
+
+vi.mock('$/hooks/useAuth')
+
+vi.mock(import('@tanstack/react-router'), async importOriginal => {
+  const actual = await importOriginal()
+
+  return {
+    ...actual,
+    useNavigate: vi.fn()
+  }
+})
+
+vi.mock(import('@tanstack/react-query'), async importOriginal => {
+  const actual = await importOriginal()
+
+  return {
+    ...actual,
+    useMutation: vi.fn(({ mutationFn }) => ({ mutate: mutationFn })) as any
+  }
+})
 
 describe('SignUp Component', () => {
-  let consoleLogSpy: MockInstance
+  const mockNavigate = vi.fn()
+  const signupMock = vi.fn()
 
   beforeEach(() => {
-    consoleLogSpy = vi.spyOn(console, 'log').mockImplementation(() => {})
-  })
+    vi.mocked(useAuth).mockReturnValue({
+      signup: signupMock,
+      isAuthenticated: false
+    } as any)
 
-  afterEach(() => {
-    vi.restoreAllMocks()
+    vi.mocked(useNavigate).mockReturnValue(mockNavigate)
   })
 
   it('should render the sign-up form', () => {
@@ -80,13 +105,33 @@ describe('SignUp Component', () => {
 
     await user.click(screen.getByRole('button', { name: /cadastre-se/i }))
 
-    expect(consoleLogSpy).toHaveBeenCalledWith({
-      name: 'Test User',
+    expect(signupMock).toHaveBeenCalledWith({
+      confirmPassword: '123456',
       email: 'test@example.com',
-      password: '123456',
-      confirmPassword: '123456'
+      name: 'Test User',
+      password: '123456'
     })
+  })
 
-    consoleLogSpy.mockRestore()
+  it('should show validation error for invalid request', async () => {
+    vi.mocked(useMutation).mockReturnValue({ error: true } as any)
+
+    renderWithContext(Component)
+
+    expect(screen.getByText('Credenciais incorretas')).toBeInTheDocument()
+  })
+
+  it('should redirect if user is signed in', async () => {
+    vi.mocked(useAuth).mockReturnValue({
+      signup: signupMock,
+      isAuthenticated: true
+    } as any)
+
+    renderWithContext(Component)
+
+    expect(mockNavigate).toHaveBeenCalledWith({
+      to: '/home',
+      replace: true
+    })
   })
 })

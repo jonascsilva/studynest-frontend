@@ -20,13 +20,21 @@ async function fetcher<T>(path: string, method: string = 'GET', data?: unknown):
 
   const contentType = response.headers.get('content-type')
 
-  if (contentType?.includes('application/json')) {
-    const responseBody = await response.json()
+  let responseBody: any
 
-    return responseBody
+  if (contentType?.includes('application/json')) {
+    responseBody = await response.json()
   }
 
-  return undefined as T
+  if (!response.ok) {
+    if (responseBody?.message) {
+      throw new Error(responseBody.message)
+    }
+
+    throw new Error('Falha na requisição')
+  }
+
+  return responseBody
 }
 
 export { fetcher }

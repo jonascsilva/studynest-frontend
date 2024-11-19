@@ -1,11 +1,15 @@
-import { createFileRoute, redirect } from '@tanstack/react-router'
+import { createFileRoute, redirect, useNavigate } from '@tanstack/react-router'
 import { useForm } from 'react-hook-form'
 import { Input, VStack, Text, Link, Card } from '@chakra-ui/react'
+
 import { Field } from '$/components/ui/field'
 import { Button } from '$/components/ui/button'
+import { PasswordInput } from '$/components/ui/password-input'
 
 import classes from './index.module.scss'
-import { PasswordInput } from '$/components/ui/password-input'
+import { useAuth } from '$/hooks/useAuth'
+import { useLayoutEffect } from 'react'
+import { useMutation } from '@tanstack/react-query'
 
 type FormData = {
   name: string
@@ -24,6 +28,8 @@ const Route = createFileRoute('/(auth)/signup/')({
 })
 
 function Component() {
+  const { signup, isAuthenticated } = useAuth()
+  const navigate = useNavigate()
   const {
     register,
     handleSubmit,
@@ -31,8 +37,18 @@ function Component() {
     formState: { errors, isSubmitting }
   } = useForm<FormData>()
 
+  useLayoutEffect(() => {
+    if (isAuthenticated) {
+      navigate({ to: '/home', replace: true })
+    }
+  }, [isAuthenticated, navigate])
+
+  const mutation = useMutation({
+    mutationFn: signup
+  })
+
   const onSubmit = (data: FormData) => {
-    console.log(data)
+    mutation.mutate(data)
   }
 
   return (
@@ -95,6 +111,9 @@ function Component() {
               <Button mt={4} colorPalette='blue' loading={isSubmitting} type='submit' width='100%'>
                 Cadastre-se
               </Button>
+              <div className={classes.errorContainer}>
+                <span>{mutation.error && 'Credenciais incorretas'}</span>
+              </div>
               <Text>
                 Já tem uma conta?{' '}
                 <Link color='blue.500' href='/signin'>

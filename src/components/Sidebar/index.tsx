@@ -15,7 +15,7 @@ import { Separator } from '@chakra-ui/react'
 import { ColorModeButton } from '$/components/ui/color-mode-button'
 
 function Sidebar() {
-  const { logout } = useAuth()
+  const { signout } = useAuth()
 
   return (
     <aside className={classes.sidebar}>
@@ -86,7 +86,7 @@ function Sidebar() {
           </Button>
         )}
       </Link>
-      <Button size='lg' variant='outline' colorPalette='red' width='100%' onClick={logout}>
+      <Button size='lg' variant='outline' colorPalette='red' width='100%' onClick={signout}>
         <BsDoorOpen /> Sair
       </Button>
     </aside>

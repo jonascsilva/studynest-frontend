@@ -5,7 +5,7 @@ import { QueryClientProvider } from '@tanstack/react-query'
 import { Provider as ChakraProvider } from '$/components/ui/provider'
 
 import { queryClient } from '$/lib/query'
-import { AuthProvider } from '$/contexts/auth'
+import { AuthProvider } from '$/contexts/AuthProvider'
 import { App } from '$/App'
 
 const rootElement = document.getElementById('root')!
@@ -15,13 +15,13 @@ if (!rootElement.innerHTML) {
 
   root.render(
     <StrictMode>
-      <ChakraProvider>
+      <AuthProvider>
         <QueryClientProvider client={queryClient}>
-          <AuthProvider>
+          <ChakraProvider>
             <App />
-          </AuthProvider>
+          </ChakraProvider>
         </QueryClientProvider>
-      </ChakraProvider>
+      </AuthProvider>
     </StrictMode>
   )
 }

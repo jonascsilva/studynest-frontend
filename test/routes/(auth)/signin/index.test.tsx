@@ -1,24 +1,43 @@
 import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { renderWithContext } from '../../../customRender'
 import { Component } from '$/routes/(auth)/signin'
 import { useAuth } from '$/hooks/useAuth'
+import { useNavigate } from '@tanstack/react-router'
+import { useMutation } from '@tanstack/react-query'
 
 vi.mock('$/hooks/useAuth')
 
+vi.mock(import('@tanstack/react-router'), async importOriginal => {
+  const actual = await importOriginal()
+
+  return {
+    ...actual,
+    useNavigate: vi.fn()
+  }
+})
+
+vi.mock(import('@tanstack/react-query'), async importOriginal => {
+  const actual = await importOriginal()
+
+  return {
+    ...actual,
+    useMutation: vi.fn(({ mutationFn }) => ({ mutate: mutationFn })) as any
+  }
+})
+
 describe('SignIn Component', () => {
-  const loginMock = vi.fn()
+  const mockNavigate = vi.fn()
+  const signinMock = vi.fn()
 
   beforeEach(() => {
     vi.mocked(useAuth).mockReturnValue({
-      login: loginMock,
+      signin: signinMock,
       isAuthenticated: false
     } as any)
-  })
 
-  afterEach(() => {
-    vi.restoreAllMocks()
+    vi.mocked(useNavigate).mockReturnValue(mockNavigate)
   })
 
   it('should render the sign-in form', () => {
@@ -63,9 +82,31 @@ describe('SignIn Component', () => {
 
     await user.click(screen.getByRole('button', { name: /entrar/i }))
 
-    expect(loginMock).toHaveBeenCalledWith({
+    expect(signinMock).toHaveBeenCalledWith({
       email: 'test@example.com',
       password: '123456'
+    })
+  })
+
+  it('should show validation error for invalid request', async () => {
+    vi.mocked(useMutation).mockReturnValue({ error: true } as any)
+
+    renderWithContext(Component)
+
+    expect(screen.getByText('Credenciais incorretas')).toBeInTheDocument()
+  })
+
+  it('should redirect if user is signed in', async () => {
+    vi.mocked(useAuth).mockReturnValue({
+      signin: signinMock,
+      isAuthenticated: true
+    } as any)
+
+    renderWithContext(Component)
+
+    expect(mockNavigate).toHaveBeenCalledWith({
+      to: '/home',
+      replace: true
     })
   })
 })

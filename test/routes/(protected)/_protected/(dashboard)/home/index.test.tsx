@@ -3,7 +3,7 @@ import { describe, it, expect, vi, beforeEach, Mock } from 'vitest'
 import { renderWithContext } from '../../../../../customRender'
 import { Component } from '$/routes/(protected)/_protected/(dashboard)/_dashboard/home/index'
 import { useAuth } from '$/hooks/useAuth'
-import { AuthContextType } from '$/contexts/auth'
+import { AuthContextType } from '$/contexts/AuthContext'
 import { flashcardsQueryOptions } from '$/query/flashcardsOptions'
 import { useSuspenseQuery, UseSuspenseQueryResult } from '@tanstack/react-query'
 

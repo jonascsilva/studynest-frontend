@@ -27,7 +27,13 @@ type ReviewResult = {
   result: number
 }
 
-type UserCredentials = {
+type SignInCredentials = {
+  email: string
+  password: string
+}
+
+type SignUpCredentials = {
+  name: string
   email: string
   password: string
 }
@@ -44,12 +50,25 @@ type UserSettingsType = {
   intervalIncreaseRate: number
 }
 
+type AuthUser = {
+  id: string
+  email: string
+  name?: string
+}
+
+type AuthResponse = {
+  access_token: string
+}
+
 export type {
+  AuthResponse,
+  AuthUser,
   FlashcardType,
   FlashcardWithRevisionType,
   NoteType,
   ReviewResult,
-  UserCredentials,
+  SignInCredentials,
+  SignUpCredentials,
   FlashcardsQueryOptions,
   UserSettingsType
 }

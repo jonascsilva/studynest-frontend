@@ -69,9 +69,9 @@ describe('Sidebar Component', () => {
   })
 
   it('should render the Sidebar with all links', () => {
-    const logoutMock = vi.fn()
+    const signoutMock = vi.fn()
 
-    useAuthMock.mockReturnValue({ logout: logoutMock })
+    useAuthMock.mockReturnValue({ signout: signoutMock, isAuthenticated: true })
 
     renderWithContext(() => <Sidebar />)
 
@@ -93,25 +93,25 @@ describe('Sidebar Component', () => {
     expect(screen.getByText('Sair')).toBeInTheDocument()
   })
 
-  it('should call logout when logout button is clicked', async () => {
-    const logoutMock = vi.fn()
+  it('should call SignOut when SignOut button is clicked', async () => {
+    const signoutMock = vi.fn()
 
-    useAuthMock.mockReturnValue({ logout: logoutMock })
+    useAuthMock.mockReturnValue({ signout: signoutMock, isAuthenticated: true })
 
     const user = userEvent.setup()
 
     renderWithContext(() => <Sidebar />)
 
-    const logoutButton = screen.getByText('Sair')
+    const signoutButton = screen.getByText('Sair')
 
-    await user.click(logoutButton)
+    await user.click(signoutButton)
 
-    expect(logoutMock).toHaveBeenCalledTimes(1)
+    expect(signoutMock).toHaveBeenCalledTimes(1)
   })
 
   it('should apply colorPalette="blue" to active links', () => {
-    const logoutMock = vi.fn()
-    useAuthMock.mockReturnValue({ logout: logoutMock })
+    const signoutMock = vi.fn()
+    useAuthMock.mockReturnValue({ signout: signoutMock, isAuthenticated: true })
 
     activeRoutes = ['/home', '/flashcards']
 
@@ -135,8 +135,8 @@ describe('Sidebar Component', () => {
   })
 
   it('should apply colorPalette="blue" to all links when all routes are active', () => {
-    const logoutMock = vi.fn()
-    useAuthMock.mockReturnValue({ logout: logoutMock })
+    const signoutMock = vi.fn()
+    useAuthMock.mockReturnValue({ signout: signoutMock, isAuthenticated: true })
 
     activeRoutes = ['/home', '/flashcards', '/notes', '/faq', '/settings']
 
@@ -152,9 +152,9 @@ describe('Sidebar Component', () => {
   })
 
   it('should not apply colorPalette="blue" to any links when no routes are active', () => {
-    const logoutMock = vi.fn()
+    const signoutMock = vi.fn()
 
-    useAuthMock.mockReturnValue({ logout: logoutMock })
+    useAuthMock.mockReturnValue({ signout: signoutMock, isAuthenticated: true })
 
     activeRoutes = []
 

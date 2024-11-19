@@ -27,8 +27,9 @@ describe('fetcher', () => {
     vi.mocked(getStoredToken).mockReturnValue(token)
 
     const mockResponse = {
+      ok: true,
       headers: {
-        get: vi.fn(() => 'application/json')
+        get: vi.fn(() => ['application/json'])
       },
       json: vi.fn(() => Promise.resolve({ success: true }))
     }
@@ -61,8 +62,9 @@ describe('fetcher', () => {
     vi.mocked(getStoredToken).mockReturnValue(token)
 
     const mockResponse = {
+      ok: true,
       headers: {
-        get: vi.fn(() => 'application/json')
+        get: vi.fn(() => ['application/json'])
       },
       json: vi.fn(() => Promise.resolve({ success: true }))
     }
@@ -94,6 +96,7 @@ describe('fetcher', () => {
     vi.mocked(getStoredToken as Mock).mockReturnValue(token)
 
     const mockResponse = {
+      ok: true,
       headers: {
         get: vi.fn(() => 'text/plain')
       }
@@ -124,8 +127,9 @@ describe('fetcher', () => {
     vi.mocked(getStoredToken as Mock).mockReturnValue(token)
 
     const mockResponse = {
+      ok: true,
       headers: {
-        get: vi.fn(() => 'application/json')
+        get: vi.fn(() => ['application/json'])
       },
       json: vi.fn(() => Promise.resolve({ success: true }))
     }
@@ -157,8 +161,9 @@ describe('fetcher', () => {
     vi.mocked(getStoredToken as Mock).mockReturnValue(token)
 
     const mockResponse = {
+      ok: true,
       headers: {
-        get: vi.fn(() => 'application/json')
+        get: vi.fn(() => ['application/json'])
       },
       json: vi.fn(() => Promise.resolve({ success: true }))
     }
@@ -190,8 +195,9 @@ describe('fetcher', () => {
     vi.mocked(getStoredToken as Mock).mockReturnValue(token)
 
     const mockResponse = {
+      ok: true,
       headers: {
-        get: vi.fn(() => 'application/json')
+        get: vi.fn(() => ['application/json'])
       },
       json: vi.fn(() => Promise.resolve({ success: true }))
     }
@@ -220,12 +226,111 @@ describe('fetcher', () => {
     const path = 'test-path'
     const method = 'GET'
 
-    vi.mocked(getStoredToken as Mock).mockReturnValue(token)
+    vi.mocked(getStoredToken).mockReturnValue(token)
 
     const fetchError = new Error('Network error')
 
     vi.mocked(fetch as Mock).mockRejectedValue(fetchError)
 
     await expect(fetcher(path, method)).rejects.toThrow(fetchError)
+  })
+
+  it('should throw an error with responseBody.message when response.ok is false and responseBody has a message', async () => {
+    const token = 'test-token'
+    const path = 'test-path'
+    const method = 'GET'
+
+    vi.mocked(getStoredToken).mockReturnValue(token)
+
+    const mockResponse = {
+      ok: false,
+      headers: {
+        get: vi.fn(() => ['application/json'])
+      },
+      json: vi.fn(() => Promise.resolve({ message: 'Error message from server' }))
+    }
+
+    vi.mocked(fetch as Mock).mockResolvedValue(mockResponse)
+
+    await expect(fetcher(path, method)).rejects.toThrow('Error message from server')
+
+    expect(fetch).toHaveBeenCalledWith(`${import.meta.env.VITE_BACKEND_URL}/${path}`, {
+      method: method,
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      },
+      body: undefined
+    })
+
+    expect(mockResponse.headers.get).toHaveBeenCalledWith('content-type')
+    expect(mockResponse.json).toHaveBeenCalled()
+  })
+
+  it('should throw a generic error when response.ok is false and responseBody has no message', async () => {
+    const token = 'test-token'
+    const path = 'test-path'
+    const method = 'GET'
+
+    vi.mocked(getStoredToken as Mock).mockReturnValue(token)
+
+    const mockResponse = {
+      ok: false,
+      headers: {
+        get: vi.fn(() => ['application/json'])
+      },
+      json: vi.fn(() => Promise.resolve({}))
+    }
+
+    vi.mocked(fetch as Mock).mockResolvedValue(mockResponse)
+
+    await expect(fetcher(path, method)).rejects.toThrow('Falha na requisição')
+
+    expect(fetch).toHaveBeenCalledWith(`${import.meta.env.VITE_BACKEND_URL}/${path}`, {
+      method: method,
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      },
+      body: undefined
+    })
+
+    expect(mockResponse.headers.get).toHaveBeenCalledWith('content-type')
+    expect(mockResponse.json).toHaveBeenCalled()
+  })
+
+  it('should throw a generic error when response.ok is false and responseBody is undefined', async () => {
+    const token = 'test-token'
+    const path = 'test-path'
+    const method = 'GET'
+
+    vi.mocked(getStoredToken as Mock).mockReturnValue(token)
+
+    const mockResponse = {
+      ok: false,
+      headers: {
+        get: vi.fn(() => ['application/json'])
+      },
+      json: vi.fn(() => Promise.resolve(undefined))
+    }
+
+    vi.mocked(fetch as Mock).mockResolvedValue(mockResponse)
+
+    await expect(fetcher(path, method)).rejects.toThrow('Falha na requisição')
+
+    expect(fetch).toHaveBeenCalledWith(`${import.meta.env.VITE_BACKEND_URL}/${path}`, {
+      method: method,
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      },
+      body: undefined
+    })
+
+    expect(mockResponse.headers.get).toHaveBeenCalledWith('content-type')
+    expect(mockResponse.json).toHaveBeenCalled()
   })
 })

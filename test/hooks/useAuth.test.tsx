@@ -1,14 +1,15 @@
 import { renderHook } from '@testing-library/react'
 import { useAuth } from '$/hooks/useAuth'
-import { AuthContext } from '$/contexts/auth'
+import { AuthContext } from '$/contexts/AuthContext'
 import { describe, it, expect, vi } from 'vitest'
 
 describe('useAuth hook', () => {
   it('should return the context when used within AuthProvider', () => {
     const mockAuthContextValue = {
       user: { id: 'fake-id', name: 'Test User', email: 'test@example.com' },
-      login: vi.fn(),
-      logout: vi.fn(),
+      signin: vi.fn(),
+      signup: vi.fn(),
+      signout: vi.fn(),
       token: 'fake-token',
       isAuthenticated: true
     }

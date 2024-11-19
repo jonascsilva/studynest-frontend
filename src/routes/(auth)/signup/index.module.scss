@@ -1,6 +1,15 @@
+@use '$/styles/colors' as *;
+
 .container {
   height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.errorContainer {
+  height: 2rem;
+  align-content: center;
+  color: $red-400;
+  font-weight: 600;
 }

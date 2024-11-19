@@ -48,9 +48,11 @@ function Component() {
         ) : (
           <>
             <Alert status='success' title='Nada para revisar no momento.' w='auto' />
-            <Button size='lg' variant='solid' colorPalette='blue'>
-              Criar Flashcard
-            </Button>
+            <Link to='/flashcards/new'>
+              <Button size='lg' variant='solid' colorPalette='blue'>
+                Criar Flashcard
+              </Button>
+            </Link>
           </>
         )}
       </section>

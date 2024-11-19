@@ -1,13 +1,17 @@
-import { UserCredentials } from '$/types'
+import { AuthResponse, SignInCredentials, SignUpCredentials } from '$/types'
 
-async function signin(data: UserCredentials) {
-  const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/auth/signin`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data)
-  })
+import { fetcher } from '$/query/fetcher'
 
-  return response.json()
+async function signin(data: SignInCredentials) {
+  const user = await fetcher<AuthResponse>(`auth/signin`, 'POST', data)
+
+  return user
 }
 
-export { signin }
+async function signup(data: SignUpCredentials) {
+  const user = await fetcher<AuthResponse>(`auth/signup`, 'POST', data)
+
+  return user
+}
+
+export { signin, signup }

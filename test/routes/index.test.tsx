@@ -3,7 +3,7 @@ import { describe, it, expect, vi } from 'vitest'
 import { Component } from '$/routes/index.lazy'
 import { useAuth } from '$/hooks/useAuth'
 import { renderWithContext } from '../customRender'
-import { AuthContextType } from '$/contexts/auth'
+import { AuthContextType } from '$/contexts/AuthContext'
 
 vi.mock('$/hooks/useAuth')
 
