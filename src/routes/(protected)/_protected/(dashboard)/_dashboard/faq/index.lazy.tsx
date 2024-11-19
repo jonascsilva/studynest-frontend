@@ -10,11 +10,11 @@ import { Heading, Link, List } from '@chakra-ui/react'
 import { faq, links } from './items.json'
 import classes from './index.module.scss'
 
-export const Route = createLazyFileRoute('/(protected)/_protected/(dashboard)/_dashboard/faq/')({
+const Route = createLazyFileRoute('/(protected)/_protected/(dashboard)/_dashboard/faq/')({
   component: Component
 })
 
-export function Component() {
+function Component() {
   return (
     <div className={classes.container}>
       <Heading size='4xl' px='2rem' pt='2rem'>
@@ -45,3 +45,5 @@ export function Component() {
     </div>
   )
 }
+
+export { Route, Component }

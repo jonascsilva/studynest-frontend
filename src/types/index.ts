@@ -37,11 +37,19 @@ type FlashcardsQueryOptions = {
   upcoming?: boolean
 }
 
+type UserSettingsType = {
+  id: string
+  intervalsQuantity: number
+  baseInterval: number
+  intervalIncreaseRate: number
+}
+
 export type {
   FlashcardType,
   FlashcardWithRevisionType,
   NoteType,
   ReviewResult,
   UserCredentials,
-  FlashcardsQueryOptions
+  FlashcardsQueryOptions,
+  UserSettingsType
 }

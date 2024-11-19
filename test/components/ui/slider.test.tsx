@@ -82,6 +82,7 @@ describe('Slider Component', () => {
     )
 
     const thumbs = screen.getAllByTestId('slider-thumb')
+
     expect(thumbs).toHaveLength(3)
   })
 

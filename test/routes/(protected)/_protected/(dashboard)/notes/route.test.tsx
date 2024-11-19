@@ -5,9 +5,7 @@ import { notesQueryOptions } from '$/query/notesOptions'
 import { fetchNotes } from '$/query/notes'
 import { NoteType } from '$/types'
 
-vi.mock('$/query/notes', () => ({
-  fetchNotes: vi.fn()
-}))
+vi.mock('$/query/notes')
 
 describe('Notes Route', () => {
   it('should ensure query data is preloaded', async () => {

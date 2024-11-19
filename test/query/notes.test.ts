@@ -12,30 +12,30 @@ beforeEach(() => {
 describe('fetchNote', () => {
   it('should fetch a note by ID', async () => {
     const noteId = '123'
-    const mockNote: Partial<NoteType> = { id: noteId, content: 'Test Note', userId: 'user1' }
+    const noteMock: Partial<NoteType> = { id: noteId, content: 'Test Note', userId: 'user1' }
 
-    vi.mocked(fetcher).mockResolvedValueOnce(mockNote)
+    vi.mocked(fetcher).mockResolvedValueOnce(noteMock)
 
     const result = await fetchNote(noteId)
 
     expect(fetcher).toHaveBeenCalledOnce()
-    expect(result).toEqual(mockNote)
+    expect(result).toEqual(noteMock)
   })
 })
 
 describe('fetchNotes', () => {
   it('should fetch all notes', async () => {
-    const mockNotes: Partial<NoteType>[] = [
+    const notesMock: Partial<NoteType>[] = [
       { id: '1', content: 'Note 1', userId: 'user1' },
       { id: '2', content: 'Note 2', userId: 'user1' }
     ]
 
-    vi.mocked(fetcher).mockResolvedValueOnce(mockNotes)
+    vi.mocked(fetcher).mockResolvedValueOnce(notesMock)
 
     const result = await fetchNotes()
 
     expect(fetcher).toHaveBeenCalledOnce()
-    expect(result).toEqual(mockNotes)
+    expect(result).toEqual(notesMock)
   })
 })
 

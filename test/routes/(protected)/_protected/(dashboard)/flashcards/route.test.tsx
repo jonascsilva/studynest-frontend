@@ -5,9 +5,7 @@ import { flashcardsQueryOptions } from '$/query/flashcardsOptions'
 import { fetchFlashcards } from '$/query/flashcards'
 import { FlashcardWithRevisionType } from '$/types'
 
-vi.mock('$/query/flashcards', () => ({
-  fetchFlashcards: vi.fn()
-}))
+vi.mock('$/query/flashcards')
 
 describe('Flashcards Route', () => {
   it('should ensure query data is preloaded', async () => {

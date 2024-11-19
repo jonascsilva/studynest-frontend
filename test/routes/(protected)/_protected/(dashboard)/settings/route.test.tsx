@@ -1,25 +1,27 @@
-import { describe, it, expect, vi } from 'vitest'
-import { Route } from '$/routes/(protected)/_protected/(dashboard)/_dashboard/home'
+import { it, expect, vi, describe } from 'vitest'
+import { Route } from '$/routes/(protected)/_protected/(dashboard)/_dashboard/settings'
 import { queryClient } from '$/lib/query'
-import { flashcardsQueryOptions } from '$/query/flashcardsOptions'
-import { fetchFlashcards } from '$/query/flashcards'
-import { FlashcardWithRevisionType } from '$/types'
+import { settingsQueryOptions } from '$/query/settingsOptions'
+import { fetchUserSettings } from '$/query/settings'
+import { UserSettingsType } from '$/types'
 
-vi.mock('$/query/flashcards')
+vi.mock('$/query/settings')
 
-describe('Flashcards Route', () => {
+describe('settingss Route', () => {
   it('should ensure query data is preloaded', async () => {
-    const mockData = [
-      { id: 'fake-id', question: 'What is React?', answer: 'A JavaScript library' }
-    ] as FlashcardWithRevisionType[]
+    const mockData = {
+      baseInterval: 2,
+      intervalsQuantity: 2,
+      intervalIncreaseRate: 2
+    } as UserSettingsType
 
-    vi.mocked(fetchFlashcards).mockResolvedValue(mockData)
+    vi.mocked(fetchUserSettings).mockResolvedValue(mockData)
 
     const loaderParams = { context: { queryClient } }
 
     await Route.options.loader!(loaderParams as any)
 
-    const data = queryClient.getQueryData(['flashcards', { due: true }])
+    const data = queryClient.getQueryData(['settings'])
 
     expect(data).toEqual(mockData)
   })
@@ -35,7 +37,7 @@ describe('Flashcards Route', () => {
 
     expect(ensureQueryDataMock).toHaveBeenCalledTimes(1)
 
-    const expectedOptions = flashcardsQueryOptions({ due: true })
+    const expectedOptions = settingsQueryOptions()
 
     expect(ensureQueryDataMock).toHaveBeenCalledWith(
       expect.objectContaining({

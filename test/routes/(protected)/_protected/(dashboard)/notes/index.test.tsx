@@ -27,7 +27,7 @@ vi.mock(import('@tanstack/react-query'), async importOriginal => {
   }
 })
 
-describe('Notes Component', () => {
+describe('Notes Route', () => {
   const notesMock = [
     {
       id: '1',
