@@ -32,7 +32,7 @@ function Component() {
     onSuccess: deletedFlashcard => {
       const newFlashcards = flashcards.filter(flashcard => flashcard.id !== deletedFlashcard.id)
 
-      queryClient.setQueryData(['flashcards'], newFlashcards)
+      queryClient.setQueryData(['flashcards', { due: true, upcoming: true }], newFlashcards)
     }
   })
 

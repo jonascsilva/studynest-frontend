@@ -1,60 +1,76 @@
-import { screen } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { describe, it, expect, vi } from 'vitest'
 import { Alert } from '$/components/ui/alert'
-import { renderWithContext } from '../../customRender'
+import { Provider as ChakraProvider } from '$/components/ui/provider'
 import userEvent from '@testing-library/user-event'
 
 describe('Alert Component', () => {
   it('should render the Alert with title and description', () => {
-    renderWithContext(() => <Alert title='Test Title'>Test Description</Alert>)
+    render(
+      <ChakraProvider>
+        <Alert title='Test Title'>Test Description</Alert>
+      </ChakraProvider>
+    )
 
     expect(screen.getByText('Test Title')).toBeInTheDocument()
     expect(screen.getByText('Test Description')).toBeInTheDocument()
   })
 
   it('should render the Alert with title only when no children are provided', () => {
-    renderWithContext(() => <Alert title='Test Title' />)
+    render(
+      <ChakraProvider>
+        <Alert title='Test Title' />{' '}
+      </ChakraProvider>
+    )
 
     expect(screen.getByText('Test Title')).toBeInTheDocument()
     expect(screen.queryByText('Test Description')).not.toBeInTheDocument()
   })
 
   it('should render the startElement when provided', () => {
-    renderWithContext(() => (
-      <Alert title='Test Title' startElement={<div data-testid='start-element'>Start</div>}>
-        Test Description
-      </Alert>
-    ))
+    render(
+      <ChakraProvider>
+        <Alert title='Test Title' startElement={<div data-testid='start-element'>Start</div>}>
+          Test Description
+        </Alert>
+      </ChakraProvider>
+    )
 
     expect(screen.getByTestId('start-element')).toBeInTheDocument()
   })
 
   it('should render the icon when provided and no startElement', () => {
-    renderWithContext(() => (
-      <Alert title='Test Title' icon={<div data-testid='icon-element'>Icon</div>}>
-        Test Description
-      </Alert>
-    ))
+    render(
+      <ChakraProvider>
+        <Alert title='Test Title' icon={<div data-testid='icon-element'>Icon</div>}>
+          Test Description
+        </Alert>
+      </ChakraProvider>
+    )
 
     expect(screen.getByTestId('icon-element')).toBeInTheDocument()
   })
 
   it('should render the endElement when provided', () => {
-    renderWithContext(() => (
-      <Alert title='Test Title' endElement={<div data-testid='end-element'>End</div>}>
-        Test Description
-      </Alert>
-    ))
+    render(
+      <ChakraProvider>
+        <Alert title='Test Title' endElement={<div data-testid='end-element'>End</div>}>
+          Test Description
+        </Alert>
+      </ChakraProvider>
+    )
 
     expect(screen.getByTestId('end-element')).toBeInTheDocument()
   })
 
   it('should render the CloseButton when closable is true', () => {
-    renderWithContext(() => (
-      <Alert title='Test Title' closable>
-        Test Description
-      </Alert>
-    ))
+    render(
+      <ChakraProvider>
+        <Alert title='Test Title' closable>
+          Test Description
+        </Alert>
+      </ChakraProvider>
+    )
 
     expect(screen.getByRole('button')).toBeInTheDocument()
   })
@@ -64,11 +80,14 @@ describe('Alert Component', () => {
 
     const onCloseMock = vi.fn()
 
-    renderWithContext(() => (
-      <Alert title='Test Title' closable onClose={onCloseMock}>
-        Test Description
-      </Alert>
-    ))
+    render(
+      <ChakraProvider>
+        (
+        <Alert title='Test Title' closable onClose={onCloseMock}>
+          Test Description
+        </Alert>
+      </ChakraProvider>
+    )
 
     const closeButton = screen.getByRole('button')
 

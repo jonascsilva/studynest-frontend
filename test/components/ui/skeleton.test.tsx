@@ -1,12 +1,16 @@
-import { screen } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { describe, it, expect } from 'vitest'
 import { SkeletonText } from '$/components/ui/skeleton'
-import { renderWithContext } from '../../customRender'
+import { Provider as ChakraProvider } from '$/components/ui/provider'
 import { createRef } from 'react'
 
 describe('SkeletonText Component', () => {
   it('should render default number of skeleton lines when noOfLines is not provided', () => {
-    renderWithContext(() => <SkeletonText />)
+    render(
+      <ChakraProvider>
+        <SkeletonText />
+      </ChakraProvider>
+    )
 
     const skeletons = screen.getAllByTestId('skeleton')
 
@@ -14,7 +18,11 @@ describe('SkeletonText Component', () => {
   })
 
   it('should render the correct number of skeleton lines based on noOfLines prop', () => {
-    renderWithContext(() => <SkeletonText noOfLines={5} />)
+    render(
+      <ChakraProvider>
+        <SkeletonText noOfLines={5} />
+      </ChakraProvider>
+    )
 
     const skeletons = screen.getAllByTestId('skeleton')
 
@@ -24,7 +32,11 @@ describe('SkeletonText Component', () => {
   it('should forward ref to Stack', () => {
     const ref = createRef<HTMLDivElement>()
 
-    renderWithContext(() => <SkeletonText ref={ref} />)
+    render(
+      <ChakraProvider>
+        <SkeletonText ref={ref} />
+      </ChakraProvider>
+    )
 
     expect(ref.current).not.toBeNull()
   })

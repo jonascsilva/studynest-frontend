@@ -11,7 +11,7 @@ const Route = createLazyFileRoute('/(protected)/_protected/(dashboard)/_dashboar
 function Component() {
   return (
     <div className={classes.container}>
-      <Heading size='2xl'>Configurações</Heading>
+      <Heading size='4xl'>Configurações</Heading>
       <section className={classes.section}>
         <Stack gap='6'>
           <Text fontSize='3xl'>Quantidade de intervalos:</Text>

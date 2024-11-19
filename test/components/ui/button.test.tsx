@@ -1,18 +1,26 @@
-import { screen } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { describe, it, expect, vi } from 'vitest'
 import { Button } from '$/components/ui/button'
-import { renderWithContext } from '../../customRender'
+import { Provider as ChakraProvider } from '$/components/ui/provider'
 import userEvent from '@testing-library/user-event'
 
 describe('Button Component', () => {
   it('should render children when not loading', () => {
-    renderWithContext(() => <Button>Click Me</Button>)
+    render(
+      <ChakraProvider>
+        <Button>Click Me</Button>
+      </ChakraProvider>
+    )
 
     expect(screen.getByText('Click Me')).toBeInTheDocument()
   })
 
   it('should render spinner and hides children when loading without loadingText', () => {
-    renderWithContext(() => <Button loading>Click Me</Button>)
+    render(
+      <ChakraProvider>
+        <Button loading>Click Me</Button>
+      </ChakraProvider>
+    )
 
     const spinner = screen.getByRole('status')
 
@@ -25,11 +33,13 @@ describe('Button Component', () => {
   })
 
   it('should render spinner and loadingText when loading with loadingText', () => {
-    renderWithContext(() => (
-      <Button loading loadingText='Loading...'>
-        Click Me
-      </Button>
-    ))
+    render(
+      <ChakraProvider>
+        <Button loading loadingText='Loading...'>
+          Click Me
+        </Button>
+      </ChakraProvider>
+    )
 
     const spinner = screen.getByRole('status')
 
@@ -40,7 +50,11 @@ describe('Button Component', () => {
   })
 
   it('should disable the button when loading', () => {
-    renderWithContext(() => <Button loading>Click Me</Button>)
+    render(
+      <ChakraProvider>
+        <Button loading>Click Me</Button>
+      </ChakraProvider>
+    )
 
     const button = screen.getByRole('button')
 
@@ -48,7 +62,11 @@ describe('Button Component', () => {
   })
 
   it('should disable the button when disabled prop is true', () => {
-    renderWithContext(() => <Button disabled>Click Me</Button>)
+    render(
+      <ChakraProvider>
+        <Button disabled>Click Me</Button>
+      </ChakraProvider>
+    )
 
     const button = screen.getByRole('button')
 
@@ -59,7 +77,11 @@ describe('Button Component', () => {
     const onClick = vi.fn()
     const user = userEvent.setup()
 
-    renderWithContext(() => <Button onClick={onClick}>Click Me</Button>)
+    render(
+      <ChakraProvider>
+        <Button onClick={onClick}>Click Me</Button>
+      </ChakraProvider>
+    )
 
     const button = screen.getByRole('button')
 
@@ -73,11 +95,13 @@ describe('Button Component', () => {
 
     const user = userEvent.setup()
 
-    renderWithContext(() => (
-      <Button disabled onClick={onClick}>
-        Click Me
-      </Button>
-    ))
+    render(
+      <ChakraProvider>
+        <Button disabled onClick={onClick}>
+          Click Me
+        </Button>
+      </ChakraProvider>
+    )
 
     const button = screen.getByRole('button')
 
@@ -87,11 +111,13 @@ describe('Button Component', () => {
   })
 
   it('should pass additional props to the ChakraButton', () => {
-    renderWithContext(() => (
-      <Button colorScheme='teal' size='lg'>
-        Click Me
-      </Button>
-    ))
+    render(
+      <ChakraProvider>
+        <Button colorScheme='teal' size='lg'>
+          Click Me
+        </Button>
+      </ChakraProvider>
+    )
 
     const button = screen.getByRole('button')
 

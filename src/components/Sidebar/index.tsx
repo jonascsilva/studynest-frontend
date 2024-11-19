@@ -3,7 +3,14 @@ import { Heading } from '@chakra-ui/react'
 import { Button } from '$/components/ui/button'
 import classes from './index.module.scss'
 import { useAuth } from '$/hooks/useAuth'
-import { BsCardText, BsDoorOpen, BsFileEarmarkText, BsGear, BsHouseDoor } from 'react-icons/bs'
+import {
+  BsCardText,
+  BsDoorOpen,
+  BsFileEarmarkText,
+  BsGear,
+  BsHouseDoor,
+  BsQuestionCircle
+} from 'react-icons/bs'
 import { Separator } from '@chakra-ui/react'
 import { ColorModeButton } from '$/components/ui/color-mode-button'
 
@@ -55,6 +62,18 @@ function Sidebar() {
         )}
       </Link>
       <Separator />
+      <Link to='/faq' className={classes.link}>
+        {({ isActive }) => (
+          <Button
+            size='lg'
+            variant='surface'
+            colorPalette={isActive ? 'blue' : undefined}
+            width='100%'
+          >
+            <BsQuestionCircle /> FAQ
+          </Button>
+        )}
+      </Link>
       <Link to='/settings' className={classes.link}>
         {({ isActive }) => (
           <Button
