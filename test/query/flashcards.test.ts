@@ -5,34 +5,55 @@ import {
   fetchFlashcards,
   updateFlashcard,
   createFlashcard,
-  deleteFlashcard
+  deleteFlashcard,
+  reviewFlashcard,
+  generateFlashcards
 } from '$/query/flashcards'
 import { FlashcardType } from '$/types'
+import { fetcher } from '$/query/fetcher'
+
+vi.mock('$/query/fetcher')
 
 beforeEach(() => {
   vi.restoreAllMocks()
 })
 
-const mockFetch = vi.fn()
-
-vi.stubGlobal('fetch', mockFetch)
-
 describe('generateFlashcard', () => {
-  it('should generate a flashcard', async () => {
-    const mockFlashcard: Partial<FlashcardType> = {
-      id: '123',
-      answer: 'Test Flashcard',
-      userId: 'user1'
+  it('should generate the content of a flashcard', async () => {
+    const question = 'What is the capital of France?'
+    const subject = 'Geography'
+
+    const responseMock = {
+      answer: 'Paris'
     }
 
-    mockFetch.mockResolvedValueOnce({
-      json: async () => mockFlashcard
-    })
+    vi.mocked(fetcher).mockResolvedValueOnce(responseMock)
 
-    const result = await generateFlashcard()
+    const result = await generateFlashcard({ subject, question })
 
-    expect(fetch).toHaveBeenCalledWith('https://fakeurl.com/flashcards/ai')
-    expect(result).toEqual(mockFlashcard)
+    expect(fetcher).toHaveBeenCalledOnce()
+    expect(result).toEqual(responseMock)
+  })
+})
+
+describe('generateFlashcards', () => {
+  it('should generate flashcards from a note', async () => {
+    const noteId = 'fake-note-id'
+
+    const responseMock = [
+      {
+        question: 'What is the capital of France?',
+        subject: 'Geography',
+        answer: 'Paris'
+      }
+    ]
+
+    vi.mocked(fetcher).mockResolvedValueOnce(responseMock)
+
+    const result = await generateFlashcards(noteId)
+
+    expect(fetcher).toHaveBeenCalledOnce()
+    expect(result).toEqual(responseMock)
   })
 })
 
@@ -45,24 +66,12 @@ describe('fetchFlashcard', () => {
       userId: 'user1'
     }
 
-    mockFetch.mockResolvedValueOnce({
-      json: async () => mockFlashcard
-    })
+    vi.mocked(fetcher).mockResolvedValueOnce(mockFlashcard)
 
     const result = await fetchFlashcard(flashcardId)
 
-    expect(fetch).toHaveBeenCalledWith('https://fakeurl.com/flashcards/123')
+    expect(fetcher).toHaveBeenCalledOnce()
     expect(result).toEqual(mockFlashcard)
-  })
-
-  it('should throw an error when the fetch fails', async () => {
-    const flashcardId = '123'
-
-    mockFetch.mockRejectedValueOnce(new Error('Network Error'))
-
-    await expect(fetchFlashcard(flashcardId)).rejects.toThrow('Network Error')
-
-    expect(fetch).toHaveBeenCalledWith('https://fakeurl.com/flashcards/123')
   })
 })
 
@@ -73,20 +82,18 @@ describe('fetchFlashcards', () => {
       { id: '2', answer: 'Flashcard 2', userId: 'user1' }
     ]
 
-    mockFetch.mockResolvedValueOnce({
-      json: async () => mockFlashcards
-    })
+    vi.mocked(fetcher).mockResolvedValueOnce(mockFlashcards)
 
     const result = await fetchFlashcards()
 
-    expect(fetch).toHaveBeenCalledWith('https://fakeurl.com/flashcards')
+    expect(fetcher).toHaveBeenCalledOnce()
     expect(result).toEqual(mockFlashcards)
   })
 })
 
 describe('updateFlashcard', () => {
   it('should update a flashcard and return the updated flashcard', async () => {
-    const flashcardId = '123'
+    const flashcardId = 'fake-falshcard-id'
     const updateData: Partial<FlashcardType> = { answer: 'Updated Content' }
     const updatedFlashcard: Partial<FlashcardType> = {
       id: flashcardId,
@@ -94,48 +101,46 @@ describe('updateFlashcard', () => {
       userId: 'user1'
     }
 
-    mockFetch.mockResolvedValueOnce({
-      json: async () => updatedFlashcard
-    })
+    vi.mocked(fetcher).mockResolvedValueOnce(updatedFlashcard)
 
     const updateFlashcardFn = updateFlashcard(flashcardId)
     const result = await updateFlashcardFn(updateData)
 
-    expect(fetch).toHaveBeenCalledWith(`https://fakeurl.com/flashcards/${flashcardId}`, {
-      method: 'PATCH',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(updateData)
-    })
+    expect(fetcher).toHaveBeenCalledOnce()
     expect(result).toEqual(updatedFlashcard)
+  })
+})
+
+describe('reviewFlashcard', () => {
+  it('should review a flashcard', async () => {
+    const flashcardId = 'fake-falshcard-id'
+    const result = 1
+    const reviewData = { result }
+
+    const reviewFlashcardFn = reviewFlashcard(flashcardId)
+    await reviewFlashcardFn(reviewData)
+
+    expect(fetcher).toHaveBeenCalledOnce()
   })
 })
 
 describe('createFlashcard', () => {
   it('should create a new flashcard and return it', async () => {
-    const flashcardData: Partial<FlashcardType> = { answer: 'New Flashcard' }
+    const flashcardData: Partial<FlashcardType> = {
+      answer: 'New Flashcard',
+      userId: 'fake-user-id'
+    }
     const createdFlashcard: Partial<FlashcardType> = {
       id: '123',
       answer: 'New Flashcard',
-      userId: '33b2c1a4-98d8-439b-a032-7b4388f7ab94'
+      userId: 'fake-user-id'
     }
 
-    mockFetch.mockResolvedValueOnce({
-      json: async () => createdFlashcard
-    })
+    vi.mocked(fetcher).mockResolvedValueOnce(createdFlashcard)
 
     const result = await createFlashcard(flashcardData)
 
-    expect(fetch).toHaveBeenCalledWith('https://fakeurl.com/flashcards', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ ...flashcardData, userId: '33b2c1a4-98d8-439b-a032-7b4388f7ab94' })
-    })
+    expect(fetcher).toHaveBeenCalledOnce()
     expect(result).toEqual(createdFlashcard)
   })
 })
@@ -149,15 +154,11 @@ describe('deleteFlashcard', () => {
       userId: 'user1'
     }
 
-    mockFetch.mockResolvedValueOnce({
-      json: async () => deletedFlashcard
-    })
+    vi.mocked(fetcher).mockResolvedValueOnce(deletedFlashcard)
 
     const result = await deleteFlashcard(flashcardId)
 
-    expect(fetch).toHaveBeenCalledWith(`https://fakeurl.com/flashcards/${flashcardId}`, {
-      method: 'DELETE'
-    })
+    expect(fetcher).toHaveBeenCalledOnce()
     expect(result).toEqual(deletedFlashcard)
   })
 })

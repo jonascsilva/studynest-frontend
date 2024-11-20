@@ -1,0 +1,33 @@
+@use '$/styles/colors' as *;
+
+.sidebar {
+  height: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem 2rem;
+  row-gap: 2rem;
+}
+
+.link {
+  color: inherit;
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.headerContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.heading {
+  padding-bottom: 0.5rem;
+
+  span {
+    color: $blue-600;
+  }
+}

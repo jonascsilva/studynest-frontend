@@ -1,0 +1,20 @@
+.container {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 3rem;
+  height: 100%;
+}
+
+.section {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  padding: 0rem 2rem 2rem 2rem;
+  gap: 2rem;
+  overflow: auto;
+}
+
+.linksSection {
+  display: flex;
+  gap: 1rem;
+  flex-direction: column;
+}

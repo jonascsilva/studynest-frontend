@@ -1,21 +1,15 @@
-import { createFileRoute, redirect } from '@tanstack/react-router'
+import { createFileRoute, redirect, useNavigate } from '@tanstack/react-router'
 import { useForm } from 'react-hook-form'
-import {
-  Box,
-  Button,
-  FormControl,
-  FormLabel,
-  Input,
-  VStack,
-  FormErrorMessage,
-  Heading,
-  Text,
-  Link
-} from '@chakra-ui/react'
+import { useLayoutEffect } from 'react'
+import { Input, VStack, Text, Link, Card } from '@chakra-ui/react'
 import { useMutation } from '@tanstack/react-query'
 
-import classes from './index.module.scss'
+import { Field } from '$/components/ui/field'
+import { Button } from '$/components/ui/button'
+import { PasswordInput } from '$/components/ui/password-input'
 import { useAuth } from '$/hooks/useAuth'
+
+import classes from './index.module.scss'
 
 type FormData = {
   email: string
@@ -32,15 +26,22 @@ const Route = createFileRoute('/(auth)/signin/')({
 })
 
 function Component() {
-  const auth = useAuth()
+  const { signin, isAuthenticated } = useAuth()
+  const navigate = useNavigate()
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting }
   } = useForm<FormData>()
 
+  useLayoutEffect(() => {
+    if (isAuthenticated) {
+      navigate({ to: '/home', replace: true })
+    }
+  }, [isAuthenticated, navigate])
+
   const mutation = useMutation({
-    mutationFn: auth.login
+    mutationFn: signin
   })
 
   const onSubmit = (data: FormData) => {
@@ -49,54 +50,61 @@ function Component() {
 
   return (
     <div className={classes.container}>
-      <Box p={8} borderWidth={1} borderRadius='lg' boxShadow='lg' maxW='md' width='100%'>
-        <Heading mb={6} as='h2' size='lg' textAlign='center'>
-          Entrar
-        </Heading>
+      <Card.Root w='25%'>
+        <Card.Header>
+          <Card.Title fontSize='xl'>Entrar</Card.Title>
+        </Card.Header>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <VStack spacing={4}>
-            <FormControl id='email' isInvalid={!!errors.email}>
-              <FormLabel>Email</FormLabel>
-              <Input
-                type='email'
-                placeholder='Digite seu email'
-                {...register('email', {
-                  required: 'Email é obrigatório',
-                  pattern: {
-                    value: /^\S+@\S+$/i,
-                    message: 'Endereço de email inválido'
-                  }
-                })}
-              />
-              <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
-            </FormControl>
-
-            <FormControl id='password' isInvalid={!!errors.password}>
-              <FormLabel>Senha</FormLabel>
-              <Input
-                type='password'
-                placeholder='Digite sua senha'
-                {...register('password', {
-                  required: 'Senha é obrigatória',
-                  minLength: { value: 6, message: 'O comprimento mínimo é 6' }
-                })}
-              />
-              <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
-            </FormControl>
-
-            <Button mt={4} colorScheme='blue' isLoading={isSubmitting} type='submit' width='100%'>
-              Entrar
-            </Button>
-
-            <Text>
-              Não tem uma conta?{' '}
-              <Link color='blue.500' href='/signup'>
-                Cadastre-se
-              </Link>
-            </Text>
-          </VStack>
+          <Card.Body>
+            <VStack gap='4'>
+              <Field label='Email' invalid={!!errors.email} errorText={errors.email?.message}>
+                <Input
+                  type='email'
+                  placeholder='Digite seu email'
+                  {...register('email', {
+                    required: 'Email é obrigatório',
+                    pattern: {
+                      value: /^\S+@\S+$/i,
+                      message: 'Endereço de email inválido'
+                    }
+                  })}
+                />
+              </Field>
+              <Field label='Senha' invalid={!!errors.password} errorText={errors.password?.message}>
+                <PasswordInput
+                  placeholder='Digite sua senha'
+                  {...register('password', {
+                    required: 'Senha é obrigatória',
+                    minLength: { value: 6, message: 'O comprimento mínimo é 6' }
+                  })}
+                />
+              </Field>
+            </VStack>
+          </Card.Body>
+          <Card.Footer>
+            <VStack gap='4' w='100%'>
+              <Button
+                w='100%'
+                colorPalette='blue'
+                loading={isSubmitting}
+                type='submit'
+                width='100%'
+              >
+                Entrar
+              </Button>
+              <div className={classes.errorContainer}>
+                <span>{mutation.error && 'Credenciais incorretas'}</span>
+              </div>
+              <Text>
+                Não tem uma conta?{' '}
+                <Link color='blue.500' href='/signup'>
+                  Cadastre-se
+                </Link>
+              </Text>
+            </VStack>
+          </Card.Footer>
         </form>
-      </Box>
+      </Card.Root>
     </div>
   )
 }

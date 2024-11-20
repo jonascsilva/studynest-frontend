@@ -1,65 +1,45 @@
 import { NoteType } from '$/types'
+import { fetcher } from '$/query/fetcher'
 
-const fetchNote = async (noteId: string): Promise<NoteType> => {
-  const note = fetch(`${import.meta.env.VITE_BACKEND_URL}/notes/${noteId}`).then(res => res.json())
+async function generateNote(data: {
+  subject: string
+  title: string
+}): Promise<{ content: string }> {
+  const flashcard = await fetcher<{ content: string }>(`notes/generate`, 'POST', data)
+
+  return flashcard
+}
+
+async function fetchNote(noteId: string): Promise<NoteType> {
+  const note = await fetcher<NoteType>(`notes/${noteId}`)
 
   return note
 }
 
-const fetchNotes = async (): Promise<NoteType[]> => {
-  const notes = fetch(`${import.meta.env.VITE_BACKEND_URL}/notes`).then(res => res.json())
+async function fetchNotes(): Promise<NoteType[]> {
+  const notes = await fetcher<NoteType[]>('notes')
 
   return notes
 }
 
-const updateNote =
-  (noteId: string) =>
-  async (data: Partial<NoteType>): Promise<NoteType> => {
-    const body = JSON.stringify(data)
+function updateNote(noteId: string) {
+  return async (data: Partial<NoteType>): Promise<NoteType> => {
+    const note = await fetcher<NoteType>(`notes/${noteId}`, 'PATCH', data)
 
-    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/notes/${noteId}`, {
-      method: 'PATCH',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body
-    })
-
-    const result = await response.json()
-
-    return result
+    return note
   }
-
-const createNote = async (data: Partial<NoteType>): Promise<NoteType> => {
-  data.userId = '33b2c1a4-98d8-439b-a032-7b4388f7ab94'
-
-  const body = JSON.stringify(data)
-
-  const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/notes`, {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json'
-    },
-    body
-  })
-
-  const result = await response.json()
-
-  return result
 }
 
-const deleteNote = async (noteId: string): Promise<NoteType> => {
-  const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/notes/${noteId}`, {
-    method: 'DELETE'
-  })
+async function createNote(data: Partial<NoteType>): Promise<NoteType> {
+  const note = await fetcher<NoteType>('notes', 'POST', data)
 
-  const result = response.json()
-
-  return result
+  return note
 }
 
-export type { NoteType }
+async function deleteNote(noteId: string): Promise<NoteType> {
+  const note = await fetcher<NoteType>(`notes/${noteId}`, 'DELETE')
 
-export { fetchNote, fetchNotes, updateNote, createNote, deleteNote }
+  return note
+}
+
+export { generateNote, fetchNote, fetchNotes, updateNote, createNote, deleteNote }

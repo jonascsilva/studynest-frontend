@@ -7,12 +7,12 @@ import {
   createRoute,
   createRouter
 } from '@tanstack/react-router'
-import { theme } from '$/lib/theme'
 import { queryClient } from '$/lib/query'
 import { QueryClientProvider } from '@tanstack/react-query'
-import { ChakraProvider } from '@chakra-ui/react'
 import { render, RenderResult } from '@testing-library/react'
-import { AuthContextType, AuthProvider } from '$/contexts/auth'
+import { Provider as ChakraProvider } from '$/components/ui/provider'
+import { AuthProvider } from '$/contexts/AuthProvider'
+import { AuthContextType } from '$/contexts/AuthContext'
 
 type AddRoutesCallback = (parentRoute: any) => void
 
@@ -50,7 +50,7 @@ const renderWithContext = (
   })
 
   const renderResult = render(
-    <ChakraProvider theme={theme}>
+    <ChakraProvider>
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
           <RouterProvider router={router as any} />

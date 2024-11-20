@@ -1,18 +1,14 @@
 import { screen } from '@testing-library/react'
-import { describe, it, expect, vi, afterEach } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import { Component } from '$/routes/index.lazy'
 import { useAuth } from '$/hooks/useAuth'
 import { renderWithContext } from '../customRender'
-import { AuthContextType } from '$/contexts/auth'
+import { AuthContextType } from '$/contexts/AuthContext'
 
 vi.mock('$/hooks/useAuth')
 
 describe('HomePage Component', () => {
-  afterEach(() => {
-    vi.clearAllMocks()
-  })
-
-  it('renders correctly when user is not authenticated', () => {
+  it('should render correctly when user is not authenticated', () => {
     vi.mocked(useAuth).mockReturnValue({ user: null } as AuthContextType)
 
     renderWithContext(Component)
@@ -46,7 +42,7 @@ describe('HomePage Component', () => {
     ).toBeInTheDocument()
   })
 
-  it('renders correctly when user is authenticated', () => {
+  it('should render correctly when user is authenticated', () => {
     vi.mocked(useAuth).mockReturnValue({ user: { name: 'Test User' } } as AuthContextType)
 
     renderWithContext(Component)

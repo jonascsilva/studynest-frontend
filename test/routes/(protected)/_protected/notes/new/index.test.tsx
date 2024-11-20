@@ -2,21 +2,22 @@ import { screen } from '@testing-library/react'
 import { expect, it, vi } from 'vitest'
 import userEvent from '@testing-library/user-event'
 import { Route, Component } from '$/routes/(protected)/_protected/notes/new/index.lazy'
-import { createNote, NoteType } from '$/query/notes'
+import { createNote } from '$/query/notes'
 import { renderWithContext } from '../../../../../customRender'
 import { queryClient } from '$/lib/query'
+import { NoteType } from '$/types'
 
 vi.mock('$/query/notes')
 
-it('Index component submits a new note and navigates on success', async () => {
+it('should submit a new note and navigate on success', async () => {
   const user = userEvent.setup()
 
   vi.spyOn(queryClient, 'setQueryData')
 
   const noteMock = {
     id: '123',
-    title: 'New Title',
     subject: 'New Subject',
+    title: 'New Title',
     content: 'New Content'
   }
 
@@ -32,10 +33,10 @@ it('Index component submits a new note and navigates on success', async () => {
 
   expect(inputs.length).toBe(3)
 
-  const [titleInput, subjectInput, contentTextArea] = inputs
+  const [subjectInput, titleInput, contentTextArea] = inputs
 
-  await user.type(titleInput, 'New Title')
   await user.type(subjectInput, 'New Subject')
+  await user.type(titleInput, 'New Title')
   await user.type(contentTextArea, 'New Content')
 
   const submitButton = screen.getByRole('button', { name: /Salvar/i })
@@ -43,18 +44,15 @@ it('Index component submits a new note and navigates on success', async () => {
   await user.click(submitButton)
 
   expect(createNote).toHaveBeenCalledWith({
-    title: 'New Title',
     subject: 'New Subject',
+    title: 'New Title',
     content: 'New Content'
   })
 
-  expect(queryClient.setQueryData).toHaveBeenCalledWith(
-    ['notes', { noteId: noteMock.id }],
-    noteMock
-  )
+  expect(queryClient.setQueryData).toHaveBeenCalledWith(['notes', noteMock.id], noteMock)
 
   expect(navigateMock).toHaveBeenCalledWith({
-    to: '/notes/$noteId',
+    to: '/notes/edit/$noteId',
     params: { noteId: noteMock.id }
   })
 })

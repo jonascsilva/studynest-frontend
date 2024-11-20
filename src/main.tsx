@@ -2,11 +2,10 @@ import { StrictMode } from 'react'
 import ReactDOM from 'react-dom/client'
 
 import { QueryClientProvider } from '@tanstack/react-query'
-import { ChakraBaseProvider } from '@chakra-ui/react'
+import { Provider as ChakraProvider } from '$/components/ui/provider'
 
 import { queryClient } from '$/lib/query'
-import { theme } from '$/lib/theme'
-import { AuthProvider } from '$/contexts/auth'
+import { AuthProvider } from '$/contexts/AuthProvider'
 import { App } from '$/App'
 
 const rootElement = document.getElementById('root')!
@@ -16,13 +15,13 @@ if (!rootElement.innerHTML) {
 
   root.render(
     <StrictMode>
-      <ChakraBaseProvider theme={theme}>
+      <AuthProvider>
         <QueryClientProvider client={queryClient}>
-          <AuthProvider>
+          <ChakraProvider>
             <App />
-          </AuthProvider>
+          </ChakraProvider>
         </QueryClientProvider>
-      </ChakraBaseProvider>
+      </AuthProvider>
     </StrictMode>
   )
 }
