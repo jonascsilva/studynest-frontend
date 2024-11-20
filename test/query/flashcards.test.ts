@@ -6,7 +6,8 @@ import {
   updateFlashcard,
   createFlashcard,
   deleteFlashcard,
-  reviewFlashcard
+  reviewFlashcard,
+  generateFlashcards
 } from '$/query/flashcards'
 import { FlashcardType } from '$/types'
 import { fetcher } from '$/query/fetcher'
@@ -18,19 +19,41 @@ beforeEach(() => {
 })
 
 describe('generateFlashcard', () => {
-  it('should generate a flashcard', async () => {
-    const mockFlashcard: Partial<FlashcardType> = {
-      id: '123',
-      answer: 'Test Flashcard',
-      userId: 'user1'
+  it('should generate the content of a flashcard', async () => {
+    const question = 'What is the capital of France?'
+    const subject = 'Geography'
+
+    const responseMock = {
+      answer: 'Paris'
     }
 
-    vi.mocked(fetcher).mockResolvedValueOnce(mockFlashcard)
+    vi.mocked(fetcher).mockResolvedValueOnce(responseMock)
 
-    const result = await generateFlashcard()
+    const result = await generateFlashcard({ subject, question })
 
     expect(fetcher).toHaveBeenCalledOnce()
-    expect(result).toEqual(mockFlashcard)
+    expect(result).toEqual(responseMock)
+  })
+})
+
+describe('generateFlashcards', () => {
+  it('should generate flashcards from a note', async () => {
+    const noteId = 'fake-note-id'
+
+    const responseMock = [
+      {
+        question: 'What is the capital of France?',
+        subject: 'Geography',
+        answer: 'Paris'
+      }
+    ]
+
+    vi.mocked(fetcher).mockResolvedValueOnce(responseMock)
+
+    const result = await generateFlashcards(noteId)
+
+    expect(fetcher).toHaveBeenCalledOnce()
+    expect(result).toEqual(responseMock)
   })
 })
 

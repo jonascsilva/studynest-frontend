@@ -20,6 +20,7 @@ import { Route as protectedProtecteddashboardDashboardImport } from './routes/(p
 import { Route as protectedProtectedNotesEditNoteIdIndexImport } from './routes/(protected)/_protected/notes/edit/$noteId/index'
 import { Route as protectedProtectedFlashcardsReviewFlashcardIdIndexImport } from './routes/(protected)/_protected/flashcards/review/$flashcardId/index'
 import { Route as protectedProtectedFlashcardsPreviewFlashcardIdIndexImport } from './routes/(protected)/_protected/flashcards/preview/$flashcardId/index'
+import { Route as protectedProtectedFlashcardsFromNoteIdIndexImport } from './routes/(protected)/_protected/flashcards/from/$noteId/index'
 import { Route as protectedProtectedFlashcardsEditFlashcardIdIndexImport } from './routes/(protected)/_protected/flashcards/edit/$flashcardId/index'
 import { Route as protectedProtecteddashboardDashboardSettingsIndexImport } from './routes/(protected)/_protected/(dashboard)/_dashboard/settings/index'
 import { Route as protectedProtecteddashboardDashboardNotesIndexImport } from './routes/(protected)/_protected/(dashboard)/_dashboard/notes/index'
@@ -41,9 +42,6 @@ const protectedProtectedFlashcardsNewIndexLazyImport = createFileRoute(
 )()
 const protectedProtecteddashboardDashboardFaqIndexLazyImport = createFileRoute(
   '/(protected)/_protected/(dashboard)/_dashboard/faq/',
-)()
-const protectedProtecteddashboardDashboardAiIndexLazyImport = createFileRoute(
-  '/(protected)/_protected/(dashboard)/_dashboard/ai/',
 )()
 
 // Create/Update Routes
@@ -127,19 +125,6 @@ const protectedProtecteddashboardDashboardFaqIndexLazyRoute =
       ).then((d) => d.Route),
     )
 
-const protectedProtecteddashboardDashboardAiIndexLazyRoute =
-  protectedProtecteddashboardDashboardAiIndexLazyImport
-    .update({
-      id: '/ai/',
-      path: '/ai/',
-      getParentRoute: () => protectedProtecteddashboardDashboardRoute,
-    } as any)
-    .lazy(() =>
-      import(
-        './routes/(protected)/_protected/(dashboard)/_dashboard/ai/index.lazy'
-      ).then((d) => d.Route),
-    )
-
 const protectedProtectedNotesEditNoteIdIndexRoute =
   protectedProtectedNotesEditNoteIdIndexImport.update({
     id: '/notes/edit/$noteId/',
@@ -158,6 +143,13 @@ const protectedProtectedFlashcardsPreviewFlashcardIdIndexRoute =
   protectedProtectedFlashcardsPreviewFlashcardIdIndexImport.update({
     id: '/flashcards/preview/$flashcardId/',
     path: '/flashcards/preview/$flashcardId/',
+    getParentRoute: () => protectedProtectedRoute,
+  } as any)
+
+const protectedProtectedFlashcardsFromNoteIdIndexRoute =
+  protectedProtectedFlashcardsFromNoteIdIndexImport.update({
+    id: '/flashcards/from/$noteId/',
+    path: '/flashcards/from/$noteId/',
     getParentRoute: () => protectedProtectedRoute,
   } as any)
 
@@ -298,6 +290,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof protectedProtectedFlashcardsEditFlashcardIdIndexImport
       parentRoute: typeof protectedProtectedImport
     }
+    '/(protected)/_protected/flashcards/from/$noteId/': {
+      id: '/(protected)/_protected/flashcards/from/$noteId/'
+      path: '/flashcards/from/$noteId'
+      fullPath: '/flashcards/from/$noteId'
+      preLoaderRoute: typeof protectedProtectedFlashcardsFromNoteIdIndexImport
+      parentRoute: typeof protectedProtectedImport
+    }
     '/(protected)/_protected/flashcards/preview/$flashcardId/': {
       id: '/(protected)/_protected/flashcards/preview/$flashcardId/'
       path: '/flashcards/preview/$flashcardId'
@@ -319,13 +318,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof protectedProtectedNotesEditNoteIdIndexImport
       parentRoute: typeof protectedProtectedImport
     }
-    '/(protected)/_protected/(dashboard)/_dashboard/ai/': {
-      id: '/(protected)/_protected/(dashboard)/_dashboard/ai/'
-      path: '/ai'
-      fullPath: '/ai'
-      preLoaderRoute: typeof protectedProtecteddashboardDashboardAiIndexLazyImport
-      parentRoute: typeof protectedProtecteddashboardDashboardImport
-    }
     '/(protected)/_protected/(dashboard)/_dashboard/faq/': {
       id: '/(protected)/_protected/(dashboard)/_dashboard/faq/'
       path: '/faq'
@@ -343,7 +335,6 @@ interface protectedProtecteddashboardDashboardRouteChildren {
   protectedProtecteddashboardDashboardHomeIndexRoute: typeof protectedProtecteddashboardDashboardHomeIndexRoute
   protectedProtecteddashboardDashboardNotesIndexRoute: typeof protectedProtecteddashboardDashboardNotesIndexRoute
   protectedProtecteddashboardDashboardSettingsIndexRoute: typeof protectedProtecteddashboardDashboardSettingsIndexRoute
-  protectedProtecteddashboardDashboardAiIndexLazyRoute: typeof protectedProtecteddashboardDashboardAiIndexLazyRoute
   protectedProtecteddashboardDashboardFaqIndexLazyRoute: typeof protectedProtecteddashboardDashboardFaqIndexLazyRoute
 }
 
@@ -357,8 +348,6 @@ const protectedProtecteddashboardDashboardRouteChildren: protectedProtecteddashb
       protectedProtecteddashboardDashboardNotesIndexRoute,
     protectedProtecteddashboardDashboardSettingsIndexRoute:
       protectedProtecteddashboardDashboardSettingsIndexRoute,
-    protectedProtecteddashboardDashboardAiIndexLazyRoute:
-      protectedProtecteddashboardDashboardAiIndexLazyRoute,
     protectedProtecteddashboardDashboardFaqIndexLazyRoute:
       protectedProtecteddashboardDashboardFaqIndexLazyRoute,
   }
@@ -388,6 +377,7 @@ interface protectedProtectedRouteChildren {
   protectedProtectedFlashcardsNewIndexLazyRoute: typeof protectedProtectedFlashcardsNewIndexLazyRoute
   protectedProtectedNotesNewIndexLazyRoute: typeof protectedProtectedNotesNewIndexLazyRoute
   protectedProtectedFlashcardsEditFlashcardIdIndexRoute: typeof protectedProtectedFlashcardsEditFlashcardIdIndexRoute
+  protectedProtectedFlashcardsFromNoteIdIndexRoute: typeof protectedProtectedFlashcardsFromNoteIdIndexRoute
   protectedProtectedFlashcardsPreviewFlashcardIdIndexRoute: typeof protectedProtectedFlashcardsPreviewFlashcardIdIndexRoute
   protectedProtectedFlashcardsReviewFlashcardIdIndexRoute: typeof protectedProtectedFlashcardsReviewFlashcardIdIndexRoute
   protectedProtectedNotesEditNoteIdIndexRoute: typeof protectedProtectedNotesEditNoteIdIndexRoute
@@ -402,6 +392,8 @@ const protectedProtectedRouteChildren: protectedProtectedRouteChildren = {
     protectedProtectedNotesNewIndexLazyRoute,
   protectedProtectedFlashcardsEditFlashcardIdIndexRoute:
     protectedProtectedFlashcardsEditFlashcardIdIndexRoute,
+  protectedProtectedFlashcardsFromNoteIdIndexRoute:
+    protectedProtectedFlashcardsFromNoteIdIndexRoute,
   protectedProtectedFlashcardsPreviewFlashcardIdIndexRoute:
     protectedProtectedFlashcardsPreviewFlashcardIdIndexRoute,
   protectedProtectedFlashcardsReviewFlashcardIdIndexRoute:
@@ -436,10 +428,10 @@ export interface FileRoutesByFullPath {
   '/notes': typeof protectedProtecteddashboardDashboardNotesIndexRoute
   '/settings': typeof protectedProtecteddashboardDashboardSettingsIndexRoute
   '/flashcards/edit/$flashcardId': typeof protectedProtectedFlashcardsEditFlashcardIdIndexRoute
+  '/flashcards/from/$noteId': typeof protectedProtectedFlashcardsFromNoteIdIndexRoute
   '/flashcards/preview/$flashcardId': typeof protectedProtectedFlashcardsPreviewFlashcardIdIndexRoute
   '/flashcards/review/$flashcardId': typeof protectedProtectedFlashcardsReviewFlashcardIdIndexRoute
   '/notes/edit/$noteId': typeof protectedProtectedNotesEditNoteIdIndexRoute
-  '/ai': typeof protectedProtecteddashboardDashboardAiIndexLazyRoute
   '/faq': typeof protectedProtecteddashboardDashboardFaqIndexLazyRoute
 }
 
@@ -454,10 +446,10 @@ export interface FileRoutesByTo {
   '/notes': typeof protectedProtecteddashboardDashboardNotesIndexRoute
   '/settings': typeof protectedProtecteddashboardDashboardSettingsIndexRoute
   '/flashcards/edit/$flashcardId': typeof protectedProtectedFlashcardsEditFlashcardIdIndexRoute
+  '/flashcards/from/$noteId': typeof protectedProtectedFlashcardsFromNoteIdIndexRoute
   '/flashcards/preview/$flashcardId': typeof protectedProtectedFlashcardsPreviewFlashcardIdIndexRoute
   '/flashcards/review/$flashcardId': typeof protectedProtectedFlashcardsReviewFlashcardIdIndexRoute
   '/notes/edit/$noteId': typeof protectedProtectedNotesEditNoteIdIndexRoute
-  '/ai': typeof protectedProtecteddashboardDashboardAiIndexLazyRoute
   '/faq': typeof protectedProtecteddashboardDashboardFaqIndexLazyRoute
 }
 
@@ -477,10 +469,10 @@ export interface FileRoutesById {
   '/(protected)/_protected/(dashboard)/_dashboard/notes/': typeof protectedProtecteddashboardDashboardNotesIndexRoute
   '/(protected)/_protected/(dashboard)/_dashboard/settings/': typeof protectedProtecteddashboardDashboardSettingsIndexRoute
   '/(protected)/_protected/flashcards/edit/$flashcardId/': typeof protectedProtectedFlashcardsEditFlashcardIdIndexRoute
+  '/(protected)/_protected/flashcards/from/$noteId/': typeof protectedProtectedFlashcardsFromNoteIdIndexRoute
   '/(protected)/_protected/flashcards/preview/$flashcardId/': typeof protectedProtectedFlashcardsPreviewFlashcardIdIndexRoute
   '/(protected)/_protected/flashcards/review/$flashcardId/': typeof protectedProtectedFlashcardsReviewFlashcardIdIndexRoute
   '/(protected)/_protected/notes/edit/$noteId/': typeof protectedProtectedNotesEditNoteIdIndexRoute
-  '/(protected)/_protected/(dashboard)/_dashboard/ai/': typeof protectedProtecteddashboardDashboardAiIndexLazyRoute
   '/(protected)/_protected/(dashboard)/_dashboard/faq/': typeof protectedProtecteddashboardDashboardFaqIndexLazyRoute
 }
 
@@ -497,10 +489,10 @@ export interface FileRouteTypes {
     | '/notes'
     | '/settings'
     | '/flashcards/edit/$flashcardId'
+    | '/flashcards/from/$noteId'
     | '/flashcards/preview/$flashcardId'
     | '/flashcards/review/$flashcardId'
     | '/notes/edit/$noteId'
-    | '/ai'
     | '/faq'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -514,10 +506,10 @@ export interface FileRouteTypes {
     | '/notes'
     | '/settings'
     | '/flashcards/edit/$flashcardId'
+    | '/flashcards/from/$noteId'
     | '/flashcards/preview/$flashcardId'
     | '/flashcards/review/$flashcardId'
     | '/notes/edit/$noteId'
-    | '/ai'
     | '/faq'
   id:
     | '__root__'
@@ -535,10 +527,10 @@ export interface FileRouteTypes {
     | '/(protected)/_protected/(dashboard)/_dashboard/notes/'
     | '/(protected)/_protected/(dashboard)/_dashboard/settings/'
     | '/(protected)/_protected/flashcards/edit/$flashcardId/'
+    | '/(protected)/_protected/flashcards/from/$noteId/'
     | '/(protected)/_protected/flashcards/preview/$flashcardId/'
     | '/(protected)/_protected/flashcards/review/$flashcardId/'
     | '/(protected)/_protected/notes/edit/$noteId/'
-    | '/(protected)/_protected/(dashboard)/_dashboard/ai/'
     | '/(protected)/_protected/(dashboard)/_dashboard/faq/'
   fileRoutesById: FileRoutesById
 }
@@ -590,6 +582,7 @@ export const routeTree = rootRoute
         "/(protected)/_protected/flashcards/new/",
         "/(protected)/_protected/notes/new/",
         "/(protected)/_protected/flashcards/edit/$flashcardId/",
+        "/(protected)/_protected/flashcards/from/$noteId/",
         "/(protected)/_protected/flashcards/preview/$flashcardId/",
         "/(protected)/_protected/flashcards/review/$flashcardId/",
         "/(protected)/_protected/notes/edit/$noteId/"
@@ -616,7 +609,6 @@ export const routeTree = rootRoute
         "/(protected)/_protected/(dashboard)/_dashboard/home/",
         "/(protected)/_protected/(dashboard)/_dashboard/notes/",
         "/(protected)/_protected/(dashboard)/_dashboard/settings/",
-        "/(protected)/_protected/(dashboard)/_dashboard/ai/",
         "/(protected)/_protected/(dashboard)/_dashboard/faq/"
       ]
     },
@@ -648,6 +640,10 @@ export const routeTree = rootRoute
       "filePath": "(protected)/_protected/flashcards/edit/$flashcardId/index.tsx",
       "parent": "/(protected)/_protected"
     },
+    "/(protected)/_protected/flashcards/from/$noteId/": {
+      "filePath": "(protected)/_protected/flashcards/from/$noteId/index.tsx",
+      "parent": "/(protected)/_protected"
+    },
     "/(protected)/_protected/flashcards/preview/$flashcardId/": {
       "filePath": "(protected)/_protected/flashcards/preview/$flashcardId/index.tsx",
       "parent": "/(protected)/_protected"
@@ -659,10 +655,6 @@ export const routeTree = rootRoute
     "/(protected)/_protected/notes/edit/$noteId/": {
       "filePath": "(protected)/_protected/notes/edit/$noteId/index.tsx",
       "parent": "/(protected)/_protected"
-    },
-    "/(protected)/_protected/(dashboard)/_dashboard/ai/": {
-      "filePath": "(protected)/_protected/(dashboard)/_dashboard/ai/index.lazy.tsx",
-      "parent": "/(protected)/_protected/(dashboard)/_dashboard"
     },
     "/(protected)/_protected/(dashboard)/_dashboard/faq/": {
       "filePath": "(protected)/_protected/(dashboard)/_dashboard/faq/index.lazy.tsx",

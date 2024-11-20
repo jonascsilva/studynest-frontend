@@ -1,6 +1,6 @@
 import { Link, createFileRoute } from '@tanstack/react-router'
 import { Flex, Heading, Table, Text } from '@chakra-ui/react'
-import { BsPlusLg, BsPencilFill, BsFillTrash3Fill, BsFillShareFill } from 'react-icons/bs'
+import { BsPlusLg, BsPencilFill, BsFillTrash3Fill, BsFillShareFill, BsStars } from 'react-icons/bs'
 import { notesQueryOptions } from '$/query/notesOptions'
 import { useMutation, useQueryClient, useSuspenseQuery } from '@tanstack/react-query'
 import { deleteNote } from '$/query/notes'
@@ -65,6 +65,16 @@ function Component() {
                   <Table.Cell>{getFormattedDate(note.updatedAt)}</Table.Cell>
                   <Table.Cell>
                     <Flex gap='6' justifyContent='center'>
+                      <Link
+                        to='/flashcards/from/$noteId'
+                        params={{
+                          noteId: note.id
+                        }}
+                      >
+                        <TableButton label='Gerar flashcards' colorPalette='green'>
+                          <BsStars />
+                        </TableButton>
+                      </Link>
                       <Link
                         to='/notes/edit/$noteId'
                         params={{

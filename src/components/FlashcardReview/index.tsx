@@ -97,11 +97,13 @@ function FlashcardReview({ flashcard, mutation }: Props) {
           </Card.Root>
           <Card.Root width='100%' height='100%'>
             <Card.Body justifyContent='center'>
-              <Skeleton variant='none' loading={!isRevealed}>
-                <Text textAlign='center' p='1.5rem' fontSize='xl' truncate>
+              {!isRevealed ? (
+                <Skeleton variant='none' loading h='100%' />
+              ) : (
+                <Text textAlign='center' h='auto' fontSize='xl' lineClamp={7}>
                   {flashcard.answer}
                 </Text>
-              </Skeleton>
+              )}
               {!isRevealed && (
                 <div className={classes.buttonContainer}>
                   <Button size='lg' colorPalette='blue' onClick={() => setIsRevealed(true)}>

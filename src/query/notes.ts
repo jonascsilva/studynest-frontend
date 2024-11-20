@@ -1,6 +1,15 @@
 import { NoteType } from '$/types'
 import { fetcher } from '$/query/fetcher'
 
+async function generateNote(data: {
+  subject: string
+  title: string
+}): Promise<{ content: string }> {
+  const flashcard = await fetcher<{ content: string }>(`notes/generate`, 'POST', data)
+
+  return flashcard
+}
+
 async function fetchNote(noteId: string): Promise<NoteType> {
   const note = await fetcher<NoteType>(`notes/${noteId}`)
 
@@ -33,4 +42,4 @@ async function deleteNote(noteId: string): Promise<NoteType> {
   return note
 }
 
-export { fetchNote, fetchNotes, updateNote, createNote, deleteNote }
+export { generateNote, fetchNote, fetchNotes, updateNote, createNote, deleteNote }

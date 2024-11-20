@@ -1,4 +1,4 @@
-import { UseMutationResult } from '@tanstack/react-query'
+import { useMutation, UseMutationResult } from '@tanstack/react-query'
 import { Textarea, Heading, Input } from '@chakra-ui/react'
 import { Button } from '$/components/ui/button'
 import { SubmitHandler, useForm } from 'react-hook-form'
@@ -7,6 +7,7 @@ import classes from './index.module.scss'
 import { FlashcardType } from '$/types'
 import { CloseButton } from '$/components/ui/close-button'
 import { BsStars } from 'react-icons/bs'
+import { generateFlashcard } from '$/query/flashcards'
 
 type Inputs = {
   question: string
@@ -20,10 +21,28 @@ type Props = {
 }
 
 function Flashcard({ mutation, flashcard }: Readonly<Props>) {
-  const { register, handleSubmit } = useForm<Inputs>()
+  const { register, handleSubmit, getValues, setValue } = useForm<Inputs>()
 
   const onSubmit: SubmitHandler<Inputs> = data => {
     mutation.mutate(data)
+  }
+
+  const aiMutation = useMutation({
+    mutationFn: generateFlashcard,
+    onSuccess: data => {
+      setValue('answer', data.answer)
+    }
+  })
+
+  const handleClick = () => {
+    const values = getValues(['subject', 'question'])
+
+    const data = {
+      subject: values[0],
+      question: values[1]
+    }
+
+    aiMutation.mutate(data)
   }
 
   return (
@@ -31,9 +50,19 @@ function Flashcard({ mutation, flashcard }: Readonly<Props>) {
       <header className={classes.header}>
         <div className={classes.leftContent}>
           <Link to='/flashcards'>
-            <CloseButton disabled={mutation.isPending} size='lg' variant='solid' />
+            <CloseButton
+              disabled={mutation.isPending || aiMutation.isPending}
+              size='lg'
+              variant='solid'
+            />
           </Link>
-          <Button loading={mutation.isPending} colorPalette='green' type='submit' size='lg'>
+          <Button
+            loading={mutation.isPending}
+            disabled={aiMutation.isPending}
+            colorPalette='green'
+            type='submit'
+            size='lg'
+          >
             Salvar
           </Button>
         </div>
@@ -50,6 +79,7 @@ function Flashcard({ mutation, flashcard }: Readonly<Props>) {
           size='xl'
           variant='subtle'
           defaultValue={flashcard?.subject}
+          disabled={mutation.isPending || aiMutation.isPending}
           {...register('subject')}
         />
       </div>
@@ -65,13 +95,19 @@ function Flashcard({ mutation, flashcard }: Readonly<Props>) {
           flexGrow='1'
           variant='subtle'
           defaultValue={flashcard?.question}
+          disabled={mutation.isPending || aiMutation.isPending}
           {...register('question')}
         />
       </div>
       <div className={classes.inputContainer}>
         <div className={classes.labelContainer}>
           <Heading size='2xl'>Resposta</Heading>
-          <Button colorPalette='blue' size='sm'>
+          <Button
+            colorPalette='blue'
+            size='sm'
+            onClick={handleClick}
+            loading={aiMutation.isPending}
+          >
             <BsStars /> Gerar
           </Button>
         </div>
@@ -84,6 +120,7 @@ function Flashcard({ mutation, flashcard }: Readonly<Props>) {
           flexGrow='1'
           variant='subtle'
           defaultValue={flashcard?.answer}
+          disabled={mutation.isPending || aiMutation.isPending}
           {...register('answer')}
         />
       </div>

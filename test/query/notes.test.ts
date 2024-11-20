@@ -1,5 +1,12 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { fetchNote, fetchNotes, updateNote, createNote, deleteNote } from '$/query/notes'
+import {
+  fetchNote,
+  fetchNotes,
+  updateNote,
+  createNote,
+  deleteNote,
+  generateNote
+} from '$/query/notes'
 import { NoteType } from '$/types'
 import { fetcher } from '$/query/fetcher'
 
@@ -7,6 +14,24 @@ vi.mock('$/query/fetcher')
 
 beforeEach(() => {
   vi.restoreAllMocks()
+})
+
+describe('generateNote', () => {
+  it('should generate the content of a note', async () => {
+    const title = 'The capital of France'
+    const subject = 'Geography'
+
+    const responseMock = {
+      content: 'The capital of France is Paris'
+    }
+
+    vi.mocked(fetcher).mockResolvedValueOnce(responseMock)
+
+    const result = await generateNote({ subject, title })
+
+    expect(fetcher).toHaveBeenCalledOnce()
+    expect(result).toEqual(responseMock)
+  })
 })
 
 describe('fetchNote', () => {

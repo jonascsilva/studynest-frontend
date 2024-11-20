@@ -1,4 +1,4 @@
-import { UseMutationResult } from '@tanstack/react-query'
+import { useMutation, UseMutationResult } from '@tanstack/react-query'
 import { Textarea, Heading, Input } from '@chakra-ui/react'
 import { Button } from '$/components/ui/button'
 import { SubmitHandler, useForm } from 'react-hook-form'
@@ -7,6 +7,7 @@ import { Link } from '@tanstack/react-router'
 import classes from './index.module.scss'
 import { CloseButton } from '$/components/ui/close-button'
 import { BsStars } from 'react-icons/bs'
+import { generateNote } from '$/query/notes'
 
 type Inputs = {
   title: string
@@ -20,10 +21,28 @@ type Props = {
 }
 
 function Note({ mutation, note }: Readonly<Props>) {
-  const { register, handleSubmit } = useForm<Inputs>()
+  const { register, handleSubmit, getValues, setValue } = useForm<Inputs>()
 
   const onSubmit: SubmitHandler<Inputs> = data => {
     mutation.mutate(data)
+  }
+
+  const aiMutation = useMutation({
+    mutationFn: generateNote,
+    onSuccess: data => {
+      setValue('content', data.content)
+    }
+  })
+
+  const handleClick = () => {
+    const values = getValues(['subject', 'title'])
+
+    const data = {
+      subject: values[0],
+      title: values[1]
+    }
+
+    aiMutation.mutate(data)
   }
 
   return (
@@ -31,9 +50,19 @@ function Note({ mutation, note }: Readonly<Props>) {
       <header className={classes.header}>
         <div className={classes.leftContent}>
           <Link to='/notes'>
-            <CloseButton disabled={mutation.isPending} size='lg' variant='solid' />
+            <CloseButton
+              disabled={mutation.isPending || aiMutation.isPending}
+              size='lg'
+              variant='solid'
+            />
           </Link>
-          <Button loading={mutation.isPending} colorPalette='green' type='submit' size='lg'>
+          <Button
+            loading={mutation.isPending}
+            disabled={aiMutation.isPending}
+            colorPalette='green'
+            type='submit'
+            size='lg'
+          >
             Salvar
           </Button>
         </div>
@@ -50,6 +79,7 @@ function Note({ mutation, note }: Readonly<Props>) {
           size='xl'
           variant='subtle'
           defaultValue={note?.subject}
+          disabled={mutation.isPending || aiMutation.isPending}
           {...register('subject')}
         />
       </div>
@@ -66,13 +96,19 @@ function Note({ mutation, note }: Readonly<Props>) {
           flexGrow='1'
           variant='subtle'
           defaultValue={note?.title}
+          disabled={mutation.isPending || aiMutation.isPending}
           {...register('title')}
         />
       </div>
       <div className={classes.inputContainer}>
         <div className={classes.labelContainer}>
           <Heading size='2xl'>Conteúdo</Heading>
-          <Button colorPalette='blue' size='sm'>
+          <Button
+            colorPalette='blue'
+            size='sm'
+            onClick={handleClick}
+            loading={aiMutation.isPending}
+          >
             <BsStars /> Gerar
           </Button>
         </div>
@@ -82,6 +118,7 @@ function Note({ mutation, note }: Readonly<Props>) {
           flexGrow='1'
           variant='subtle'
           defaultValue={note?.content}
+          disabled={mutation.isPending || aiMutation.isPending}
           {...register('content')}
         />
       </div>

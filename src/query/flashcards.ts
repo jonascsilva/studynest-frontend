@@ -7,12 +7,19 @@ import {
 import { serializeParams } from '$/query/utils'
 import { fetcher } from '$/query/fetcher'
 
-type FlashcardInput = { question: string; answer: string; subject: string }
-
-async function generateFlashcard(): Promise<FlashcardInput> {
-  const flashcard = await fetcher<FlashcardType>(`flashcards/ai`)
+async function generateFlashcard(data: {
+  subject: string
+  question: string
+}): Promise<{ answer: string }> {
+  const flashcard = await fetcher<{ answer: string }>(`flashcards/generate`, 'POST', data)
 
   return flashcard
+}
+
+async function generateFlashcards(noteId: string): Promise<FlashcardType[]> {
+  const flashcards = await fetcher<FlashcardType[]>(`flashcards/from/${noteId}`)
+
+  return flashcards
 }
 
 async function fetchFlashcard(flashcardId: string): Promise<FlashcardType> {
@@ -65,6 +72,7 @@ async function deleteFlashcard(flashcardId: string): Promise<FlashcardType> {
 
 export {
   generateFlashcard,
+  generateFlashcards,
   fetchFlashcards,
   fetchFlashcard,
   updateFlashcard,
