@@ -50,8 +50,8 @@ function RouteComponent() {
         </Button>
       </section>
       <main className={classes.main}>
-        {generateMutation.data?.map((flashcard, index) => (
-          <GeneratedFlashcard flashcard={flashcard} key={index} />
+        {generateMutation.data?.map(flashcard => (
+          <GeneratedFlashcard flashcard={flashcard} key={flashcard.question} />
         ))}
       </main>
     </div>

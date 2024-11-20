@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest'
 import { flashcardQueryOptions, flashcardsQueryOptions } from '$/query/flashcardsOptions'
 import { fetchFlashcard, fetchFlashcards } from '$/query/flashcards'
-import { FlashcardType } from '$/types'
+import { FlashcardType, FlashcardWithRevisionType } from '$/types'
 
 vi.mock('$/query/flashcards')
 
@@ -32,7 +32,7 @@ describe('flashcardsQueryOptions', () => {
     expect(options.queryKey).toEqual(['flashcards'])
 
     vi.mocked(fetchFlashcards).mockResolvedValueOnce([
-      { id: '1', question: 'Flashcard 1' } as FlashcardType
+      { id: '1', question: 'Flashcard 1' } as FlashcardWithRevisionType
     ])
 
     const result = await (options.queryFn as any)()
@@ -47,7 +47,7 @@ describe('flashcardsQueryOptions', () => {
     expect(options.queryKey).toEqual(['flashcards', { due: true }])
 
     vi.mocked(fetchFlashcards).mockResolvedValueOnce([
-      { id: '1', question: 'Flashcard 1' } as FlashcardType
+      { id: '1', question: 'Flashcard 1' } as FlashcardWithRevisionType
     ])
 
     const result = await (options.queryFn as any)()

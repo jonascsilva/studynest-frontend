@@ -14,7 +14,7 @@ describe('Pending Component', () => {
   it('should render the Spinner component', () => {
     renderWithContext(() => <Pending />)
 
-    const spinner = screen.getByRole('status')
+    const spinner = screen.getByTestId('spinner')
 
     expect(spinner).toBeInTheDocument()
   })
@@ -22,7 +22,7 @@ describe('Pending Component', () => {
   it('should apply only container class when fullPage prop is not provided', () => {
     renderWithContext(() => <Pending />)
 
-    const containerDiv = screen.getByRole('status').parentElement
+    const containerDiv = screen.getByTestId('spinner').parentElement
 
     expect(containerDiv).toHaveClass('container')
     expect(containerDiv).not.toHaveClass('fullPage')
@@ -31,7 +31,7 @@ describe('Pending Component', () => {
   it('should apply fullPage class when fullPage prop is true', () => {
     renderWithContext(() => <Pending fullPage={true} />)
 
-    const containerDiv = screen.getByRole('status').parentElement
+    const containerDiv = screen.getByTestId('spinner').parentElement
 
     expect(containerDiv).toHaveClass('container', 'fullPage')
   })
@@ -39,7 +39,7 @@ describe('Pending Component', () => {
   it('should not apply fullPage class when fullPage prop is false', () => {
     renderWithContext(() => <Pending fullPage={false} />)
 
-    const containerDiv = screen.getByRole('status').parentElement
+    const containerDiv = screen.getByTestId('spinner').parentElement
 
     expect(containerDiv).toHaveClass('container')
     expect(containerDiv).not.toHaveClass('fullPage')

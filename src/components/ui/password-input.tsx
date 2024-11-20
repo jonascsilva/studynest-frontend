@@ -61,7 +61,7 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
         {...rootProps}
       >
         <Input
-          role='textbox'
+          data-testid='input'
           {...rest}
           ref={mergeRefs(ref, inputRef)}
           type={visible ? 'text' : 'password'}
@@ -106,7 +106,7 @@ export const PasswordStrengthMeter = forwardRef<HTMLDivElement, PasswordStrength
         <HStack width='full' ref={ref} {...rest}>
           {Array.from({ length: max }).map((_, index) => (
             <Box
-              role='progressbar'
+              data-testid='progressbar'
               key={index}
               height='1'
               flex='1'

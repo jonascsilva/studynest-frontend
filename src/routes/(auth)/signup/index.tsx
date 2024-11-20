@@ -108,7 +108,7 @@ function Component() {
           </Card.Body>
           <Card.Footer>
             <VStack gap='4' w='100%'>
-              <Button mt={4} colorPalette='blue' loading={isSubmitting} type='submit' width='100%'>
+              <Button mt={4} colorPalette='blue' loading={isSubmitting} type='submit' w='100%'>
                 Cadastre-se
               </Button>
               <div className={classes.errorContainer}>

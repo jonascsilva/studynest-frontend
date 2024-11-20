@@ -19,7 +19,7 @@ export const Slider = forwardRef<HTMLDivElement, SliderProps>(function Slider(pr
   const hasMarkLabel = !!marks?.some(mark => mark.label)
 
   return (
-    <ChakraSlider.Root ref={ref} role='slider' thumbAlignment='center' {...rest}>
+    <ChakraSlider.Root ref={ref} data-testid='slider' thumbAlignment='center' {...rest}>
       {label && (
         <ChakraSlider.Label data-testid='slider-label' fontWeight='medium'>
           {label}

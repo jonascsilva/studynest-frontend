@@ -11,7 +11,7 @@ describe('Slider Component', () => {
       </ChakraProvider>
     )
 
-    expect(screen.getByRole('slider')).toBeInTheDocument()
+    expect(screen.getByTestId('slider')).toBeInTheDocument()
   })
 
   it('should render label when provided', () => {
@@ -121,6 +121,6 @@ describe('Slider Component', () => {
       </ChakraProvider>
     )
 
-    expect(screen.getByRole('slider')).toHaveAttribute('data-orientation', 'vertical')
+    expect(screen.getByTestId('slider')).toHaveAttribute('data-orientation', 'vertical')
   })
 })

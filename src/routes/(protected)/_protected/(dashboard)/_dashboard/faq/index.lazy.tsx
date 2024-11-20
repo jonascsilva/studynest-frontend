@@ -23,7 +23,7 @@ function Component() {
       <section className={classes.section}>
         <AccordionRoot multiple size='lg'>
           {faq.map((item, index) => (
-            <AccordionItem key={index} value={String(index)}>
+            <AccordionItem key={item.question} value={String(index)}>
               <AccordionItemTrigger>{item.question}</AccordionItemTrigger>
               <AccordionItemContent>{item.answer}</AccordionItemContent>
             </AccordionItem>
@@ -32,8 +32,8 @@ function Component() {
         <div className={classes.linksSection}>
           <Heading size='3xl'>Links úteis</Heading>
           <List.Root as='ol'>
-            {links.map((link, index) => (
-              <List.Item key={index}>
+            {links.map(link => (
+              <List.Item key={link.href}>
                 <Link target='_blank' href={link.href}>
                   {link.text}
                 </Link>

@@ -4,7 +4,9 @@ import { FlashcardType } from '$/types'
 import { useMutation } from '@tanstack/react-query'
 import { createFlashcard } from '$/query/flashcards'
 
-function GeneratedFlashcard({ flashcard }: { flashcard: FlashcardType }) {
+type Props = { flashcard: FlashcardType }
+
+function GeneratedFlashcard({ flashcard }: Readonly<Props>) {
   const mutation = useMutation({
     mutationFn: createFlashcard
   })

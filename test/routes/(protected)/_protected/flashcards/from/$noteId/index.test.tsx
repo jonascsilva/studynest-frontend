@@ -125,7 +125,7 @@ describe('RouteComponent', () => {
     renderWithContext(() => <RouteComponent />)
 
     const button = screen.getByRole('button', { name: /Gerar/i })
-    const spinner = screen.getByRole('status')
+    const spinner = screen.getByTestId('spinner')
 
     expect(button).toBeInTheDocument()
     expect(spinner).toBeInTheDocument()

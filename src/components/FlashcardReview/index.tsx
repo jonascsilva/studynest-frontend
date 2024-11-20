@@ -25,7 +25,7 @@ type Props = {
   mutation?: UseMutationResult<FlashcardWithRevisionType, Error, ReviewResult, unknown>
 }
 
-function FlashcardReview({ flashcard, mutation }: Props) {
+function FlashcardReview({ flashcard, mutation }: Readonly<Props>) {
   const queryClient = useQueryClient()
   const navigate = useNavigate()
   const [isRevealed, setIsRevealed] = useState(false)

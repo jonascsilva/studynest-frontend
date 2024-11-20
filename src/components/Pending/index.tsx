@@ -7,12 +7,12 @@ type Props = {
   fullPage?: boolean
 }
 
-function Pending({ fullPage }: Props) {
+function Pending({ fullPage }: Readonly<Props>) {
   const className = clsx(classes.container, { [classes.fullPage]: fullPage })
 
   return (
     <div className={className}>
-      <Spinner size='xl' role='status' />
+      <Spinner size='xl' data-testid='spinner' />
     </div>
   )
 }

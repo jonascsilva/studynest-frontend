@@ -33,7 +33,7 @@ describe('PasswordInput Component', () => {
       </ChakraProvider>
     )
 
-    const input = screen.getByRole('textbox')
+    const input = screen.getByTestId('input')
 
     const toggleButton = screen.getByRole('button', { name: 'Toggle password visibility' })
 
@@ -55,7 +55,7 @@ describe('PasswordInput Component', () => {
       </ChakraProvider>
     )
 
-    const input = screen.getByRole('textbox')
+    const input = screen.getByTestId('input')
 
     const toggleButton = screen.getByRole('button', { name: 'Toggle password visibility' })
 
@@ -73,7 +73,7 @@ describe('PasswordInput Component', () => {
       </ChakraProvider>
     )
 
-    const input = screen.getByRole('textbox')
+    const input = screen.getByTestId('input')
 
     const toggleButton = screen.getByRole('button', { name: 'Toggle password visibility' })
 
@@ -91,7 +91,7 @@ describe('PasswordInput Component', () => {
       </ChakraProvider>
     )
 
-    const input = screen.getByRole('textbox')
+    const input = screen.getByTestId('input')
 
     expect(input).toHaveAttribute('type', 'text')
   })
@@ -162,7 +162,7 @@ describe('PasswordStrengthMeter Component', () => {
       </ChakraProvider>
     )
 
-    const bars = screen.getAllByRole('progressbar')
+    const bars = screen.getAllByTestId('progressbar')
 
     expect(bars).toHaveLength(5)
   })
@@ -174,7 +174,7 @@ describe('PasswordStrengthMeter Component', () => {
       </ChakraProvider>
     )
 
-    const bars = screen.getAllByRole('progressbar')
+    const bars = screen.getAllByTestId('progressbar')
 
     expect(bars[0]).toHaveAttribute('data-selected', '')
     expect(bars[1]).toHaveAttribute('data-selected', '')

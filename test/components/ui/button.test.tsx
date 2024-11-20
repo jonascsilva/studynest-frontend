@@ -22,7 +22,7 @@ describe('Button Component', () => {
       </ChakraProvider>
     )
 
-    const spinner = screen.getByRole('status')
+    const spinner = screen.getByTestId('spinner')
 
     expect(spinner).toBeInTheDocument()
 
@@ -41,7 +41,7 @@ describe('Button Component', () => {
       </ChakraProvider>
     )
 
-    const spinner = screen.getByRole('status')
+    const spinner = screen.getByTestId('spinner')
 
     expect(spinner).toBeInTheDocument()
 

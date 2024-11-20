@@ -1,5 +1,5 @@
 import { Link } from '@tanstack/react-router'
-import { Heading } from '@chakra-ui/react'
+import { Heading, Separator } from '@chakra-ui/react'
 import { Button } from '$/components/ui/button'
 import classes from './index.module.scss'
 import { useAuth } from '$/hooks/useAuth'
@@ -11,7 +11,6 @@ import {
   BsHouseDoor,
   BsQuestionCircle
 } from 'react-icons/bs'
-import { Separator } from '@chakra-ui/react'
 import { ColorModeButton } from '$/components/ui/color-mode-button'
 
 function Sidebar() {
