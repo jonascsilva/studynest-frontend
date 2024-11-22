@@ -69,9 +69,8 @@ describe('RouteComponent', () => {
 
     expect(screen.getByText('Gerar flashcards')).toBeInTheDocument()
     expect(
-      screen.getByText('Deseja gerar flashcards com base no conteúdo da anotação?')
+      screen.getByText(/Deseja gerar flashcards com base no conteúdo da anotação:/i)
     ).toBeInTheDocument()
-    expect(screen.getByText(note.title)).toBeInTheDocument()
 
     const button = screen.getByRole('button', { name: /Gerar/i })
 

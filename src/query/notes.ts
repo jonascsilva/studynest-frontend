@@ -5,9 +5,9 @@ async function generateNote(data: {
   subject: string
   title: string
 }): Promise<{ content: string }> {
-  const flashcard = await fetcher<{ content: string }>(`notes/generate`, 'POST', data)
+  const note = await fetcher<{ content: string }>(`notes/generate`, 'POST', data)
 
-  return flashcard
+  return note
 }
 
 async function fetchNote(noteId: string): Promise<NoteType> {
