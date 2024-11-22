@@ -46,7 +46,9 @@ function Component() {
       </nav>
       <main className={classes.main}>
         <section className={classes.section}>
-          <div className={classes.imageContainer}>PLACEHOLDER</div>
+          <div className={classes.imageContainer}>
+            <img src='/flashcards-2.png' alt='flashcards' />
+          </div>
           <div className={classes.textContainer}>
             <Heading as='h2' size='4xl'>
               Aprenda hoje, lembre-se para sempre!

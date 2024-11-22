@@ -87,14 +87,12 @@ function Note({ mutation, note }: Readonly<Props>) {
         <div className={classes.labelContainer}>
           <Heading size='2xl'>Título</Heading>
         </div>
-        <Textarea
-          px='1rem'
+        <Input
+          w='100%'
           size='xl'
-          fontSize='xl'
-          lineHeight='1.6'
+          variant='subtle'
           resize='none'
           flexGrow='1'
-          variant='subtle'
           defaultValue={note?.title}
           disabled={mutation.isPending || aiMutation.isPending}
           {...register('title')}

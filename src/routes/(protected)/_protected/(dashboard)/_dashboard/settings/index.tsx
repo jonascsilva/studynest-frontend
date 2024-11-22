@@ -72,9 +72,9 @@ function Component() {
               aria-label={['slider-settings-2']}
               colorPalette='blue'
               defaultValue={[settings.baseInterval]}
-              marks={[2, 3, 4, 5, 6]}
+              marks={[1, 2, 3, 4, 5, 6]}
               {...register('baseInterval', { valueAsNumber: true })}
-              min={2}
+              min={1}
               max={6}
             />
           </Stack>

@@ -1,12 +1,20 @@
 {
   "faq": [
     {
+      "question": "Quais são algumas dicas para criar bons flashcards?",
+      "answer": "Tem agrupar as informações, não crie flashcards que a resposta é uma lista longa, só crie flashcards com informações relevantes e crie os flashcards da forma mais simples e específica possível."
+    },
+    {
+      "question": "Quantos flashcards devo revisar por dia?",
+      "answer": "Quantos você quiser, o importante é ser consistente."
+    },
+    {
       "question": "O que é repetição espaçada?",
       "answer": "É uma técnica de estudo que envolve revisões em intervalos crescentes para melhorar a retenção de longo prazo."
     },
     {
       "question": "Como a repetição espaçada melhora meu aprendizado?",
-      "answer": "Ela reforça o conhecimento antes que seja esquecido, combatendo a curva do esquecimento."
+      "answer": "Ela reforça o conhecimento antes que seja esquecido."
     },
     {
       "question": "Como funciona a aplicação?",
@@ -18,19 +26,11 @@
     },
     {
       "question": "O que são flashcards?",
-      "answer": "Flashcards são cartões de estudo que apresentam uma pergunta ou conceito na frente e a resposta ou explicação no verso. Eles são usados para facilitar a memorização e a aprendizagem ativa."
+      "answer": "Flashcards são cartões de estudo que apresentam uma pergunta na frente e a resposta no verso. Eles são usados para facilitar a memorização e a aprendizagem ativa."
     },
     {
       "question": "Como os flashcards ajudam na aprendizagem?",
       "answer": "Eles promovem a recuperação ativa da informação, fortalecendo a memória e melhorando a retenção a longo prazo."
-    },
-    {
-      "question": "O que é a curva do esquecimento?",
-      "answer": "É um conceito que demonstra como a memória decai ao longo do tempo sem revisões periódicas, mostrando que esquecemos grande parte do que aprendemos nas primeiras horas ou dias após o estudo."
-    },
-    {
-      "question": "Por que esquecemos o que estudamos?",
-      "answer": "O esquecimento ocorre porque, sem reforço ou revisão, as conexões neurais relacionadas à memória enfraquecem, levando à perda da informação."
     },
     {
       "question": "Qual é a base científica da repetição espaçada?",
@@ -63,20 +63,12 @@
       "text": "Wikipédia: Leitner System"
     },
     {
+      "href": "https://en.wikipedia.org/wiki/Flashcard",
+      "text": "Wikipédia: Flashcard"
+    },
+    {
       "href": "https://pt.wikipedia.org/wiki/Curva_do_esquecimento",
       "text": "Wikipédia: Curva do esquecimento"
-    },
-    {
-      "href": "https://researchgate.net/publication/281824405_Replication_and_Analysis_of_Ebbinghaus%27_Forgetting_Curve",
-      "text": "Replication and Analysis of Ebbinghaus' Forgetting Curve"
-    },
-    {
-      "href": "https://laplab.ucsd.edu/articles/Cepeda%20et%20al%202008_psychsci.pdf",
-      "text": "Spacing Effects in Learning"
-    },
-    {
-      "href": "https://www.researchgate.net/publication/232425555_On_the_Very_Long-Term_Retention_of_Knowledge_Acquired_Through_Formal_Education_Twelve_Years_of_Cognitive_Psychology",
-      "text": "On the Very Long-Term Retention of Knowledge Acquired Through Formal Education: Twelve Years of Cognitive Psychology"
     }
   ]
 }

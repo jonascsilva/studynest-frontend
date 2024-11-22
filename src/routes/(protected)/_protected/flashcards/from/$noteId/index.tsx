@@ -1,5 +1,5 @@
 import { noteQueryOptions } from '$/query/notesOptions'
-import { Heading, Text } from '@chakra-ui/react'
+import { Heading } from '@chakra-ui/react'
 import { useMutation, useSuspenseQuery } from '@tanstack/react-query'
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { generateFlashcards } from '$/query/flashcards'
@@ -37,9 +37,8 @@ function RouteComponent() {
       </header>
       <section className={classes.section}>
         <Heading size='xl' justifySelf='center'>
-          Deseja gerar flashcards com base no conteúdo da anotação?
+          Deseja gerar flashcards com base no conteúdo da anotação: "{note.title}"?
         </Heading>
-        <Text justifySelf='center'>{note.title}</Text>
         <Button
           w='10%'
           colorPalette='blue'

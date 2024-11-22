@@ -33,7 +33,6 @@ describe('HomePage Component', () => {
     const signUpLink = signUpButton.closest('a')
 
     expect(signUpLink).toHaveAttribute('href', '/signup')
-    expect(screen.getByText('PLACEHOLDER')).toBeInTheDocument()
     expect(
       screen.getByRole('heading', { name: 'Aprenda hoje, lembre-se para sempre!' })
     ).toBeInTheDocument()
@@ -62,7 +61,6 @@ describe('HomePage Component', () => {
     const dashboardLink = dashboardButton.closest('a')
 
     expect(dashboardLink).toHaveAttribute('href', '/home')
-    expect(screen.getByText('PLACEHOLDER')).toBeInTheDocument()
     expect(
       screen.getByRole('heading', { name: 'Aprenda hoje, lembre-se para sempre!' })
     ).toBeInTheDocument()
