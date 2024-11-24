@@ -9,14 +9,13 @@ type MyRouterContext = {
   auth: AuthContextType
 }
 
-const TanStackRouterDevtools =
-  import.meta.env.PROD
-    ? () => null
-    : lazy(() =>
-        import('@tanstack/router-devtools').then(res => ({
-          default: res.TanStackRouterDevtools
-        }))
-      )
+const TanStackRouterDevtools = import.meta.env.PROD
+  ? () => null
+  : lazy(() =>
+      import('@tanstack/router-devtools').then(res => ({
+        default: res.TanStackRouterDevtools
+      }))
+    )
 
 const Route = createRootRouteWithContext<MyRouterContext>()({
   component: Component
