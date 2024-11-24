@@ -1,8 +1,9 @@
 import { Link, createFileRoute } from '@tanstack/react-router'
 import { Flex, Heading, Table, Text } from '@chakra-ui/react'
-import { BsPlusLg, BsPencilFill, BsFillTrash3Fill, BsFillShareFill, BsStars } from 'react-icons/bs'
+import { BsPlusLg, BsPencilFill, BsFillTrash3Fill, BsStars } from 'react-icons/bs'
 import { notesQueryOptions } from '$/query/notesOptions'
 import { useMutation, useQueryClient, useSuspenseQuery } from '@tanstack/react-query'
+import { ShareNoteButton } from '$/components/ShareNoteButton'
 import { deleteNote } from '$/query/notes'
 import { Button } from '$/components/ui/button'
 import { TableButton } from '$/components/TableButton'
@@ -63,7 +64,7 @@ function Component() {
                   </Table.Cell>
                   <Table.Cell>{note.subject}</Table.Cell>
                   <Table.Cell>{getFormattedDate(note.updatedAt)}</Table.Cell>
-                  <Table.Cell>
+                  <Table.Cell textAlign='center'>
                     <Flex gap='6' justifyContent='center'>
                       <Link
                         to='/flashcards/from/$noteId'
@@ -85,9 +86,7 @@ function Component() {
                           <BsPencilFill />
                         </TableButton>
                       </Link>
-                      <TableButton label='Compartilhar' colorPalette='orange'>
-                        <BsFillShareFill />
-                      </TableButton>
+                      <ShareNoteButton shared={note.shared} id={note.id} />
                       <TableButton
                         label='Excluir'
                         colorPalette='red'

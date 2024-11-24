@@ -41,10 +41,10 @@ describe('flashcardsQueryOptions', () => {
     expect(result).toEqual([{ id: '1', question: 'Flashcard 1' }])
   })
 
-  it('should return the correct query options for due flashcards', async () => {
-    const options = flashcardsQueryOptions({ due: true })
+  it('should return the correct query options for shared flashcards', async () => {
+    const options = flashcardsQueryOptions({ shared: true })
 
-    expect(options.queryKey).toEqual(['flashcards', { due: true }])
+    expect(options.queryKey).toEqual(['flashcards', { shared: true }])
 
     vi.mocked(fetchFlashcards).mockResolvedValueOnce([
       { id: '1', question: 'Flashcard 1' } as FlashcardWithRevisionType

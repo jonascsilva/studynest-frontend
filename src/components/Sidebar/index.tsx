@@ -5,6 +5,7 @@ import classes from './index.module.scss'
 import { useAuth } from '$/hooks/useAuth'
 import {
   BsCardText,
+  BsCompass,
   BsDoorOpen,
   BsFileEarmarkText,
   BsGear,
@@ -36,7 +37,7 @@ function Sidebar() {
           </Button>
         )}
       </Link>
-      <Link to='/notes' className={classes.link}>
+      <Link to='/explore' className={classes.link}>
         {({ isActive }) => (
           <Button
             size='lg'
@@ -44,7 +45,7 @@ function Sidebar() {
             colorPalette={isActive ? 'blue' : undefined}
             width='100%'
           >
-            <BsFileEarmarkText /> Anotações
+            <BsCompass /> Explorar
           </Button>
         )}
       </Link>
@@ -57,6 +58,18 @@ function Sidebar() {
             width='100%'
           >
             <BsCardText /> Flashcards
+          </Button>
+        )}
+      </Link>
+      <Link to='/notes' className={classes.link}>
+        {({ isActive }) => (
+          <Button
+            size='lg'
+            variant='surface'
+            colorPalette={isActive ? 'blue' : undefined}
+            width='100%'
+          >
+            <BsFileEarmarkText /> Anotações
           </Button>
         )}
       </Link>

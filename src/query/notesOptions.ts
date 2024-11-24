@@ -1,5 +1,6 @@
-import { queryOptions } from '@tanstack/react-query'
+import { QueryKey, queryOptions } from '@tanstack/react-query'
 import { fetchNote, fetchNotes } from '$/query/notes'
+import { NotesQueryOptions } from '$/types'
 
 function noteQueryOptions(noteId: string) {
   return queryOptions({
@@ -8,10 +9,12 @@ function noteQueryOptions(noteId: string) {
   })
 }
 
-function notesQueryOptions() {
+function notesQueryOptions(opts?: NotesQueryOptions) {
+  const queryKey: QueryKey = opts ? ['notes', opts] : ['notes']
+
   return queryOptions({
-    queryKey: ['notes'],
-    queryFn: () => fetchNotes()
+    queryKey: queryKey,
+    queryFn: () => fetchNotes(opts)
   })
 }
 

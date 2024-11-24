@@ -1,9 +1,11 @@
 function serializeParams(params: { [key: string]: unknown }): string {
-  const stringParams: Record<string, string> = Object.fromEntries(
-    Object.entries(params).map(([key, value]) => [key, String(value)])
+  const filteredParams: Record<string, string> = Object.fromEntries(
+    Object.entries(params)
+      .filter(([, value]) => value !== null && value !== undefined && value !== '')
+      .map(([key, value]) => [key, String(value)])
   )
 
-  return new URLSearchParams(stringParams).toString()
+  return new URLSearchParams(filteredParams).toString()
 }
 
 export { serializeParams }
