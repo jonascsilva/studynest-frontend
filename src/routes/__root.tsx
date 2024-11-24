@@ -10,7 +10,7 @@ type MyRouterContext = {
 }
 
 const TanStackRouterDevtools =
-  import.meta.env.NODE_ENV === 'production'
+  import.meta.env.PROD
     ? () => null
     : lazy(() =>
         import('@tanstack/router-devtools').then(res => ({

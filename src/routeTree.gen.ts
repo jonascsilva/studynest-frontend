@@ -26,6 +26,7 @@ import { Route as protectedProtecteddashboardDashboardSettingsIndexImport } from
 import { Route as protectedProtecteddashboardDashboardNotesIndexImport } from './routes/(protected)/_protected/(dashboard)/_dashboard/notes/index'
 import { Route as protectedProtecteddashboardDashboardHomeIndexImport } from './routes/(protected)/_protected/(dashboard)/_dashboard/home/index'
 import { Route as protectedProtecteddashboardDashboardFlashcardsIndexImport } from './routes/(protected)/_protected/(dashboard)/_dashboard/flashcards/index'
+import { Route as protectedProtecteddashboardDashboardExploreIndexImport } from './routes/(protected)/_protected/(dashboard)/_dashboard/explore/index'
 
 // Create Virtual Routes
 
@@ -188,6 +189,13 @@ const protectedProtecteddashboardDashboardFlashcardsIndexRoute =
     getParentRoute: () => protectedProtecteddashboardDashboardRoute,
   } as any)
 
+const protectedProtecteddashboardDashboardExploreIndexRoute =
+  protectedProtecteddashboardDashboardExploreIndexImport.update({
+    id: '/explore/',
+    path: '/explore/',
+    getParentRoute: () => protectedProtecteddashboardDashboardRoute,
+  } as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -254,6 +262,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/notes/new'
       preLoaderRoute: typeof protectedProtectedNotesNewIndexLazyImport
       parentRoute: typeof protectedProtectedImport
+    }
+    '/(protected)/_protected/(dashboard)/_dashboard/explore/': {
+      id: '/(protected)/_protected/(dashboard)/_dashboard/explore/'
+      path: '/explore'
+      fullPath: '/explore'
+      preLoaderRoute: typeof protectedProtecteddashboardDashboardExploreIndexImport
+      parentRoute: typeof protectedProtecteddashboardDashboardImport
     }
     '/(protected)/_protected/(dashboard)/_dashboard/flashcards/': {
       id: '/(protected)/_protected/(dashboard)/_dashboard/flashcards/'
@@ -331,6 +346,7 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 interface protectedProtecteddashboardDashboardRouteChildren {
+  protectedProtecteddashboardDashboardExploreIndexRoute: typeof protectedProtecteddashboardDashboardExploreIndexRoute
   protectedProtecteddashboardDashboardFlashcardsIndexRoute: typeof protectedProtecteddashboardDashboardFlashcardsIndexRoute
   protectedProtecteddashboardDashboardHomeIndexRoute: typeof protectedProtecteddashboardDashboardHomeIndexRoute
   protectedProtecteddashboardDashboardNotesIndexRoute: typeof protectedProtecteddashboardDashboardNotesIndexRoute
@@ -340,6 +356,8 @@ interface protectedProtecteddashboardDashboardRouteChildren {
 
 const protectedProtecteddashboardDashboardRouteChildren: protectedProtecteddashboardDashboardRouteChildren =
   {
+    protectedProtecteddashboardDashboardExploreIndexRoute:
+      protectedProtecteddashboardDashboardExploreIndexRoute,
     protectedProtecteddashboardDashboardFlashcardsIndexRoute:
       protectedProtecteddashboardDashboardFlashcardsIndexRoute,
     protectedProtecteddashboardDashboardHomeIndexRoute:
@@ -423,6 +441,7 @@ export interface FileRoutesByFullPath {
   '/signup': typeof authSignupIndexRoute
   '/flashcards/new': typeof protectedProtectedFlashcardsNewIndexLazyRoute
   '/notes/new': typeof protectedProtectedNotesNewIndexLazyRoute
+  '/explore': typeof protectedProtecteddashboardDashboardExploreIndexRoute
   '/flashcards': typeof protectedProtecteddashboardDashboardFlashcardsIndexRoute
   '/home': typeof protectedProtecteddashboardDashboardHomeIndexRoute
   '/notes': typeof protectedProtecteddashboardDashboardNotesIndexRoute
@@ -441,6 +460,7 @@ export interface FileRoutesByTo {
   '/signup': typeof authSignupIndexRoute
   '/flashcards/new': typeof protectedProtectedFlashcardsNewIndexLazyRoute
   '/notes/new': typeof protectedProtectedNotesNewIndexLazyRoute
+  '/explore': typeof protectedProtecteddashboardDashboardExploreIndexRoute
   '/flashcards': typeof protectedProtecteddashboardDashboardFlashcardsIndexRoute
   '/home': typeof protectedProtecteddashboardDashboardHomeIndexRoute
   '/notes': typeof protectedProtecteddashboardDashboardNotesIndexRoute
@@ -464,6 +484,7 @@ export interface FileRoutesById {
   '/(protected)/_protected/(dashboard)/_dashboard': typeof protectedProtecteddashboardDashboardRouteWithChildren
   '/(protected)/_protected/flashcards/new/': typeof protectedProtectedFlashcardsNewIndexLazyRoute
   '/(protected)/_protected/notes/new/': typeof protectedProtectedNotesNewIndexLazyRoute
+  '/(protected)/_protected/(dashboard)/_dashboard/explore/': typeof protectedProtecteddashboardDashboardExploreIndexRoute
   '/(protected)/_protected/(dashboard)/_dashboard/flashcards/': typeof protectedProtecteddashboardDashboardFlashcardsIndexRoute
   '/(protected)/_protected/(dashboard)/_dashboard/home/': typeof protectedProtecteddashboardDashboardHomeIndexRoute
   '/(protected)/_protected/(dashboard)/_dashboard/notes/': typeof protectedProtecteddashboardDashboardNotesIndexRoute
@@ -484,6 +505,7 @@ export interface FileRouteTypes {
     | '/signup'
     | '/flashcards/new'
     | '/notes/new'
+    | '/explore'
     | '/flashcards'
     | '/home'
     | '/notes'
@@ -501,6 +523,7 @@ export interface FileRouteTypes {
     | '/signup'
     | '/flashcards/new'
     | '/notes/new'
+    | '/explore'
     | '/flashcards'
     | '/home'
     | '/notes'
@@ -522,6 +545,7 @@ export interface FileRouteTypes {
     | '/(protected)/_protected/(dashboard)/_dashboard'
     | '/(protected)/_protected/flashcards/new/'
     | '/(protected)/_protected/notes/new/'
+    | '/(protected)/_protected/(dashboard)/_dashboard/explore/'
     | '/(protected)/_protected/(dashboard)/_dashboard/flashcards/'
     | '/(protected)/_protected/(dashboard)/_dashboard/home/'
     | '/(protected)/_protected/(dashboard)/_dashboard/notes/'
@@ -605,6 +629,7 @@ export const routeTree = rootRoute
       "filePath": "(protected)/_protected/(dashboard)/_dashboard.tsx",
       "parent": "/(protected)/_protected/(dashboard)",
       "children": [
+        "/(protected)/_protected/(dashboard)/_dashboard/explore/",
         "/(protected)/_protected/(dashboard)/_dashboard/flashcards/",
         "/(protected)/_protected/(dashboard)/_dashboard/home/",
         "/(protected)/_protected/(dashboard)/_dashboard/notes/",
@@ -619,6 +644,10 @@ export const routeTree = rootRoute
     "/(protected)/_protected/notes/new/": {
       "filePath": "(protected)/_protected/notes/new/index.lazy.tsx",
       "parent": "/(protected)/_protected"
+    },
+    "/(protected)/_protected/(dashboard)/_dashboard/explore/": {
+      "filePath": "(protected)/_protected/(dashboard)/_dashboard/explore/index.tsx",
+      "parent": "/(protected)/_protected/(dashboard)/_dashboard"
     },
     "/(protected)/_protected/(dashboard)/_dashboard/flashcards/": {
       "filePath": "(protected)/_protected/(dashboard)/_dashboard/flashcards/index.tsx",

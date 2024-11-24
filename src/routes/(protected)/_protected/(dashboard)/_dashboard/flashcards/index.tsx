@@ -1,13 +1,7 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { useMutation, useQueryClient, useSuspenseQuery } from '@tanstack/react-query'
 import { Flex, Heading, Table, Text } from '@chakra-ui/react'
-import {
-  BsPlusLg,
-  BsPencilFill,
-  BsFillTrash3Fill,
-  BsFillShareFill,
-  BsEyeFill
-} from 'react-icons/bs'
+import { BsPlusLg, BsPencilFill, BsFillTrash3Fill, BsArrowRepeat } from 'react-icons/bs'
 import { flashcardsQueryOptions } from '$/query/flashcardsOptions'
 import { deleteFlashcard } from '$/query/flashcards'
 import { Button } from '$/components/ui/button'
@@ -15,6 +9,7 @@ import { Button } from '$/components/ui/button'
 import classes from './index.module.scss'
 import { TableButton } from '$/components/TableButton'
 import { getFormattedDate } from '$/lib/datetime'
+import { ShareFlashcardButton } from '$/components/ShareFlashcardButton'
 
 const Route = createFileRoute('/(protected)/_protected/(dashboard)/_dashboard/flashcards/')({
   loader: ({ context: { queryClient } }) =>
@@ -76,7 +71,7 @@ function Component() {
                   <Table.Cell>{getFormattedDate(flashcard.updatedAt)}</Table.Cell>
                   <Table.Cell>{getFormattedDate(flashcard.nextReviewDate, true)}</Table.Cell>
                   <Table.Cell>{flashcard.currentLevel}</Table.Cell>
-                  <Table.Cell>
+                  <Table.Cell textAlign='center'>
                     <Flex gap='6' justifyContent='center'>
                       <Link
                         to='/flashcards/preview/$flashcardId'
@@ -85,7 +80,7 @@ function Component() {
                         }}
                       >
                         <TableButton label='Preview' colorPalette='green'>
-                          <BsEyeFill />
+                          <BsArrowRepeat />
                         </TableButton>
                       </Link>
                       <Link
@@ -98,9 +93,7 @@ function Component() {
                           <BsPencilFill />
                         </TableButton>
                       </Link>
-                      <TableButton label='Compartilhar' colorPalette='orange'>
-                        <BsFillShareFill />
-                      </TableButton>
+                      <ShareFlashcardButton shared={flashcard.shared} id={flashcard.id} />
                       <TableButton
                         label='Excluir'
                         colorPalette='red'

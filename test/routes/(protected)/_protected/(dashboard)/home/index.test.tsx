@@ -1,7 +1,7 @@
 import { screen } from '@testing-library/react'
 import { describe, it, expect, vi, beforeEach, Mock } from 'vitest'
 import { renderWithContext } from '../../../../../customRender'
-import { Component } from '$/routes/(protected)/_protected/(dashboard)/_dashboard/home/index'
+import { Component } from '$/routes/(protected)/_protected/(dashboard)/_dashboard/home'
 import { useAuth } from '$/hooks/useAuth'
 import { AuthContextType } from '$/contexts/AuthContext'
 import { flashcardsQueryOptions } from '$/query/flashcardsOptions'

@@ -79,8 +79,9 @@ describe('Sidebar Component', () => {
 
     const links = [
       { text: 'Home', href: '/home' },
-      { text: 'Anotações', href: '/notes' },
+      { text: 'Explorar', href: '/explore' },
       { text: 'Flashcards', href: '/flashcards' },
+      { text: 'Anotações', href: '/notes' },
       { text: 'FAQ', href: '/faq' },
       { text: 'Configurações', href: '/settings' }
     ]
@@ -125,7 +126,7 @@ describe('Sidebar Component', () => {
       expect(button).toHaveAttribute('data-colorpalette', 'blue')
     })
 
-    const inactiveLinks = ['Anotações', 'FAQ', 'Configurações']
+    const inactiveLinks = ['Explorar', 'Anotações', 'FAQ', 'Configurações']
 
     inactiveLinks.forEach(text => {
       const button = screen.getByText(text).closest('button')
@@ -138,11 +139,11 @@ describe('Sidebar Component', () => {
     const signoutMock = vi.fn()
     useAuthMock.mockReturnValue({ signout: signoutMock, isAuthenticated: true })
 
-    activeRoutes = ['/home', '/flashcards', '/notes', '/faq', '/settings']
+    activeRoutes = ['/home', '/explore', '/flashcards', '/notes', '/faq', '/settings']
 
     renderWithContext(() => <Sidebar />)
 
-    const activeLinks = ['Home', 'Flashcards', 'Anotações', 'FAQ', 'Configurações']
+    const activeLinks = ['Home', 'Explorar', 'Flashcards', 'Anotações', 'FAQ', 'Configurações']
 
     activeLinks.forEach(text => {
       const button = screen.getByText(text).closest('button')
@@ -160,7 +161,7 @@ describe('Sidebar Component', () => {
 
     renderWithContext(() => <Sidebar />)
 
-    const links = ['Home', 'Anotações', 'Flashcards', 'FAQ', 'Configurações']
+    const links = ['Home', 'Explorar', 'Flashcards', 'Anotações', 'FAQ', 'Configurações']
 
     links.forEach(text => {
       const button = screen.getByText(text).closest('button')

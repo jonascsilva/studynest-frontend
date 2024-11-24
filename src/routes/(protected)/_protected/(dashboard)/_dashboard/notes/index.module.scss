@@ -1,9 +1,9 @@
 .container {
   display: grid;
-  grid-template-columns: minmax(0, 1fr);
+  grid-template-columns: 1fr;
   grid-template-rows: auto minmax(0, 1fr);
   gap: 3rem;
-  height: 100%;
+  height: inherit;
 }
 
 .header {

@@ -1,7 +1,7 @@
 import { screen } from '@testing-library/react'
 import { it, expect, beforeAll, beforeEach, Mock } from 'vitest'
 import { renderWithContext } from '../../../../../customRender'
-import { Component } from '$/routes/(protected)/_protected/(dashboard)/_dashboard/settings/index'
+import { Component } from '$/routes/(protected)/_protected/(dashboard)/_dashboard/settings'
 import { vi } from 'vitest'
 import { describe } from 'node:test'
 import { settingsQueryOptions } from '$/query/settingsOptions'

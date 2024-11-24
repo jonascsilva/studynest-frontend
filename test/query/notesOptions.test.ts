@@ -35,4 +35,17 @@ describe('notesQueryOptions', () => {
     expect(fetchNotes).toHaveBeenCalled()
     expect(result).toEqual([{ id: '1', content: 'Note 1' }])
   })
+
+  it('should return the correct query options for shared notes', async () => {
+    const options = notesQueryOptions({ shared: true })
+
+    expect(options.queryKey).toEqual(['notes', { shared: true }])
+
+    vi.mocked(fetchNotes).mockResolvedValueOnce([{ id: '1', content: 'Note 1' } as NoteType])
+
+    const result = await (options.queryFn as any)()
+
+    expect(fetchNotes).toHaveBeenCalled()
+    expect(result).toEqual([{ id: '1', content: 'Note 1' }])
+  })
 })

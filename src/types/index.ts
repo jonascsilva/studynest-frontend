@@ -3,6 +3,7 @@ type FlashcardType = {
   question: string
   subject: string
   answer: string
+  shared: boolean
   userId: string
   createdAt: string
   updatedAt: string
@@ -18,6 +19,7 @@ type NoteType = {
   title: string
   subject: string
   content: string
+  shared: boolean
   userId: string
   createdAt: string
   updatedAt: string
@@ -39,8 +41,15 @@ type SignUpCredentials = {
 }
 
 type FlashcardsQueryOptions = {
+  query?: string
+  shared?: boolean
   due?: boolean
   upcoming?: boolean
+}
+
+type NotesQueryOptions = {
+  query?: string
+  shared?: boolean
 }
 
 type UserSettingsType = {
@@ -70,5 +79,6 @@ export type {
   SignInCredentials,
   SignUpCredentials,
   FlashcardsQueryOptions,
+  NotesQueryOptions,
   UserSettingsType
 }

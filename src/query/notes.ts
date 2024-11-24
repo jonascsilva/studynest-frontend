@@ -1,5 +1,6 @@
-import { NoteType } from '$/types'
+import { NotesQueryOptions, NoteType } from '$/types'
 import { fetcher } from '$/query/fetcher'
+import { serializeParams } from '$/query/utils'
 
 async function generateNote(data: {
   subject: string
@@ -16,8 +17,10 @@ async function fetchNote(noteId: string): Promise<NoteType> {
   return note
 }
 
-async function fetchNotes(): Promise<NoteType[]> {
-  const notes = await fetcher<NoteType[]>('notes')
+async function fetchNotes(opts: NotesQueryOptions = {}): Promise<NoteType[]> {
+  const queryString = serializeParams(opts)
+
+  const notes = await fetcher<NoteType[]>(`notes?${queryString}`)
 
   return notes
 }
