@@ -25,6 +25,7 @@ export default defineConfig({
       }
     },
     coverage: {
+      reporter: ['text', 'lcov'],
       exclude: [
         '**/main.tsx',
         '**/router.tsx',

@@ -86,7 +86,9 @@ function ExploreNotes({ notes }: Readonly<Props>) {
           <DialogHeader>
             <DialogTitle>{openNote?.title}</DialogTitle>
           </DialogHeader>
-          <DialogBody maxH='30rem' overflowY='auto'>{openNote?.content}</DialogBody>
+          <DialogBody maxH='30rem' overflowY='auto'>
+            {openNote?.content}
+          </DialogBody>
           <DialogFooter>
             <Button variant='outline' onClick={() => setOpenNote(null)}>
               Cancel

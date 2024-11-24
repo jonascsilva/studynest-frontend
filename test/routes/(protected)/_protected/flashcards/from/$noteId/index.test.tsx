@@ -1,8 +1,5 @@
 import { screen } from '@testing-library/react'
-import {
-  Route,
-  RouteComponent
-} from '$/routes/(protected)/_protected/flashcards/from/$noteId'
+import { Route, RouteComponent } from '$/routes/(protected)/_protected/flashcards/from/$noteId'
 import { describe, it, expect, vi } from 'vitest'
 import { useMutation, useSuspenseQuery } from '@tanstack/react-query'
 import { renderWithContext } from '../../../../../../customRender'
