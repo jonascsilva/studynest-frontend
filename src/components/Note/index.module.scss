@@ -1,10 +1,17 @@
+@use '$/styles/media-queries' as *;
+
 .form {
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: auto auto auto 1fr;
-  gap: 2rem;
-  padding: 3rem 6rem;
+  gap: 1rem;
+  padding: 2rem 3rem;
   height: 100vh;
+
+  @include gt-md {
+    gap: 2rem;
+    padding: 3rem 6rem;
+  }
 }
 
 .header {
@@ -16,7 +23,11 @@
 
 .leftContent {
   display: flex;
-  gap: 2rem;
+  gap: 1rem;
+
+  @include gt-md {
+    gap: 2rem;
+  }
 }
 
 .inputContainer {
@@ -28,5 +39,6 @@
 .labelContainer {
   height: 36px;
   display: flex;
+  align-items: center;
   gap: 2rem;
 }

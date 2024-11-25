@@ -46,13 +46,13 @@ function RouteComponent() {
       <header className={classes.header}>
         <Heading size='4xl'>Flashcards</Heading>
         <Input
-          size='xl'
+          size={{ base: 'lg', lg: 'xl' }}
           placeholder='O que deseja pesquisar?'
           variant='flushed'
           alignSelf='flex-end'
           {...register('query')}
         />
-        <Button colorPalette='blue' size='lg' type='submit'>
+        <Button colorPalette='blue' size={{ base: 'sm', lg: 'md', xl: 'lg' }} type='submit'>
           <BsSearch /> Pesquisar
         </Button>
       </header>

@@ -27,6 +27,7 @@ function GeneratedFlashcard({ flashcard }: Readonly<Props>) {
           disabled={mutation.isSuccess}
           onClick={handleClick}
           loading={mutation.isPending}
+          size={{ base: 'sm', lg: 'md' }}
         >
           {mutation.isSuccess ? 'Salvo' : 'Salvar'}
         </Button>

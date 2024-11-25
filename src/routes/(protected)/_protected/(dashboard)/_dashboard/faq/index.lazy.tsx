@@ -17,11 +17,11 @@ const Route = createLazyFileRoute('/(protected)/_protected/(dashboard)/_dashboar
 function Component() {
   return (
     <div className={classes.container}>
-      <Heading size='4xl' px='2rem' pt='2rem'>
-        FAQ
-      </Heading>
+      <header className={classes.header}>
+        <Heading size='4xl'>FAQ</Heading>
+      </header>
       <section className={classes.section}>
-        <AccordionRoot multiple size='lg'>
+        <AccordionRoot multiple size={{ base: 'md', lg: 'lg' }}>
           {faq.map((item, index) => (
             <AccordionItem key={item.question} value={String(index)}>
               <AccordionItemTrigger>{item.question}</AccordionItemTrigger>

@@ -1,5 +1,5 @@
-import { Table, Text } from '@chakra-ui/react'
-import { TableButton } from '../TableButton'
+import { Table } from '@chakra-ui/react'
+import { TableButton } from '$/components/TableButton'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import {
   DialogBody,
@@ -15,6 +15,7 @@ import { Button } from '$/components/ui/button'
 import { NoteType } from '$/types'
 import { createNote } from '$/query/notes'
 import { useNavigate } from '@tanstack/react-router'
+import { TextCell } from '../TextCell'
 
 type Props = {
   notes: NoteType[]
@@ -41,10 +42,10 @@ function ExploreNotes({ notes }: Readonly<Props>) {
   return (
     <>
       <Table.ScrollArea borderWidth='1px' rounded='md' maxH='100%' overflowX='hidden'>
-        <Table.Root size='lg' variant='outline' stickyHeader interactive>
+        <Table.Root size={{ base: 'sm', lg: 'lg' }} variant='outline' stickyHeader interactive>
           <colgroup>
-            <col width='40%' />
-            <col />
+            <col width='60%' />
+            <col width='30%' />
             <col />
           </colgroup>
           <Table.Header>
@@ -57,10 +58,8 @@ function ExploreNotes({ notes }: Readonly<Props>) {
           <Table.Body>
             {notes.map(note => (
               <Table.Row key={note.id}>
-                <Table.Cell maxW='0'>
-                  <Text truncate>{note.title}</Text>
-                </Table.Cell>
-                <Table.Cell>{note.subject}</Table.Cell>
+                <TextCell>{note.title}</TextCell>
+                <TextCell>{note.subject}</TextCell>
                 <Table.Cell textAlign='center'>
                   <TableButton
                     label='Preview'

@@ -1,7 +1,17 @@
+@use '$/styles/media-queries' as *;
+
 .container {
   display: grid;
-  grid-template-columns: 24rem minmax(0, 1fr);
+  grid-template-columns: 20rem 1fr;
   height: 100vh;
+
+  @include gt-md {
+    grid-template-columns: 22rem 1fr;
+  }
+
+  @include gt-lg {
+    grid-template-columns: 24rem 1fr;
+  }
 }
 
 .main {

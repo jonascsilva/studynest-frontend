@@ -1,8 +1,20 @@
+@use '$/styles/media-queries' as *;
+
 .container {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: 3rem;
+  gap: 2rem;
   height: 100%;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 1rem 0rem 1rem;
+
+  @include gt-md {
+    padding: 2rem 2rem 0rem 2rem;
+  }
 }
 
 .section {

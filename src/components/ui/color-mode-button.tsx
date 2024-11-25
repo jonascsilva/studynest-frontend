@@ -17,12 +17,12 @@ export const ColorModeButton = React.forwardRef<HTMLButtonElement, ColorModeButt
     const { toggleColorMode } = useColorMode()
 
     return (
-      <ClientOnly fallback={<Skeleton boxSize='12' />}>
+      <ClientOnly fallback={<Skeleton boxSize={{ base: '8', lg: '10', xl: '12' }} />}>
         <IconButton
           onClick={toggleColorMode}
           variant='outline'
           aria-label='Toggle color mode'
-          size='xl'
+          size={{ base: 'md', lg: 'lg', xl: 'xl' }}
           ref={ref}
           {...props}
           css={{

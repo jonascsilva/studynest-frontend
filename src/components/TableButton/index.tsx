@@ -26,6 +26,7 @@ function TableButton({
         colorPalette={colorPalette}
         onClick={onClick}
         disabled={disabled}
+        size={{ base: 'xs', lg: 'sm', xl: 'md' }}
       >
         {children}
       </IconButton>

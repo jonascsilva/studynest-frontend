@@ -42,20 +42,23 @@ function Component() {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className={classes.container}>
-        <Heading size='4xl'>Configurações</Heading>
+        <header className={classes.header}>
+          <Heading size='4xl'>Configurações</Heading>
+        </header>
         <section className={classes.section}>
           <Stack gap='6'>
-            <Text fontSize='3xl'>
+            <Text fontSize={{ base: '2xl', xl: '3xl' }}>
               Quantidade de intervalos: <span className={classes.value}>{intervalsQuantity}</span>
             </Text>
             <Slider
               disabled={mutation.isPending}
-              size='lg'
+              size={{ base: 'md', xl: 'lg' }}
               aria-label={['slider-settings-1']}
               colorPalette='blue'
               defaultValue={[settings.intervalsQuantity]}
               marks={[2, 3, 4, 5, 6]}
               {...register('intervalsQuantity', {
+                required: true,
                 valueAsNumber: true
               })}
               min={2}
@@ -63,33 +66,33 @@ function Component() {
             />
           </Stack>
           <Stack gap='6'>
-            <Text fontSize='3xl'>
+            <Text fontSize={{ base: '2xl', xl: '3xl' }}>
               Intervalo base: <span className={classes.value}>{baseInterval}</span>
             </Text>
             <Slider
               disabled={mutation.isPending}
-              size='lg'
+              size={{ base: 'md', xl: 'lg' }}
               aria-label={['slider-settings-2']}
               colorPalette='blue'
               defaultValue={[settings.baseInterval]}
               marks={[1, 2, 3, 4, 5, 6]}
-              {...register('baseInterval', { valueAsNumber: true })}
+              {...register('baseInterval', { required: true, valueAsNumber: true })}
               min={1}
               max={6}
             />
           </Stack>
           <Stack gap='6'>
-            <Text fontSize='3xl'>
+            <Text fontSize={{ base: '2xl', xl: '3xl' }}>
               Aumento dos intervalos: <span className={classes.value}>{intervalIncreaseRate}</span>
             </Text>
             <Slider
               disabled={mutation.isPending}
-              size='lg'
+              size={{ base: 'md', xl: 'lg' }}
               aria-label={['slider-settings-3']}
               colorPalette='blue'
               defaultValue={[settings.intervalIncreaseRate]}
               marks={[1, 2, 3, 4]}
-              {...register('intervalIncreaseRate', { valueAsNumber: true })}
+              {...register('intervalIncreaseRate', { required: true, valueAsNumber: true })}
               min={1}
               max={4}
             />

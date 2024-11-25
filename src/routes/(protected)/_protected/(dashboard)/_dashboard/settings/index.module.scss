@@ -1,16 +1,27 @@
 @use '$/styles/colors' as *;
+@use '$/styles/media-queries' as *;
 
 .container {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: 3rem;
-  padding: 2rem;
+  gap: 2rem;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 1rem 0rem 1rem;
+
+  @include gt-md {
+    padding: 2rem 2rem 0rem 2rem;
+  }
 }
 
 .section {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: 2rem;
+  padding: 0rem 2rem 2rem 2rem;
 }
 
 .value {

@@ -1,12 +1,23 @@
 @use '$/styles/colors' as *;
+@use '$/styles/media-queries' as *;
 
 .sidebar {
   height: inherit;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 1rem 2rem;
-  row-gap: 2rem;
+  padding: 1rem 1.5rem;
+  row-gap: 1rem;
+
+  @include gt-md {
+    padding: 1rem 2rem;
+    row-gap: 1.5rem;
+  }
+
+  @include gt-lg {
+    padding: 1rem 2rem;
+    row-gap: 2rem;
+  }
 }
 
 .link {
@@ -25,7 +36,9 @@
 }
 
 .heading {
-  padding-bottom: 0.5rem;
+  @include gt-lg {
+    padding-bottom: 0.5rem;
+  }
 
   span {
     color: $blue-600;

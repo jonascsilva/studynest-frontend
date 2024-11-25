@@ -1,4 +1,5 @@
 @use '$/styles/colors' as *;
+@use '$/styles/media-queries' as *;
 
 .container {
   display: flex;
@@ -21,7 +22,11 @@
 }
 
 .header {
-  padding: 2rem 2rem 0 2rem;
+  padding: 1rem 1rem 0rem 1rem;
+
+  @include gt-md {
+    padding: 2rem 2rem 0rem 2rem;
+  }
 }
 
 .quantity {

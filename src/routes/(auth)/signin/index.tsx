@@ -50,7 +50,7 @@ function Component() {
 
   return (
     <div className={classes.container}>
-      <Card.Root w='25%'>
+      <Card.Root w={{ base: '30%', lg: '25%' }}>
         <Card.Header>
           <Card.Title fontSize='xl'>Entrar</Card.Title>
         </Card.Header>

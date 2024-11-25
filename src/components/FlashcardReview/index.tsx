@@ -20,6 +20,17 @@ import {
 } from '$/components/ui/dialog'
 import { flashcardsQueryOptions } from '$/query/flashcardsOptions'
 
+function getDaysFromNow(date: string) {
+  const date1Ms = Date.now()
+  const date2Ms = new Date(date).getTime()
+
+  const differenceMs = Math.abs(date1Ms - date2Ms)
+
+  const differenceDays = Math.round(differenceMs / (1000 * 60 * 60 * 24))
+
+  return differenceDays
+}
+
 type Props = {
   flashcard: FlashcardType
   mutation?: UseMutationResult<FlashcardWithRevisionType, Error, ReviewResult, unknown>
@@ -33,18 +44,12 @@ function FlashcardReview({ flashcard, mutation }: Readonly<Props>) {
   const [nextReviewDate, setNextReviewDate] = useState('')
 
   const handleResult = async (result: number) => {
-    if (mutation) {
-      const data = { result }
+    const data = { result }
 
-      const flashcardWithRevision = await mutation.mutateAsync(data)
+    const flashcardWithRevision = await mutation!.mutateAsync(data)
 
-      const nextReviewDate = new Date(flashcardWithRevision.nextReviewDate).toLocaleString('pt-BR')
-
-      setNextReviewDate(nextReviewDate)
-      setOpenDialog(true)
-    } else {
-      navigate({ to: '/flashcards' })
-    }
+    setNextReviewDate(flashcardWithRevision.nextReviewDate)
+    setOpenDialog(true)
   }
 
   const handleDialogClose = async () => {
@@ -72,7 +77,7 @@ function FlashcardReview({ flashcard, mutation }: Readonly<Props>) {
         <header className={classes.header}>
           <div className={classes.closeButtonContainer}>
             <Link to={mutation ? '/home' : '/flashcards'}>
-              <CloseButton size='xl' variant='solid' />
+              <CloseButton size={{ base: 'md', lg: 'xl' }} variant='solid' />
             </Link>
           </div>
           {!mutation && (
@@ -80,7 +85,7 @@ function FlashcardReview({ flashcard, mutation }: Readonly<Props>) {
               <Alert
                 status='warning'
                 title='Você está no modo Preview. O resultado desta revisão não será salvo!'
-                size='lg'
+                size={{ base: 'sm', lg: 'lg' }}
                 variant='surface'
                 w='auto'
               />
@@ -90,7 +95,7 @@ function FlashcardReview({ flashcard, mutation }: Readonly<Props>) {
         <main className={classes.main}>
           <Card.Root>
             <Card.Body justifyContent='center'>
-              <Heading textAlign='center' size='3xl'>
+              <Heading textAlign='center' size='2xl' lineClamp={2}>
                 {flashcard.question}
               </Heading>
             </Card.Body>
@@ -106,7 +111,11 @@ function FlashcardReview({ flashcard, mutation }: Readonly<Props>) {
               )}
               {!isRevealed && (
                 <div className={classes.buttonContainer}>
-                  <Button size='lg' colorPalette='blue' onClick={() => setIsRevealed(true)}>
+                  <Button
+                    size={{ base: 'lg', lg: 'xl' }}
+                    colorPalette='blue'
+                    onClick={() => setIsRevealed(true)}
+                  >
                     Revelar
                   </Button>
                 </div>
@@ -114,12 +123,12 @@ function FlashcardReview({ flashcard, mutation }: Readonly<Props>) {
             </Card.Body>
           </Card.Root>
           <div className={classes.containerResult}>
-            {isRevealed && (
+            {isRevealed && mutation && (
               <>
                 <Button
-                  size='lg'
-                  w='16rem'
-                  h='4rem'
+                  size={{ base: 'md', lg: 'lg' }}
+                  w={{ base: '12rem', lg: '16rem' }}
+                  h={{ base: '3rem', lg: '4rem' }}
                   colorPalette='red'
                   onClick={() => handleResult(0)}
                   loading={mutation?.isPending}
@@ -127,9 +136,9 @@ function FlashcardReview({ flashcard, mutation }: Readonly<Props>) {
                   Não lembrei
                 </Button>
                 <Button
-                  size='lg'
-                  w='16rem'
-                  h='4rem'
+                  size={{ base: 'md', lg: 'lg' }}
+                  w={{ base: '12rem', lg: '16rem' }}
+                  h={{ base: '3rem', lg: '4rem' }}
                   colorPalette='green'
                   onClick={() => handleResult(1)}
                   loading={mutation?.isPending}
@@ -144,9 +153,12 @@ function FlashcardReview({ flashcard, mutation }: Readonly<Props>) {
       <DialogRoot lazyMount open={openDialog} placement='center' data-testid='dialog-root'>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Próxima revisão:</DialogTitle>
+            <DialogTitle>
+              Próxima revisão será daqui a{' '}
+              <span className={classes.days}>{getDaysFromNow(nextReviewDate)}</span> dia(s).
+            </DialogTitle>
           </DialogHeader>
-          <DialogBody>{nextReviewDate}</DialogBody>
+          <DialogBody>{new Date(nextReviewDate).toLocaleString('pt-BR')}</DialogBody>
           <DialogFooter>
             <Button onClick={handleDialogClose}>Ok</Button>
           </DialogFooter>

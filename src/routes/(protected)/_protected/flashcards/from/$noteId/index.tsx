@@ -36,7 +36,7 @@ function RouteComponent() {
         </Heading>
       </header>
       <section className={classes.section}>
-        <Heading size='xl' justifySelf='center'>
+        <Heading size={{ base: 'lg', lg: 'xl' }} justifySelf='center'>
           Deseja gerar flashcards com base no conteúdo da anotação: "{note.title}"?
         </Heading>
         <Button
@@ -44,6 +44,7 @@ function RouteComponent() {
           colorPalette='blue'
           onClick={() => generateMutation.mutate(note.id)}
           loading={generateMutation.isPending}
+          size={{ base: 'sm', lg: 'md' }}
         >
           <BsStars /> Gerar
         </Button>

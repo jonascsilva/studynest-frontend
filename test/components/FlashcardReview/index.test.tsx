@@ -56,7 +56,12 @@ describe('FlashcardReview Component', () => {
   it('should show result buttons after revealing the answer', async () => {
     const user = userEvent.setup()
 
-    renderWithContext(() => <FlashcardReview flashcard={flashcard} />)
+    const mutationMock = {
+      mutateAsync: vi.fn(),
+      isPending: false
+    } as any
+
+    renderWithContext(() => <FlashcardReview flashcard={flashcard} mutation={mutationMock} />)
 
     await user.click(screen.getByText('Revelar'))
 
@@ -68,12 +73,12 @@ describe('FlashcardReview Component', () => {
     const user = userEvent.setup()
 
     const mutateAsync = vi.fn().mockResolvedValue({ nextReviewDate: new Date() })
-    const mutation = {
+    const mutationMock = {
       mutateAsync,
       isPending: false
     } as any
 
-    renderWithContext(() => <FlashcardReview flashcard={flashcard} mutation={mutation} />)
+    renderWithContext(() => <FlashcardReview flashcard={flashcard} mutation={mutationMock} />)
 
     await user.click(screen.getByText('Revelar'))
 
@@ -86,12 +91,12 @@ describe('FlashcardReview Component', () => {
     const user = userEvent.setup()
 
     const mutateAsync = vi.fn().mockResolvedValue({ nextReviewDate: new Date() })
-    const mutation = {
+    const mutationMock = {
       mutateAsync,
       isPending: false
     } as any
 
-    renderWithContext(() => <FlashcardReview flashcard={flashcard} mutation={mutation} />)
+    renderWithContext(() => <FlashcardReview flashcard={flashcard} mutation={mutationMock} />)
 
     await user.click(screen.getByText('Revelar'))
 
@@ -100,23 +105,18 @@ describe('FlashcardReview Component', () => {
     expect(mutateAsync).toHaveBeenCalledWith({ result: 1 })
   })
 
-  it('should navigate to "/flashcards" when handleResult is called without mutation', async () => {
-    const user = userEvent.setup()
-
+  it('should not show result buttons when there is no mutation', async () => {
     renderWithContext(() => <FlashcardReview flashcard={flashcard} />)
 
-    await user.click(screen.getByText('Revelar'))
-
-    await user.click(screen.getByText('Lembrei'))
-
-    expect(mockNavigate).toHaveBeenCalledWith({ to: '/flashcards' })
+    expect(screen.queryByText('Não lembrei')).not.toBeInTheDocument()
+    expect(screen.queryByText('Lembrei')).not.toBeInTheDocument()
   })
 
   it('should navigate to next flashcard when there is one', async () => {
     const user = userEvent.setup()
 
     const mutateAsync = vi.fn().mockResolvedValue({ nextReviewDate: new Date() })
-    const mutation = {
+    const mutationMock = {
       mutateAsync,
       isPending: false
     } as any
@@ -127,7 +127,7 @@ describe('FlashcardReview Component', () => {
 
     queryClient.ensureQueryData = ensureQueryDataMock
 
-    renderWithContext(() => <FlashcardReview flashcard={flashcard} mutation={mutation} />)
+    renderWithContext(() => <FlashcardReview flashcard={flashcard} mutation={mutationMock} />)
 
     await user.click(screen.getByText('Revelar'))
 
@@ -149,7 +149,7 @@ describe('FlashcardReview Component', () => {
     const user = userEvent.setup()
 
     const mutateAsync = vi.fn().mockResolvedValue({ nextReviewDate: new Date() })
-    const mutation = {
+    const mutationMock = {
       mutateAsync,
       isPending: false
     } as any
@@ -158,7 +158,7 @@ describe('FlashcardReview Component', () => {
 
     queryClient.ensureQueryData = ensureQueryDataMock
 
-    renderWithContext(() => <FlashcardReview flashcard={flashcard} mutation={mutation} />)
+    renderWithContext(() => <FlashcardReview flashcard={flashcard} mutation={mutationMock} />)
 
     await user.click(screen.getByText('Revelar'))
 
@@ -181,14 +181,14 @@ describe('FlashcardReview Component', () => {
   })
 
   it('should not show Alert when mutation is provided', () => {
-    const mutation = {} as UseMutationResult<
+    const mutationMock = {} as UseMutationResult<
       FlashcardWithRevisionType,
       Error,
       ReviewResult,
       unknown
     >
 
-    renderWithContext(() => <FlashcardReview flashcard={flashcard} mutation={mutation} />)
+    renderWithContext(() => <FlashcardReview flashcard={flashcard} mutation={mutationMock} />)
 
     expect(
       screen.queryByText('Você está no modo Preview. O resultado desta revisão não será salvo!')
@@ -199,12 +199,12 @@ describe('FlashcardReview Component', () => {
     const user = userEvent.setup()
 
     const mutateAsync = vi.fn()
-    const mutation = {
+    const mutationMock = {
       mutateAsync,
       isPending: true
     } as any
 
-    renderWithContext(() => <FlashcardReview flashcard={flashcard} mutation={mutation} />)
+    renderWithContext(() => <FlashcardReview flashcard={flashcard} mutation={mutationMock} />)
 
     await user.click(screen.getByText('Revelar'))
 
