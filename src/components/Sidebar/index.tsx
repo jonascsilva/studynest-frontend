@@ -20,15 +20,16 @@ function Sidebar() {
   return (
     <aside className={classes.sidebar}>
       <div className={classes.headerContainer}>
-        <Heading className={classes.heading} size='5xl'>
+        <Heading className={classes.heading} size={{ base: '4xl', xl: '5xl' }}>
           Study<span>Nest</span>
         </Heading>
         <ColorModeButton />
       </div>
+      <Separator />
       <Link to='/home' className={classes.link}>
         {({ isActive }) => (
           <Button
-            size='lg'
+            size={{ base: 'sm', lg: 'md', xl: 'lg' }}
             variant='surface'
             colorPalette={isActive ? 'blue' : undefined}
             width='100%'
@@ -40,7 +41,7 @@ function Sidebar() {
       <Link to='/explore' className={classes.link}>
         {({ isActive }) => (
           <Button
-            size='lg'
+            size={{ base: 'sm', lg: 'md', xl: 'lg' }}
             variant='surface'
             colorPalette={isActive ? 'blue' : undefined}
             width='100%'
@@ -52,7 +53,7 @@ function Sidebar() {
       <Link to='/flashcards' className={classes.link}>
         {({ isActive }) => (
           <Button
-            size='lg'
+            size={{ base: 'sm', lg: 'md', xl: 'lg' }}
             variant='surface'
             colorPalette={isActive ? 'blue' : undefined}
             width='100%'
@@ -64,7 +65,7 @@ function Sidebar() {
       <Link to='/notes' className={classes.link}>
         {({ isActive }) => (
           <Button
-            size='lg'
+            size={{ base: 'sm', lg: 'md', xl: 'lg' }}
             variant='surface'
             colorPalette={isActive ? 'blue' : undefined}
             width='100%'
@@ -77,7 +78,7 @@ function Sidebar() {
       <Link to='/faq' className={classes.link}>
         {({ isActive }) => (
           <Button
-            size='lg'
+            size={{ base: 'sm', lg: 'md', xl: 'lg' }}
             variant='surface'
             colorPalette={isActive ? 'blue' : undefined}
             width='100%'
@@ -89,7 +90,7 @@ function Sidebar() {
       <Link to='/settings' className={classes.link}>
         {({ isActive }) => (
           <Button
-            size='lg'
+            size={{ base: 'sm', lg: 'md', xl: 'lg' }}
             variant='surface'
             colorPalette={isActive ? 'blue' : undefined}
             width='100%'
@@ -98,7 +99,13 @@ function Sidebar() {
           </Button>
         )}
       </Link>
-      <Button size='lg' variant='outline' colorPalette='red' width='100%' onClick={signout}>
+      <Button
+        size={{ base: 'sm', lg: 'md', xl: 'lg' }}
+        variant='outline'
+        colorPalette='red'
+        width='100%'
+        onClick={signout}
+      >
         <BsDoorOpen /> Sair
       </Button>
     </aside>

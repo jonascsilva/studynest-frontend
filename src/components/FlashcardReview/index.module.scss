@@ -1,3 +1,5 @@
+@use '$/styles/media-queries' as *;
+
 .container {
   height: 100vh;
   display: flex;
@@ -18,8 +20,12 @@
 
 .header {
   display: grid;
-  padding: 2rem 2rem 0rem 2rem;
   grid-template-columns: 1fr 8fr 1fr;
+  padding: 1rem 1rem 0rem 1rem;
+
+  @include gt-md {
+    padding: 2rem 2rem 0rem 2rem;
+  }
 }
 
 .main {
@@ -27,7 +33,11 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 0rem 2rem 4rem 2rem;
+  padding: 0rem 2rem 1rem 2rem;
+
+  @include gt-md {
+    padding: 0rem 2rem 4rem 2rem;
+  }
 }
 
 .buttonContainer {
@@ -46,4 +56,8 @@
   align-items: flex-start;
   height: 4rem;
   gap: 10rem;
+}
+
+.days {
+  font-weight: 800;
 }

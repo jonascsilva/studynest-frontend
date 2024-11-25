@@ -1,17 +1,32 @@
+@use '$/styles/media-queries' as *;
+
 .container {
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: auto minmax(0, 1fr);
-  gap: 3rem;
+  gap: 2rem;
   height: inherit;
+
+  @include gt-md {
+    gap: 3rem;
+  }
 }
 
 .header {
   display: flex;
   justify-content: space-between;
-  padding: 2rem 2rem 0rem 2rem;
+  align-items: center;
+  padding: 1rem 1rem 0rem 1rem;
+
+  @include gt-md {
+    padding: 2rem 2rem 0rem 2rem;
+  }
 }
 
 .section {
-  padding: 0rem 3rem 2rem 3rem;
+  padding: 0rem 2rem 2rem 2rem;
+
+  @include gt-md {
+    padding: 0rem 3rem 2rem 3rem;
+  }
 }

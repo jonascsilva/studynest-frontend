@@ -1,5 +1,5 @@
 import { Link, createFileRoute } from '@tanstack/react-router'
-import { Flex, Heading, Table, Text } from '@chakra-ui/react'
+import { Flex, Heading, Table } from '@chakra-ui/react'
 import { BsPlusLg, BsPencilFill, BsFillTrash3Fill, BsStars } from 'react-icons/bs'
 import { notesQueryOptions } from '$/query/notesOptions'
 import { useMutation, useQueryClient, useSuspenseQuery } from '@tanstack/react-query'
@@ -10,6 +10,7 @@ import { TableButton } from '$/components/TableButton'
 import { getFormattedDate } from '$/lib/datetime'
 
 import classes from './index.module.scss'
+import { TextCell } from '$/components/TextCell'
 
 const Route = createFileRoute('/(protected)/_protected/(dashboard)/_dashboard/notes/')({
   loader: ({ context: { queryClient } }) => queryClient.ensureQueryData(notesQueryOptions()),
@@ -33,16 +34,17 @@ function Component() {
       <header className={classes.header}>
         <Heading size='4xl'>Anotações</Heading>
         <Link to='/notes/new'>
-          <Button colorPalette='blue' size='lg'>
+          <Button colorPalette='blue' size={{ base: 'sm', lg: 'md', xl: 'lg' }}>
             <BsPlusLg /> Criar
           </Button>
         </Link>
       </header>
       <section className={classes.section}>
         <Table.ScrollArea borderWidth='1px' rounded='md' maxH='100%' overflowX='hidden'>
-          <Table.Root size='lg' variant='outline' stickyHeader interactive>
+          <Table.Root size={{ base: 'sm', lg: 'lg' }} variant='outline' stickyHeader interactive>
             <colgroup>
               <col width='40%' />
+              <col width='20%' />
               <col />
               <col />
               <col />
@@ -59,11 +61,9 @@ function Component() {
             <Table.Body>
               {notes.map(note => (
                 <Table.Row key={note.id}>
-                  <Table.Cell maxW='0'>
-                    <Text truncate>{note.title}</Text>
-                  </Table.Cell>
-                  <Table.Cell>{note.subject}</Table.Cell>
-                  <Table.Cell>{getFormattedDate(note.updatedAt)}</Table.Cell>
+                  <TextCell>{note.title}</TextCell>
+                  <TextCell>{note.subject}</TextCell>
+                  <TextCell>{getFormattedDate(note.updatedAt)}</TextCell>
                   <Table.Cell textAlign='center'>
                     <Flex gap='6' justifyContent='center'>
                       <Link

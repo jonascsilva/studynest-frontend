@@ -25,7 +25,7 @@ function Component() {
     <div className={classes.container}>
       <div className={classes.header}>
         <Heading size='4xl' className={classes.heading}>
-          Bem vindo <span>{user?.name || user?.email}</span>!
+          Bem vindo <span>{user?.name ?? user?.email}</span>!
         </Heading>
       </div>
       <section className={classes.section}>
@@ -40,7 +40,7 @@ function Component() {
                 flashcardId: dueFlashcards[0].id
               }}
             >
-              <Button size='lg' variant='solid' colorPalette='green'>
+              <Button size={{ base: 'md', lg: 'lg' }} variant='solid' colorPalette='green'>
                 Começar revisão
               </Button>
             </Link>
@@ -49,7 +49,7 @@ function Component() {
           <>
             <Alert status='success' title='Nada para revisar no momento.' w='auto' />
             <Link to='/flashcards/new'>
-              <Button size='lg' variant='solid' colorPalette='blue'>
+              <Button size={{ base: 'md', lg: 'lg' }} variant='solid' colorPalette='blue'>
                 Criar Flashcard
               </Button>
             </Link>

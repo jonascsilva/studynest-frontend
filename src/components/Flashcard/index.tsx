@@ -52,7 +52,7 @@ function Flashcard({ mutation, flashcard }: Readonly<Props>) {
           <Link to='/flashcards'>
             <CloseButton
               disabled={mutation.isPending || aiMutation.isPending}
-              size='lg'
+              size={{ base: 'sm', lg: 'md', xl: 'lg' }}
               variant='solid'
             />
           </Link>
@@ -61,7 +61,7 @@ function Flashcard({ mutation, flashcard }: Readonly<Props>) {
             disabled={aiMutation.isPending}
             colorPalette='green'
             type='submit'
-            size='lg'
+            size={{ base: 'sm', lg: 'md', xl: 'lg' }}
           >
             Salvar
           </Button>
@@ -72,39 +72,41 @@ function Flashcard({ mutation, flashcard }: Readonly<Props>) {
       </header>
       <div className={classes.inputContainer}>
         <div className={classes.labelContainer}>
-          <Heading size='xl'>Assunto</Heading>
+          <Heading size={{ base: 'lg', lg: 'xl' }}>Assunto</Heading>
         </div>
         <Input
-          w='20%'
-          size='xl'
+          w='30%'
+          size={{ base: 'lg', lg: 'xl' }}
           variant='subtle'
           defaultValue={flashcard?.subject}
           disabled={mutation.isPending || aiMutation.isPending}
-          {...register('subject')}
+          required
+          {...register('subject', { required: true })}
         />
       </div>
       <div className={classes.inputContainer}>
         <div className={classes.labelContainer}>
-          <Heading size='2xl'>Pergunta</Heading>
+          <Heading size={{ base: 'xl', lg: '2xl' }}>Pergunta</Heading>
         </div>
         <Textarea
           px='1rem'
-          fontSize='xl'
+          fontSize={{ base: 'lg', lg: 'xl' }}
           lineHeight='1.6'
           resize='none'
           flexGrow='1'
           variant='subtle'
           defaultValue={flashcard?.question}
           disabled={mutation.isPending || aiMutation.isPending}
-          {...register('question')}
+          required
+          {...register('question', { required: true })}
         />
       </div>
       <div className={classes.inputContainer}>
         <div className={classes.labelContainer}>
-          <Heading size='2xl'>Resposta</Heading>
+          <Heading size={{ base: 'xl', lg: '2xl' }}>Resposta</Heading>
           <Button
             colorPalette='blue'
-            size='sm'
+            size={{ base: 'xs', lg: 'sm' }}
             onClick={handleClick}
             loading={aiMutation.isPending}
           >
@@ -114,14 +116,15 @@ function Flashcard({ mutation, flashcard }: Readonly<Props>) {
         <Textarea
           px='1rem'
           size='xl'
-          fontSize='xl'
+          fontSize={{ base: 'lg', lg: 'xl' }}
           lineHeight='1.6'
           resize='none'
           flexGrow='1'
           variant='subtle'
           defaultValue={flashcard?.answer}
           disabled={mutation.isPending || aiMutation.isPending}
-          {...register('answer')}
+          required
+          {...register('answer', { required: true })}
         />
       </div>
     </form>

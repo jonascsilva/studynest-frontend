@@ -52,7 +52,7 @@ function Note({ mutation, note }: Readonly<Props>) {
           <Link to='/notes'>
             <CloseButton
               disabled={mutation.isPending || aiMutation.isPending}
-              size='lg'
+              size={{ base: 'sm', lg: 'md', xl: 'lg' }}
               variant='solid'
             />
           </Link>
@@ -61,7 +61,7 @@ function Note({ mutation, note }: Readonly<Props>) {
             disabled={aiMutation.isPending}
             colorPalette='green'
             type='submit'
-            size='lg'
+            size={{ base: 'sm', lg: 'md', xl: 'lg' }}
           >
             Salvar
           </Button>
@@ -72,38 +72,40 @@ function Note({ mutation, note }: Readonly<Props>) {
       </header>
       <div className={classes.inputContainer}>
         <div className={classes.labelContainer}>
-          <Heading size='xl'>Assunto</Heading>
+          <Heading size={{ base: 'lg', lg: 'xl' }}>Assunto</Heading>
         </div>
         <Input
-          w='20%'
-          size='xl'
+          w='30%'
+          size={{ base: 'lg', lg: 'xl' }}
           variant='subtle'
           defaultValue={note?.subject}
           disabled={mutation.isPending || aiMutation.isPending}
-          {...register('subject')}
+          required
+          {...register('subject', { required: true })}
         />
       </div>
       <div className={classes.inputContainer}>
         <div className={classes.labelContainer}>
-          <Heading size='2xl'>Título</Heading>
+          <Heading size={{ base: 'xl', lg: '2xl' }}>Título</Heading>
         </div>
         <Input
           w='100%'
-          size='xl'
+          size={{ base: 'lg', lg: 'xl' }}
           variant='subtle'
           resize='none'
           flexGrow='1'
           defaultValue={note?.title}
           disabled={mutation.isPending || aiMutation.isPending}
-          {...register('title')}
+          required
+          {...register('title', { required: true })}
         />
       </div>
       <div className={classes.inputContainer}>
         <div className={classes.labelContainer}>
-          <Heading size='2xl'>Conteúdo</Heading>
+          <Heading size={{ base: 'xl', lg: '2xl' }}>Conteúdo</Heading>
           <Button
             colorPalette='blue'
-            size='sm'
+            size={{ base: 'xs', lg: 'sm' }}
             onClick={handleClick}
             loading={aiMutation.isPending}
           >
@@ -111,13 +113,14 @@ function Note({ mutation, note }: Readonly<Props>) {
           </Button>
         </div>
         <Textarea
-          size='xl'
+          size={{ base: 'lg', lg: 'xl' }}
           resize='none'
           flexGrow='1'
           variant='subtle'
           defaultValue={note?.content}
           disabled={mutation.isPending || aiMutation.isPending}
-          {...register('content')}
+          required
+          {...register('content', { required: true })}
         />
       </div>
     </form>

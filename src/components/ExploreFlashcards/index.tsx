@@ -1,4 +1,4 @@
-import { Table, Text } from '@chakra-ui/react'
+import { Table } from '@chakra-ui/react'
 import { TableButton } from '$/components/TableButton'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import {
@@ -15,6 +15,7 @@ import { Button } from '$/components/ui/button'
 import { FlashcardType } from '$/types'
 import { useNavigate } from '@tanstack/react-router'
 import { createFlashcard } from '$/query/flashcards'
+import { TextCell } from '$/components/TextCell'
 
 type Props = {
   flashcards: FlashcardType[]
@@ -41,10 +42,10 @@ function ExploreFlashcards({ flashcards }: Readonly<Props>) {
   return (
     <>
       <Table.ScrollArea borderWidth='1px' rounded='md' maxH='100%' overflowX='hidden'>
-        <Table.Root size='lg' variant='outline' stickyHeader interactive>
+        <Table.Root size={{ base: 'sm', lg: 'lg' }} variant='outline' stickyHeader interactive>
           <colgroup>
-            <col width='40%' />
-            <col />
+            <col width='60%' />
+            <col width='30%' />
             <col />
           </colgroup>
           <Table.Header>
@@ -57,10 +58,8 @@ function ExploreFlashcards({ flashcards }: Readonly<Props>) {
           <Table.Body>
             {flashcards.map(flashcard => (
               <Table.Row key={flashcard.id}>
-                <Table.Cell maxW='0'>
-                  <Text truncate>{flashcard.question}</Text>
-                </Table.Cell>
-                <Table.Cell>{flashcard.subject}</Table.Cell>
+                <TextCell>{flashcard.question}</TextCell>
+                <TextCell>{flashcard.subject}</TextCell>
                 <Table.Cell textAlign='center'>
                   <TableButton
                     label='Preview'
