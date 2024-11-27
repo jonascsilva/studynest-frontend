@@ -69,7 +69,7 @@ describe('SignIn Component', () => {
 
     await user.click(screen.getByRole('button', { name: /entrar/i }))
 
-    expect(screen.getByText('O comprimento mínimo é 6')).toBeInTheDocument()
+    expect(screen.getByText('Mínimo de 6 caracteres')).toBeInTheDocument()
   })
 
   it('should submit the form with valid data', async () => {

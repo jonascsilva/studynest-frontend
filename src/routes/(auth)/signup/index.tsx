@@ -87,7 +87,7 @@ function Component() {
                   placeholder='Digite sua senha'
                   {...register('password', {
                     required: 'Senha é obrigatória',
-                    minLength: { value: 6, message: 'O comprimento mínimo é 6' }
+                    minLength: { value: 6, message: 'Mínimo de 6 caracteres' }
                   })}
                 />
               </Field>
