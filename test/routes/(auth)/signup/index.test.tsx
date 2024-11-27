@@ -75,7 +75,7 @@ describe('SignUp Component', () => {
 
     await user.click(screen.getByRole('button', { name: /cadastre-se/i }))
 
-    expect(screen.getByText('O comprimento mínimo é 6')).toBeInTheDocument()
+    expect(screen.getByText('Mínimo de 6 caracteres')).toBeInTheDocument()
   })
 
   it('should show validation error when passwords do not match', async () => {
