@@ -1,10 +1,11 @@
 import { Button } from '$/components/ui/button'
 import { flashcardsQueryOptions } from '$/query/flashcardsOptions'
 import { Heading, Input, Tabs } from '@chakra-ui/react'
+import { Tooltip } from '$/components/ui/tooltip'
 import { createFileRoute } from '@tanstack/react-router'
 import classes from './index.module.scss'
 import { z } from 'zod'
-import { BsCardText, BsFileEarmarkText, BsSearch } from 'react-icons/bs'
+import { BsInfoCircle, BsSearch } from 'react-icons/bs'
 import { notesQueryOptions } from '$/query/notesOptions'
 import { ExploreFlashcards } from '$/components/ExploreFlashcards'
 import { ExploreNotes } from '$/components/ExploreNotes'
@@ -44,7 +45,7 @@ function RouteComponent() {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={classes.form}>
       <header className={classes.header}>
-        <Heading size='4xl'>Flashcards</Heading>
+        <Heading size='4xl'>Explorar</Heading>
         <Input
           size={{ base: 'lg', lg: 'xl' }}
           placeholder='O que deseja pesquisar?'
@@ -69,12 +70,24 @@ function RouteComponent() {
       >
         <Tabs.List>
           <Tabs.Trigger value='flashcards'>
-            <BsCardText />
-            Flashcards
+            Flashcards públicos
+            <Tooltip
+              openDelay={10}
+              closeDelay={10}
+              content='Flashcards compartilhados por outros usuários'
+            >
+              <BsInfoCircle />
+            </Tooltip>
           </Tabs.Trigger>
           <Tabs.Trigger value='notes'>
-            <BsFileEarmarkText />
-            Anotações
+            Anotações públicas
+            <Tooltip
+              openDelay={10}
+              closeDelay={10}
+              content='Anotações compartilhadas por outros usuários'
+            >
+              <BsInfoCircle />
+            </Tooltip>
           </Tabs.Trigger>
         </Tabs.List>
         <Tabs.Content value='flashcards'>

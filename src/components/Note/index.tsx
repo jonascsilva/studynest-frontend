@@ -21,16 +21,24 @@ type Props = {
 }
 
 function Note({ mutation, note }: Readonly<Props>) {
-  const { register, handleSubmit, getValues, setValue } = useForm<Inputs>()
+  const { register, handleSubmit, getValues, setValue, formState, reset } = useForm<Inputs>({
+    defaultValues: {
+      title: note?.title ?? '',
+      subject: note?.subject ?? '',
+      content: note?.content ?? ''
+    }
+  })
 
-  const onSubmit: SubmitHandler<Inputs> = data => {
-    mutation.mutate(data)
+  const onSubmit: SubmitHandler<Inputs> = async data => {
+    await mutation.mutateAsync(data)
+
+    reset(data)
   }
 
   const aiMutation = useMutation({
     mutationFn: generateNote,
     onSuccess: data => {
-      setValue('content', data.content)
+      setValue('content', data.content, { shouldDirty: true })
     }
   })
 
@@ -56,15 +64,17 @@ function Note({ mutation, note }: Readonly<Props>) {
               variant='solid'
             />
           </Link>
-          <Button
-            loading={mutation.isPending}
-            disabled={aiMutation.isPending}
-            colorPalette='green'
-            type='submit'
-            size={{ base: 'sm', lg: 'md', xl: 'lg' }}
-          >
-            Salvar
-          </Button>
+          {formState.isDirty && (
+            <Button
+              loading={mutation.isPending}
+              disabled={aiMutation.isPending}
+              colorPalette='green'
+              type='submit'
+              size={{ base: 'sm', lg: 'md', xl: 'lg' }}
+            >
+              Salvar
+            </Button>
+          )}
         </div>
         <Heading size='3xl' justifySelf='center'>
           {note ? 'Editar' : 'Criar'}
@@ -78,7 +88,6 @@ function Note({ mutation, note }: Readonly<Props>) {
           w='30%'
           size={{ base: 'lg', lg: 'xl' }}
           variant='subtle'
-          defaultValue={note?.subject}
           disabled={mutation.isPending || aiMutation.isPending}
           required
           {...register('subject', { required: true })}
@@ -94,7 +103,6 @@ function Note({ mutation, note }: Readonly<Props>) {
           variant='subtle'
           resize='none'
           flexGrow='1'
-          defaultValue={note?.title}
           disabled={mutation.isPending || aiMutation.isPending}
           required
           {...register('title', { required: true })}
@@ -117,7 +125,6 @@ function Note({ mutation, note }: Readonly<Props>) {
           resize='none'
           flexGrow='1'
           variant='subtle'
-          defaultValue={note?.content}
           disabled={mutation.isPending || aiMutation.isPending}
           required
           {...register('content', { required: true })}

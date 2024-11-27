@@ -18,9 +18,7 @@ vi.mock(import('@tanstack/react-query'), async importOriginal => {
   }
 })
 
-vi.mock('react-hook-form', () => ({
-  useForm: vi.fn()
-}))
+vi.mock('react-hook-form')
 
 vi.mock(import('@tanstack/react-router'), async importOriginal => {
   const actual = await importOriginal()
@@ -64,8 +62,7 @@ vi.mock('$/components/ExploreNotes', () => ({
 }))
 
 vi.mock('react-icons/bs', () => ({
-  BsCardText: () => <svg data-testid='bs-card-text-icon' />,
-  BsFileEarmarkText: () => <svg data-testid='bs-file-earmark-text-icon' />,
+  BsInfoCircle: () => <svg data-testid='bs-info-circle-icon' />,
   BsSearch: () => <svg data-testid='bs-search-icon' />
 }))
 
@@ -75,8 +72,6 @@ describe('RouteComponent', () => {
   let useFormMock: Mock
 
   beforeEach(() => {
-    vi.clearAllMocks()
-
     useSearchMock = vi.fn()
     useNavigateMock = vi.fn()
     useFormMock = vi.fn()
@@ -106,7 +101,7 @@ describe('RouteComponent', () => {
 
     renderWithContext(() => <RouteComponent />)
 
-    expect(screen.getByRole('heading', { name: 'Flashcards' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Explorar' })).toBeInTheDocument()
     expect(screen.getByPlaceholderText('O que deseja pesquisar?')).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /Pesquisar/i })).toBeInTheDocument()
     expect(screen.getByTestId('explore-flashcards')).toBeInTheDocument()

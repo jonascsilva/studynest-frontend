@@ -23,7 +23,13 @@ const Route = createFileRoute('/(protected)/_protected/(dashboard)/_dashboard/se
 function Component() {
   const { data: settings } = useSuspenseQuery(settingsQueryOptions())
   const queryClient = useQueryClient()
-  const { register, handleSubmit, watch } = useForm<Inputs>()
+  const { register, handleSubmit, watch, formState, reset } = useForm<Inputs>({
+    defaultValues: {
+      intervalsQuantity: settings.intervalsQuantity,
+      baseInterval: settings.baseInterval,
+      intervalIncreaseRate: settings.intervalIncreaseRate
+    }
+  })
   const intervalsQuantity = watch('intervalsQuantity', settings.intervalsQuantity)
   const baseInterval = watch('baseInterval', settings.baseInterval)
   const intervalIncreaseRate = watch('intervalIncreaseRate', settings.intervalIncreaseRate)
@@ -32,6 +38,8 @@ function Component() {
     mutationFn: updateUserSettings,
     onSuccess: data => {
       queryClient.setQueryData(['settings'], data)
+
+      reset(data)
     }
   })
 
@@ -75,10 +83,10 @@ function Component() {
               aria-label={['slider-settings-2']}
               colorPalette='blue'
               defaultValue={[settings.baseInterval]}
-              marks={[1, 2, 3, 4, 5, 6, 7, 8, 9]}
+              marks={[1, 2, 3, 4, 5, 6]}
               {...register('baseInterval', { required: true, valueAsNumber: true })}
               min={1}
-              max={9}
+              max={6}
             />
           </Stack>
           <Stack gap='6'>
@@ -97,9 +105,11 @@ function Component() {
               max={4}
             />
           </Stack>
-          <Button colorPalette='green' w='6rem' type='submit' loading={mutation.isPending}>
-            Salvar
-          </Button>
+          {formState.isDirty && (
+            <Button colorPalette='green' w='6rem' type='submit' loading={mutation.isPending}>
+              Salvar
+            </Button>
+          )}
         </section>
       </div>
     </form>

@@ -1,5 +1,5 @@
-import { describe, expect, it, vi } from 'vitest'
-import { screen } from '@testing-library/react'
+import { describe, expect, it, vi, beforeEach } from 'vitest'
+import { screen, waitFor } from '@testing-library/react'
 import { renderWithContext } from '../../customRender'
 import { Note } from '$/components/Note'
 import userEvent from '@testing-library/user-event'
@@ -17,15 +17,18 @@ vi.mock(import('@tanstack/react-query'), async importOriginal => {
 })
 
 describe('Note Component', () => {
-  it('should render correctly in create mode', () => {
-    const mutationMock = {
-      mutate: vi.fn(),
+  let mutationMock: any
+  let aiMutationMock: any
+
+  beforeEach(() => {
+    mutationMock = {
+      mutateAsync: vi.fn().mockResolvedValue({}),
       isPending: false,
       isSuccess: false,
       isError: false
-    } as any
+    }
 
-    const aiMutationMock = {
+    aiMutationMock = {
       mutate: vi.fn(),
       isPending: false,
       isSuccess: false,
@@ -39,48 +42,29 @@ describe('Note Component', () => {
 
       return mutationMock
     })
+  })
 
+  it('should render correctly in create mode', () => {
     renderWithContext(() => <Note mutation={mutationMock} />)
 
     expect(screen.getByRole('heading', { name: /Criar/i })).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: /Salvar/i })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /Close/i })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /Gerar/i })).toBeInTheDocument()
+
+    expect(screen.queryByRole('button', { name: /Salvar/i })).not.toBeInTheDocument()
 
     const textboxes = screen.getAllByRole('textbox')
 
     expect(textboxes).toHaveLength(3)
 
-    const [subjectInput, titleTextarea, contentTextarea] = textboxes
+    const [subjectInput, titleInput, contentTextarea] = textboxes
 
     expect(subjectInput).toHaveValue('')
-    expect(titleTextarea).toHaveValue('')
+    expect(titleInput).toHaveValue('')
     expect(contentTextarea).toHaveValue('')
   })
 
   it('should render correctly in edit mode', () => {
-    const mutationMock = {
-      mutate: vi.fn(),
-      isPending: false,
-      isSuccess: false,
-      isError: false
-    } as any
-
-    const aiMutationMock = {
-      mutate: vi.fn(),
-      isPending: false,
-      isSuccess: false,
-      isError: false
-    }
-
-    vi.mocked(useMutation).mockImplementation((options: any) => {
-      if (options.mutationFn === generateNote) {
-        return aiMutationMock
-      }
-
-      return mutationMock
-    })
-
     const note = {
       subject: 'Test Subject',
       title: 'Test Title',
@@ -90,44 +74,23 @@ describe('Note Component', () => {
     renderWithContext(() => <Note mutation={mutationMock} note={note} />)
 
     expect(screen.getByRole('heading', { name: /Editar/i })).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: /Salvar/i })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /Close/i })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /Gerar/i })).toBeInTheDocument()
+
+    expect(screen.queryByRole('button', { name: /Salvar/i })).not.toBeInTheDocument()
 
     const textboxes = screen.getAllByRole('textbox')
 
     expect(textboxes).toHaveLength(3)
 
-    const [subjectInput, titleTextarea, contentTextarea] = textboxes
+    const [subjectInput, titleInput, contentTextarea] = textboxes
 
     expect(subjectInput).toHaveValue('Test Subject')
-    expect(titleTextarea).toHaveValue('Test Title')
+    expect(titleInput).toHaveValue('Test Title')
     expect(contentTextarea).toHaveValue('Test Content')
   })
 
   it('should submit the form correctly', async () => {
-    const mutationMock = {
-      mutate: vi.fn(),
-      isPending: false,
-      isSuccess: false,
-      isError: false
-    } as any
-
-    const aiMutationMock = {
-      mutate: vi.fn(),
-      isPending: false,
-      isSuccess: false,
-      isError: false
-    }
-
-    vi.mocked(useMutation).mockImplementation((options: any) => {
-      if (options.mutationFn === generateNote) {
-        return aiMutationMock
-      }
-
-      return mutationMock
-    })
-
     const user = userEvent.setup()
 
     renderWithContext(() => <Note mutation={mutationMock} />)
@@ -136,123 +99,75 @@ describe('Note Component', () => {
 
     expect(textboxes).toHaveLength(3)
 
-    const [subjectInput, titleTextarea, contentTextarea] = textboxes
+    const [subjectInput, titleInput, contentTextarea] = textboxes
 
     await user.type(subjectInput, 'Test Subject')
-    await user.type(titleTextarea, 'Test Title')
+    await user.type(titleInput, 'Test Title')
     await user.type(contentTextarea, 'Test Content')
 
     const saveButton = screen.getByRole('button', { name: /Salvar/i })
 
+    expect(saveButton).toBeInTheDocument()
+    expect(saveButton).not.toBeDisabled()
+
     await user.click(saveButton)
 
-    expect(mutationMock.mutate).toHaveBeenCalledWith({
+    expect(mutationMock.mutateAsync).toHaveBeenCalledWith({
       subject: 'Test Subject',
       title: 'Test Title',
       content: 'Test Content'
     })
+
+    await waitFor(() => {
+      expect(screen.queryByRole('button', { name: /Salvar/i })).not.toBeInTheDocument()
+    })
+
+    expect(subjectInput).toHaveValue('Test Subject')
+    expect(titleInput).toHaveValue('Test Title')
+    expect(contentTextarea).toHaveValue('Test Content')
   })
 
-  it('should disable inputs and buttons when mutation is pending', () => {
-    const mutationMock = {
-      mutate: vi.fn(),
-      isPending: true,
-      isSuccess: false,
-      isError: false
-    } as any
-
-    const aiMutationMock = {
-      mutate: vi.fn(),
-      isPending: false,
-      isSuccess: false,
-      isError: false
-    }
-
-    vi.mocked(useMutation).mockImplementation((options: any) => {
-      if (options.mutationFn === generateNote) {
-        return aiMutationMock
-      }
-      return mutationMock
-    })
+  it('should disable inputs and buttons when mutation is pending', async () => {
+    mutationMock.isPending = true
 
     renderWithContext(() => <Note mutation={mutationMock} />)
 
-    const saveButton = screen.getByRole('button', { name: /Salvar/i })
     const closeButton = screen.getByRole('button', { name: /Close/i })
     const generateButton = screen.getByRole('button', { name: /Gerar/i })
 
-    expect(saveButton).toHaveAttribute('disabled')
-    expect(closeButton).toHaveAttribute('disabled')
-    expect(generateButton).not.toHaveAttribute('disabled')
-
-    const textboxes = screen.getAllByRole('textbox')
-    textboxes.forEach(textbox => {
-      expect(textbox).toBeDisabled()
-    })
-  })
-
-  it('should disable inputs and buttons when aiMutation is pending', () => {
-    const mutationMock = {
-      mutate: vi.fn(),
-      isPending: false,
-      isSuccess: false,
-      isError: false
-    } as any
-
-    const aiMutationMock = {
-      mutate: vi.fn(),
-      isPending: true,
-      isSuccess: false,
-      isError: false
-    }
-
-    vi.mocked(useMutation).mockImplementation((options: any) => {
-      if (options.mutationFn === generateNote) {
-        return aiMutationMock
-      }
-
-      return mutationMock
-    })
-
-    renderWithContext(() => <Note mutation={mutationMock} />)
-
-    const saveButton = screen.getByRole('button', { name: /Salvar/i })
-    const closeButton = screen.getByRole('button', { name: /Close/i })
-    const generateButton = screen.getByRole('button', { name: /Gerar/i })
-
-    expect(saveButton).toHaveAttribute('disabled')
-    expect(closeButton).toHaveAttribute('disabled')
-    expect(generateButton).toHaveAttribute('disabled')
+    expect(closeButton).toBeDisabled()
+    expect(generateButton).not.toBeDisabled()
 
     const textboxes = screen.getAllByRole('textbox')
 
     textboxes.forEach(textbox => {
       expect(textbox).toBeDisabled()
     })
+
+    expect(screen.queryByRole('button', { name: /Salvar/i })).not.toBeInTheDocument()
+  })
+
+  it('should disable inputs and buttons when aiMutation is pending', async () => {
+    aiMutationMock.isPending = true
+
+    renderWithContext(() => <Note mutation={mutationMock} />)
+
+    const closeButton = screen.getByRole('button', { name: /Close/i })
+    const generateButton = screen.getByRole('button', { name: /Gerar/i })
+
+    expect(closeButton).toBeDisabled()
+    expect(generateButton).toBeDisabled()
+
+    const textboxes = screen.getAllByRole('textbox')
+
+    textboxes.forEach(textbox => {
+      expect(textbox).toBeDisabled()
+    })
+
+    expect(screen.queryByRole('button', { name: /Salvar/i })).not.toBeInTheDocument()
   })
 
   it('should call aiMutation.mutate with correct data when clicking Gerar', async () => {
-    const mutationMock = {
-      mutate: vi.fn(),
-      isPending: false,
-      isSuccess: false,
-      isError: false
-    } as any
-
-    const aiMutationMock = {
-      mutate: vi.fn(),
-      isPending: false,
-      isSuccess: false,
-      isError: false
-    }
-
-    vi.mocked(useMutation).mockImplementation((options: any) => {
-      if (options.mutationFn === generateNote) {
-        return aiMutationMock
-      }
-      return mutationMock
-    })
-
     const user = userEvent.setup()
 
     renderWithContext(() => <Note mutation={mutationMock} />)
@@ -261,10 +176,10 @@ describe('Note Component', () => {
 
     expect(textboxes).toHaveLength(3)
 
-    const [subjectInput, titleTextarea] = textboxes
+    const [subjectInput, titleInput] = textboxes
 
     await user.type(subjectInput, 'Test Subject')
-    await user.type(titleTextarea, 'Test Title')
+    await user.type(titleInput, 'Test Title')
 
     const generateButton = screen.getByRole('button', { name: /Gerar/i })
 
@@ -277,21 +192,7 @@ describe('Note Component', () => {
   })
 
   it('should update the content field when aiMutation succeeds', async () => {
-    const mutationMock = {
-      mutate: vi.fn(),
-      isPending: false,
-      isSuccess: false,
-      isError: false
-    } as any
-
     const generatedContent = 'Generated Content'
-
-    const aiMutationMock = {
-      mutate: vi.fn(),
-      isPending: false,
-      isSuccess: false,
-      isError: false
-    }
 
     vi.mocked(useMutation).mockImplementation((options: any) => {
       if (options.mutationFn === generateNote) {
@@ -314,15 +215,20 @@ describe('Note Component', () => {
 
     expect(textboxes).toHaveLength(3)
 
-    const [subjectInput, titleTextarea, contentTextarea] = textboxes
+    const [subjectInput, titleInput, contentTextarea] = textboxes
 
     await user.type(subjectInput, 'Test Subject')
-    await user.type(titleTextarea, 'Test Title')
+    await user.type(titleInput, 'Test Title')
 
     const generateButton = screen.getByRole('button', { name: /Gerar/i })
 
     await user.click(generateButton)
 
     expect(contentTextarea).toHaveValue(generatedContent)
+
+    const saveButton = screen.getByRole('button', { name: /Salvar/i })
+
+    expect(saveButton).toBeInTheDocument()
+    expect(saveButton).not.toBeDisabled()
   })
 })

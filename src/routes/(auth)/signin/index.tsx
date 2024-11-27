@@ -1,5 +1,7 @@
 import { createFileRoute, redirect, useNavigate } from '@tanstack/react-router'
 import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from 'zod'
 import { useLayoutEffect } from 'react'
 import { Input, VStack, Text, Link, Card } from '@chakra-ui/react'
 import { useMutation } from '@tanstack/react-query'
@@ -11,10 +13,18 @@ import { useAuth } from '$/hooks/useAuth'
 
 import classes from './index.module.scss'
 
-type FormData = {
-  email: string
-  password: string
-}
+const schema = z.object({
+  email: z
+    .string()
+    .min(1, { message: 'Email é obrigatório' })
+    .email({ message: 'Endereço de email inválido' }),
+  password: z
+    .string()
+    .min(1, { message: 'Senha é obrigatória' })
+    .min(6, { message: 'Mínimo de 6 caracteres' })
+})
+
+type FormSchema = z.infer<typeof schema>
 
 const Route = createFileRoute('/(auth)/signin/')({
   beforeLoad: ({ context }) => {
@@ -32,7 +42,9 @@ function Component() {
     register,
     handleSubmit,
     formState: { errors, isSubmitting }
-  } = useForm<FormData>()
+  } = useForm<FormSchema>({
+    resolver: zodResolver(schema)
+  })
 
   useLayoutEffect(() => {
     if (isAuthenticated) {
@@ -44,7 +56,7 @@ function Component() {
     mutationFn: signin
   })
 
-  const onSubmit = (data: FormData) => {
+  const onSubmit = (data: FormSchema) => {
     mutation.mutate(data)
   }
 
@@ -58,26 +70,10 @@ function Component() {
           <Card.Body>
             <VStack gap='4'>
               <Field label='Email' invalid={!!errors.email} errorText={errors.email?.message}>
-                <Input
-                  type='email'
-                  placeholder='Digite seu email'
-                  {...register('email', {
-                    required: 'Email é obrigatório',
-                    pattern: {
-                      value: /^\S+@\S+$/i,
-                      message: 'Endereço de email inválido'
-                    }
-                  })}
-                />
+                <Input type='email' placeholder='Digite seu email' {...register('email')} />
               </Field>
               <Field label='Senha' invalid={!!errors.password} errorText={errors.password?.message}>
-                <PasswordInput
-                  placeholder='Digite sua senha'
-                  {...register('password', {
-                    required: 'Senha é obrigatória',
-                    minLength: { value: 6, message: 'Mínimo de 6 caracteres' }
-                  })}
-                />
+                <PasswordInput placeholder='Digite sua senha' {...register('password')} />
               </Field>
             </VStack>
           </Card.Body>

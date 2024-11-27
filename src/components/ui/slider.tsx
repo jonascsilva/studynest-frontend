@@ -31,7 +31,7 @@ export const Slider = forwardRef<HTMLDivElement, SliderProps>(function Slider(pr
         </ChakraSlider.Track>
         {value?.map((_, index) => (
           <ChakraSlider.Thumb data-testid='slider-thumb' key={index} index={index}>
-            <ChakraSlider.HiddenInput />
+            <ChakraSlider.HiddenInput data-testid='slider-hidden-input' />
           </ChakraSlider.Thumb>
         ))}
       </ChakraSlider.Control>
@@ -40,7 +40,7 @@ export const Slider = forwardRef<HTMLDivElement, SliderProps>(function Slider(pr
           {marks.map((mark, index) => {
             return (
               <ChakraSlider.Marker data-testid='slider-marker' key={index} value={mark.value}>
-                <ChakraSlider.MarkerIndicator />
+                <ChakraSlider.MarkerIndicator data-testid='slider-marker-indicator' />
                 {mark.label}
               </ChakraSlider.Marker>
             )

@@ -21,16 +21,24 @@ type Props = {
 }
 
 function Flashcard({ mutation, flashcard }: Readonly<Props>) {
-  const { register, handleSubmit, getValues, setValue } = useForm<Inputs>()
+  const { register, handleSubmit, getValues, setValue, formState, reset } = useForm<Inputs>({
+    defaultValues: {
+      question: flashcard?.question ?? '',
+      subject: flashcard?.subject ?? '',
+      answer: flashcard?.answer ?? ''
+    }
+  })
 
-  const onSubmit: SubmitHandler<Inputs> = data => {
-    mutation.mutate(data)
+  const onSubmit: SubmitHandler<Inputs> = async data => {
+    await mutation.mutateAsync(data)
+
+    reset(data)
   }
 
   const aiMutation = useMutation({
     mutationFn: generateFlashcard,
     onSuccess: data => {
-      setValue('answer', data.answer)
+      setValue('answer', data.answer, { shouldDirty: true })
     }
   })
 
@@ -56,15 +64,17 @@ function Flashcard({ mutation, flashcard }: Readonly<Props>) {
               variant='solid'
             />
           </Link>
-          <Button
-            loading={mutation.isPending}
-            disabled={aiMutation.isPending}
-            colorPalette='green'
-            type='submit'
-            size={{ base: 'sm', lg: 'md', xl: 'lg' }}
-          >
-            Salvar
-          </Button>
+          {formState.isDirty && (
+            <Button
+              loading={mutation.isPending}
+              disabled={aiMutation.isPending}
+              colorPalette='green'
+              type='submit'
+              size={{ base: 'sm', lg: 'md', xl: 'lg' }}
+            >
+              Salvar
+            </Button>
+          )}
         </div>
         <Heading size='3xl' justifySelf='center'>
           {flashcard ? 'Editar' : 'Criar'}
@@ -78,7 +88,6 @@ function Flashcard({ mutation, flashcard }: Readonly<Props>) {
           w='30%'
           size={{ base: 'lg', lg: 'xl' }}
           variant='subtle'
-          defaultValue={flashcard?.subject}
           disabled={mutation.isPending || aiMutation.isPending}
           required
           {...register('subject', { required: true })}
@@ -95,7 +104,6 @@ function Flashcard({ mutation, flashcard }: Readonly<Props>) {
           resize='none'
           flexGrow='1'
           variant='subtle'
-          defaultValue={flashcard?.question}
           disabled={mutation.isPending || aiMutation.isPending}
           required
           {...register('question', { required: true })}
@@ -121,7 +129,6 @@ function Flashcard({ mutation, flashcard }: Readonly<Props>) {
           resize='none'
           flexGrow='1'
           variant='subtle'
-          defaultValue={flashcard?.answer}
           disabled={mutation.isPending || aiMutation.isPending}
           required
           {...register('answer', { required: true })}

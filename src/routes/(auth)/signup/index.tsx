@@ -1,5 +1,7 @@
 import { createFileRoute, redirect, useNavigate } from '@tanstack/react-router'
 import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from 'zod'
 import { Input, VStack, Text, Link, Card } from '@chakra-ui/react'
 
 import { Field } from '$/components/ui/field'
@@ -11,12 +13,25 @@ import { useAuth } from '$/hooks/useAuth'
 import { useLayoutEffect } from 'react'
 import { useMutation } from '@tanstack/react-query'
 
-type FormData = {
-  name: string
-  email: string
-  password: string
-  confirmPassword: string
-}
+const schema = z
+  .object({
+    name: z.string().min(1, { message: 'Nome é obrigatório' }),
+    email: z
+      .string()
+      .min(1, { message: 'Email é obrigatório' })
+      .email({ message: 'Endereço de email inválido' }),
+    password: z
+      .string()
+      .min(1, { message: 'Senha é obrigatória' })
+      .min(6, { message: 'Mínimo de 6 caracteres' }),
+    confirmPassword: z.string().min(1, { message: 'Confirmação de senha é obrigatória' })
+  })
+  .refine(data => data.password === data.confirmPassword, {
+    message: 'As senhas não correspondem',
+    path: ['confirmPassword']
+  })
+
+type FormSchema = z.infer<typeof schema>
 
 const Route = createFileRoute('/(auth)/signup/')({
   beforeLoad: ({ context }) => {
@@ -33,9 +48,10 @@ function Component() {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors, isSubmitting }
-  } = useForm<FormData>()
+  } = useForm<FormSchema>({
+    resolver: zodResolver(schema)
+  })
 
   useLayoutEffect(() => {
     if (isAuthenticated) {
@@ -47,7 +63,7 @@ function Component() {
     mutationFn: signup
   })
 
-  const onSubmit = (data: FormData) => {
+  const onSubmit = (data: FormSchema) => {
     mutation.mutate(data)
   }
 
@@ -61,48 +77,20 @@ function Component() {
           <Card.Body>
             <VStack gap='4'>
               <Field label='Nome' invalid={!!errors.name} errorText={errors.name?.message}>
-                <Input
-                  type='text'
-                  placeholder='Digite seu nome'
-                  {...register('name', {
-                    required: 'Nome é obrigatório'
-                  })}
-                />
+                <Input type='text' placeholder='Digite seu nome' {...register('name')} />
               </Field>
               <Field label='Email' invalid={!!errors.email} errorText={errors.email?.message}>
-                <Input
-                  type='email'
-                  placeholder='Digite seu email'
-                  {...register('email', {
-                    required: 'Email é obrigatório',
-                    pattern: {
-                      value: /^\S+@\S+$/i,
-                      message: 'Endereço de email inválido'
-                    }
-                  })}
-                />
+                <Input type='email' placeholder='Digite seu email' {...register('email')} />
               </Field>
               <Field label='Senha' invalid={!!errors.password} errorText={errors.password?.message}>
-                <PasswordInput
-                  placeholder='Digite sua senha'
-                  {...register('password', {
-                    required: 'Senha é obrigatória',
-                    minLength: { value: 6, message: 'Mínimo de 6 caracteres' }
-                  })}
-                />
+                <PasswordInput placeholder='Digite sua senha' {...register('password')} />
               </Field>
               <Field
                 label='Confirme a Senha'
                 invalid={!!errors.confirmPassword}
                 errorText={errors.confirmPassword?.message}
               >
-                <PasswordInput
-                  placeholder='Confirme sua senha'
-                  {...register('confirmPassword', {
-                    required: 'Confirmação de senha é obrigatória',
-                    validate: value => value === watch('password') || 'As senhas não correspondem'
-                  })}
-                />
+                <PasswordInput placeholder='Confirme sua senha' {...register('confirmPassword')} />
               </Field>
             </VStack>
           </Card.Body>
