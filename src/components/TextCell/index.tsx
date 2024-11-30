@@ -1,10 +1,15 @@
 import { Table, Text } from '@chakra-ui/react'
 import { PropsWithChildren } from 'react'
 
-function TextCell({ children }: Readonly<PropsWithChildren>) {
+type Props = PropsWithChildren<{
+  truncate?: boolean
+  align?: string
+}>
+
+function TextCell({ children, truncate = true, align = 'left' }: Readonly<Props>) {
   return (
-    <Table.Cell maxW='0'>
-      <Text truncate>{children}</Text>
+    <Table.Cell maxW='0' textAlign={align}>
+      <Text truncate={truncate}>{children}</Text>
     </Table.Cell>
   )
 }

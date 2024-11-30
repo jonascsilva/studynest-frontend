@@ -2,7 +2,7 @@
   "faq": [
     {
       "question": "Quais são algumas dicas para criar bons flashcards?",
-      "answer": "Tem agrupar as informações, não crie flashcards que a resposta é uma lista longa, só crie flashcards com informações relevantes e crie os flashcards da forma mais simples e específica possível."
+      "answer": "Tentar agrupar as informações, não criar flashcards que a resposta seja uma lista longa, só criar flashcards com informações relevantes e criar flashcards da forma mais simples e específica possível."
     },
     {
       "question": "Quantos flashcards devo revisar por dia?",
@@ -17,36 +17,20 @@
       "answer": "Ela reforça o conhecimento antes que seja esquecido."
     },
     {
-      "question": "Como funciona a aplicação?",
-      "answer": "A aplicação apresenta flashcards em momentos otimizados com base no seu desempenho, ajudando você a memorizar de forma eficiente."
-    },
-    {
       "question": "Posso compartilhar flashcards e anotações com outras pessoas?",
       "answer": "Sim, você pode compartilhar eles com amigos ou colegas diretamente pela aplicação."
     },
     {
       "question": "O que são flashcards?",
-      "answer": "Flashcards são cartões de estudo que apresentam uma pergunta na frente e a resposta no verso. Eles são usados para facilitar a memorização e a aprendizagem ativa."
+      "answer": "Flashcards são cartões de estudo que apresentam uma pergunta na frente e a resposta no verso."
     },
     {
       "question": "Como os flashcards ajudam na aprendizagem?",
       "answer": "Eles promovem a recuperação ativa da informação, fortalecendo a memória e melhorando a retenção a longo prazo."
     },
     {
-      "question": "Qual é a base científica da repetição espaçada?",
-      "answer": "Estudos em psicologia cognitiva e neurociência comprovam que a repetição espaçada aumenta significativamente a retenção de informações em comparação com revisões massivas ou não estruturadas."
-    },
-    {
-      "question": "Por que a revisão ativa é mais eficaz do que a releitura?",
-      "answer": "Porque envolve processamento cognitivo profundo, enquanto a releitura é uma atividade passiva que não reforça efetivamente as conexões neurais."
-    },
-    {
       "question": "O que é o efeito de espaçamento?",
       "answer": "É o fenômeno pelo qual informações são melhor lembradas quando o estudo é distribuído ao longo do tempo, em vez de concentrado em uma única sessão."
-    },
-    {
-      "question": "O que são algoritmos de repetição espaçada?",
-      "answer": "São sistemas que calculam os intervalos ideais de revisão para cada item, baseados no desempenho anterior do usuário."
     },
     {
       "question": "A repetição espaçada é adequada para revisão de curto prazo?",

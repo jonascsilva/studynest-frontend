@@ -54,7 +54,7 @@ function Component() {
               <Table.Row bg='bg.subtle'>
                 <Table.ColumnHeader>Título</Table.ColumnHeader>
                 <Table.ColumnHeader>Assunto</Table.ColumnHeader>
-                <Table.ColumnHeader>Última modificação</Table.ColumnHeader>
+                <Table.ColumnHeader textAlign='center'>Última modificação</Table.ColumnHeader>
                 <Table.ColumnHeader textAlign='center'>Ações</Table.ColumnHeader>
               </Table.Row>
             </Table.Header>
@@ -63,7 +63,9 @@ function Component() {
                 <Table.Row key={note.id}>
                   <TextCell>{note.title}</TextCell>
                   <TextCell>{note.subject}</TextCell>
-                  <TextCell>{getFormattedDate(note.updatedAt)}</TextCell>
+                  <TextCell truncate={false} align='center'>
+                    {getFormattedDate(note.updatedAt)}
+                  </TextCell>
                   <Table.Cell textAlign='center'>
                     <Flex gap='6' justifyContent='center'>
                       <Link
