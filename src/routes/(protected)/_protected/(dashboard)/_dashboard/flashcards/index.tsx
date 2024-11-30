@@ -57,9 +57,9 @@ function Component() {
               <Table.Row bg='bg.subtle'>
                 <Table.ColumnHeader>Pergunta</Table.ColumnHeader>
                 <Table.ColumnHeader>Assunto</Table.ColumnHeader>
-                <Table.ColumnHeader>Última modificação</Table.ColumnHeader>
-                <Table.ColumnHeader>Próxima revisão</Table.ColumnHeader>
-                <Table.ColumnHeader>Nível</Table.ColumnHeader>
+                <Table.ColumnHeader textAlign='center'>Última modificação</Table.ColumnHeader>
+                <Table.ColumnHeader textAlign='center'>Próxima revisão</Table.ColumnHeader>
+                <Table.ColumnHeader textAlign='center'>Nível</Table.ColumnHeader>
                 <Table.ColumnHeader textAlign='center'>Ações</Table.ColumnHeader>
               </Table.Row>
             </Table.Header>
@@ -68,9 +68,15 @@ function Component() {
                 <Table.Row key={flashcard.id}>
                   <TextCell>{flashcard.question}</TextCell>
                   <TextCell>{flashcard.subject}</TextCell>
-                  <TextCell>{getFormattedDate(flashcard.updatedAt)}</TextCell>
-                  <TextCell>{getFormattedDate(flashcard.nextReviewDate, true)}</TextCell>
-                  <TextCell>{flashcard.currentLevel}</TextCell>
+                  <TextCell truncate={false} align='center'>
+                    {getFormattedDate(flashcard.updatedAt)}
+                  </TextCell>
+                  <TextCell truncate={false} align='center'>
+                    {getFormattedDate(flashcard.nextReviewDate, true)}
+                  </TextCell>
+                  <TextCell truncate={false} align='center'>
+                    {flashcard.currentLevel}
+                  </TextCell>
                   <Table.Cell textAlign='center'>
                     <Flex gap='6' justifyContent='center'>
                       <Link
